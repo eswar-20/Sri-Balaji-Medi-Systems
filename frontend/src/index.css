@@ -1,0 +1,164 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+@layer base {
+  body {
+    background-color: #071A2F;
+    color: #FFFFFF;
+    font-family: 'Inter', 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  /* Custom glass scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #071A2F;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(29, 155, 240, 0.15);
+    border-radius: 4px;
+    border: 2px solid #071A2F;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(29, 155, 240, 0.35);
+  }
+}
+
+@layer components {
+  /* Design System Buttons */
+  .btn-primary {
+    background: linear-gradient(135deg, #D4AF37 0%, #B89020 100%);
+    color: #071A2F;
+    font-weight: 700;
+    letter-spacing: 0.025em;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.75rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+    filter: brightness(1.1);
+  }
+  .btn-primary:active {
+    transform: translateY(0);
+  }
+
+  .btn-secondary {
+    background: rgba(20, 47, 82, 0.6);
+    color: #FFFFFF;
+    font-weight: 600;
+    letter-spacing: 0.025em;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.75rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(200, 211, 224, 0.1);
+    backdrop-filter: blur(10px);
+    cursor: pointer;
+  }
+  .btn-secondary:hover {
+    background: rgba(20, 47, 82, 0.9);
+    border-color: #1D9BF0;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(29, 155, 240, 0.15);
+  }
+  .btn-secondary:active {
+    transform: translateY(0);
+  }
+
+  /* Glassmorphic input fields */
+  .input-field {
+    background: rgba(15, 39, 69, 0.6);
+    color: #FFFFFF;
+    border: 1px solid rgba(200, 211, 224, 0.08);
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+    transition: all 0.3s ease;
+    outline: none;
+    font-size: 0.875rem;
+  }
+  .input-field:focus {
+    border-color: #1D9BF0;
+    box-shadow: 0 0 0 2px rgba(29, 155, 240, 0.2);
+    background: rgba(15, 39, 69, 0.8);
+  }
+
+  /* Glass Card Containers */
+  .card {
+    background: rgba(20, 47, 82, 0.3);
+    border: 1px solid rgba(200, 211, 224, 0.06);
+    border-radius: 1rem;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .card:hover {
+    border-color: rgba(29, 155, 240, 0.15);
+    box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.4);
+  }
+
+  .product-card {
+    background: rgba(20, 47, 82, 0.3);
+    border: 1px solid rgba(200, 211, 224, 0.06);
+    border-radius: 1.25rem;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(12px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+  }
+  .product-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(29, 155, 240, 0.25);
+    box-shadow: 0 15px 40px rgba(29, 155, 240, 0.15);
+  }
+
+  /* Shimmer / Skeleton Loader */
+  .shimmer {
+    background: linear-gradient(
+      90deg,
+      rgba(20, 47, 82, 0.3) 25%,
+      rgba(29, 155, 240, 0.08) 37%,
+      rgba(20, 47, 82, 0.3) 63%
+    );
+    background-size: 400% 100%;
+    animation: shimmer-animation 1.4s ease infinite;
+  }
+}
+
+@keyframes shimmer-animation {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
+}
+
+/* Custom text and UI utilities */
+.text-secondary-custom {
+  color: #C8D3E0;
+}
+
+.text-gold {
+  color: #D4AF37;
+}
+
+.bg-glass {
+  background: rgba(7, 26, 47, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}

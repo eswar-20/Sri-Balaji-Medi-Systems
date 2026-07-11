@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: sbms-db
+    restart: always
+    environment:
+      MYSQL_DATABASE: medical_equipment
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-Manoj@2004}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  backend:
+    build: ./backend
+    container_name: sbms-backend
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - "8080:8080"
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_NAME: medical_equipment
+      DB_USERNAME: root
+      DB_PASSWORD: ${DB_PASSWORD:-Manoj@2004}
+      SPRING_PROFILES_ACTIVE: prod
+      BREVO_API_KEY: ${BREVO_API_KEY}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-SBMS@2026}
+      JWT_SECRET: ${JWT_SECRET:-yourSecretKey12345yourSecretKey12345yourSecretKey12345}
+      JWT_EXPIRATION: ${JWT_EXPIRATION:-86400}
+      RAZORPAY_KEY_ID: ${RAZORPAY_KEY_ID:-rzp_test_SriBalajiKeyId123}
+      RAZORPAY_KEY_SECRET: ${RAZORPAY_KEY_SECRET:-rzp_test_secret}
+
+  frontend:
+    build: ./frontend
+    container_name: sbms-frontend
+    restart: always
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+
+volumes:
+  mysql_data:
