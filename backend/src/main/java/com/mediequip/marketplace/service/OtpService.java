@@ -103,16 +103,16 @@ public class OtpService {
     }
 
     private void sendEmailOtp(String email, String otpCode) {
-        String apiKey = brevoApiKey;
-        if (apiKey == null || apiKey.trim().isEmpty()) {
-            apiKey = System.getenv("BREVO_API_KEY");
-        }
-        
-        if (apiKey == null || apiKey.trim().isEmpty()) {
-            throw new RuntimeException("Brevo API key is not configured. Please define BREVO_API_KEY environment variable on your server.");
-        }
-
         try {
+            String apiKey = brevoApiKey;
+            if (apiKey == null || apiKey.trim().isEmpty()) {
+                apiKey = System.getenv("BREVO_API_KEY");
+            }
+            
+            if (apiKey == null || apiKey.trim().isEmpty()) {
+                throw new RuntimeException("Brevo API key is not configured. Please define BREVO_API_KEY environment variable on your server.");
+            }
+
             java.net.http.HttpClient client = java.net.http.HttpClient.newHttpClient();
             
             String jsonPayload = "{"

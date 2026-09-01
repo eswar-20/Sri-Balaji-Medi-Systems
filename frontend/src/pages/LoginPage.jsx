@@ -42,6 +42,10 @@ const LoginPage = () => {
       setMessageType('error');
       if (apiError.message && apiError.message.includes('For testing, copy this OTP code:')) {
         setShowOtpInput(true);
+        const match = apiError.message.match(/copy this OTP code:\s*(\d{6})/);
+        if (match && match[1]) {
+          setOtp(match[1]);
+        }
       }
     } finally {
       setLoading(false);
