@@ -14,7 +14,7 @@ const getBaseURL = () => {
 // Create axios instance with base configuration
 const api = axios.create({
   baseURL: getBaseURL(),
-  timeout: 10000,
+  timeout: 30000,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -43,18 +43,20 @@ api.interceptors.response.use(
       return Promise.reject(error);
     }
     
+    // Don't auto-retry auth requests to give instant user feedback
+    const isAuthRequest = config.url && config.url.includes('/api/auth/');
     config.__retryCount = config.__retryCount || 0;
     const isNetworkOrServerError = !error.response || error.response.status >= 500;
     
-    if (isNetworkOrServerError && config.__retryCount < 3) {
+    if (!isAuthRequest && isNetworkOrServerError && config.__retryCount < 2) {
       config.__retryCount += 1;
-      console.warn(`Request to ${config.url} failed. Retrying attempt ${config.__retryCount}/3 after 1s delay...`);
+      console.warn(`Request to ${config.url} failed. Retrying attempt ${config.__retryCount}/2 after 1s delay...`);
       await new Promise(resolve => setTimeout(resolve, 1000));
       return api(config);
     }
 
     // Only redirect to login on 401 for protected endpoints
-    if (error.response?.status === 401 && !error.config.url.includes('/products')) {
+    if (error.response?.status === 401 && !error.config.url.includes('/products') && !error.config.url.includes('/auth/')) {
       localStorage.removeItem('authToken');
       localStorage.removeItem('userData');
       window.location.href = '/login';
@@ -253,10 +255,16 @@ export const handleApiError = (error) => {
       status: error.response.status,
       data: error.response.data
     };
+  } else if (error.code === 'ECONNABORTED' || error.message?.includes('timeout')) {
+    return {
+      message: 'Server is starting up (cold start). Please retry in a few seconds.',
+      status: 408,
+      data: null
+    };
   } else if (error.request) {
     // The request was made but no response was received
     return {
-      message: 'Network error. Please check your connection.',
+      message: 'Network error or server connection failed. Please check your internet or retry.',
       status: null,
       data: null
     };

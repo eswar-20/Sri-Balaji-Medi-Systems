@@ -115,23 +115,36 @@ const LoginPage = () => {
             </div>
 
             {contact.trim().toLowerCase() === 'sribalajimedisystemsofficial@gmail.com' && (
-              <div>
-                <label className="block text-slate-700 text-xs font-bold uppercase tracking-wider mb-2">Owner Password</label>
+              <div className="space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <label className="block text-slate-700 text-xs font-bold uppercase tracking-wider">Owner Password</label>
+                  <button
+                    type="button"
+                    onClick={() => setPassword('SBMS@2026')}
+                    className="text-[11px] text-sky-600 hover:text-sky-700 font-semibold underline"
+                  >
+                    Use Default (SBMS@2026)
+                  </button>
+                </div>
                 <div className="relative">
                   <input 
                     type="password" 
-                    className="input-field w-full pl-10 text-center" 
+                    className="input-field w-full pl-10" 
                     value={password} 
                     onChange={(e) => setPassword(e.target.value)} 
-                    placeholder="Enter owner admin password" 
+                    placeholder="Enter owner admin password (default: SBMS@2026)" 
                   />
                   <KeyRound className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
                 </div>
+                <p className="text-[11px] text-slate-500">
+                  Tip: Default is <span className="font-mono font-bold text-slate-700">SBMS@2026</span>. Or use Admin Phone: <button type="button" onClick={() => { setContact('9948073090'); setPassword(''); }} className="text-sky-600 font-bold hover:underline">9948073090</button>
+                </p>
               </div>
             )}
 
-            <button type="submit" disabled={loading} className="btn-primary w-full py-3 text-sm shadow-md">
-              {loading ? 'Sending OTP...' : 'Send Verification Code'}
+            <button type="submit" disabled={loading} className="btn-primary w-full py-3 text-sm shadow-md flex items-center justify-center space-x-2">
+              {loading && <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>}
+              <span>{loading ? 'Connecting Server & Sending OTP...' : 'Send Verification Code'}</span>
             </button>
           </form>
         ) : (

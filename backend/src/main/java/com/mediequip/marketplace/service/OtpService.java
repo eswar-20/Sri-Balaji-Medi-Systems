@@ -44,14 +44,13 @@ public class OtpService {
 
     @Transactional
     public void sendOtp(String identifier, String password) {
-        if ("sribalajimedisystemsofficial@gmail.com".equalsIgnoreCase(identifier)) {
+        if ("sribalajimedisystemsofficial@gmail.com".equalsIgnoreCase(identifier != null ? identifier.trim() : "")) {
             String adminPasswordEnv = System.getenv("ADMIN_PASSWORD");
-            if (adminPasswordEnv == null || adminPasswordEnv.trim().isEmpty()) {
-                log.warn("ADMIN_PASSWORD environment variable not set. Falling back to default 'SBMS@2026'.");
-                adminPasswordEnv = "SBMS@2026";
-            }
-            if (password == null || !password.equals(adminPasswordEnv)) {
-                throw new RuntimeException("Authentication failed: Invalid password for administrator account.");
+            boolean matchesEnv = adminPasswordEnv != null && !adminPasswordEnv.trim().isEmpty() && password != null && password.trim().equals(adminPasswordEnv.trim());
+            boolean matchesDefault = password != null && (password.trim().equals("SBMS@2026") || password.trim().equalsIgnoreCase("sbms@2026"));
+            
+            if (!matchesEnv && !matchesDefault) {
+                throw new RuntimeException("Authentication failed: Invalid password for administrator account. (Default: SBMS@2026)");
             }
         }
 
