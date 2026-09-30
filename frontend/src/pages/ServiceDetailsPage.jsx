@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { customerServiceAPI, paymentAPI } from '../services/api';
 import Loader from '../components/Loader';
+import { ArrowLeft } from 'lucide-react';
 
 const loadRazorpayScript = () => {
   return new Promise((resolve) => {
@@ -51,8 +52,8 @@ const ServiceDetailsPage = () => {
       ]);
 
       setRequest(reqResp.data);
-      setVisits(visitResp.data);
-      setAuditLogs(auditResp.data);
+      setVisits(Array.isArray(visitResp.data) ? visitResp.data : []);
+      setAuditLogs(Array.isArray(auditResp.data) ? auditResp.data : []);
 
       // Try fetching assignment info
       try {
@@ -81,15 +82,12 @@ const ServiceDetailsPage = () => {
     loadData();
   }, [loadData]);
 
-  // Fallback to fetch invoice via API request details endpoint since we didn't add a direct getter mapping
   const apiGetInvoice = (reqId) => {
     return customerServiceAPI.getRequestDetails(reqId).then(() => {
-      // Fetch via standard api.get mapping
       return require('../services/api').default.get(`/api/services/customer/requests/${reqId}/visits`)
         .then(() => {
           return require('../services/api').default.get(`/api/services/customer/requests/${reqId}/assignment`)
             .then(() => {
-              // Standard API path for invoice
               return require('../services/api').default.get(`/api/services/customer/requests/${reqId}/invoice`);
             });
         });
@@ -100,13 +98,11 @@ const ServiceDetailsPage = () => {
     if (!invoice) return;
     setPaying(true);
     try {
-      // Load Razorpay Script
       const scriptLoaded = await loadRazorpayScript();
       if (!scriptLoaded) {
         throw new Error('Failed to load payment gateway SDK. Please check your network.');
       }
 
-      // Create Payment Order on backend
       const payReq = {
         referenceType: 'SERVICE_INVOICE',
         referenceId: invoice.id,
@@ -116,7 +112,6 @@ const ServiceDetailsPage = () => {
       const payResp = await paymentAPI.createOrder(payReq);
       const razorpayOrder = payResp.data;
 
-      // Configure checkout options
       const options = {
         key: razorpayOrder.keyId,
         amount: razorpayOrder.amount,
@@ -145,7 +140,7 @@ const ServiceDetailsPage = () => {
           }
         },
         theme: {
-          color: "#D4AF37"
+          color: "#0284C7"
         },
         modal: {
           ondismiss: function() {
@@ -183,35 +178,45 @@ const ServiceDetailsPage = () => {
 
   if (error || !request) {
     return (
-      <div className="min-h-screen bg-matte-black flex items-center justify-center px-4">
-        <div className="card p-8 text-center max-w-md border border-red-900/30">
-          <p className="text-red-400 mb-6">{error || 'Request details not found.'}</p>
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center px-4 py-12">
+        <div className="bg-white border border-slate-200 rounded-2xl p-8 text-center max-w-md shadow-sm">
+          <p className="text-red-600 text-sm mb-6">{error || 'Request details not found.'}</p>
           <div className="flex gap-4 justify-center">
-            <button onClick={loadData} className="btn-primary">Retry</button>
-            <button onClick={() => navigate('/services/my-requests')} className="btn-secondary">Back to Tracker</button>
+            <button onClick={loadData} className="btn-primary text-xs py-2 px-5 font-bold">Retry</button>
+            <button onClick={() => navigate('/services/my-requests')} className="btn-secondary text-xs py-2 px-5 font-bold">Back to Tracker</button>
           </div>
         </div>
       </div>
     );
   }
 
+  const formatPrice = (price) => {
+    return new Intl.NumberFormat('en-IN', {
+      style: 'currency',
+      currency: 'INR',
+      maximumFractionDigits: 0
+    }).format(price);
+  };
+
   return (
-    <div className="min-h-screen bg-matte-black py-8">
-      <div className="max-w-4xl mx-auto px-4">
-        <div className="flex justify-between items-center mb-8">
+    <div className="min-h-screen bg-slate-50 text-slate-900 py-10">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6">
+        <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-8">
           <div>
-            <span className="text-xs text-light-gray font-mono">Service Tracker / ID: #{request.id}</span>
-            <h1 className="text-2xl font-bold text-beige mt-1">{request.equipmentName}</h1>
+            <span className="text-xs text-sky-700 font-bold uppercase tracking-wider">Service Call / Ref #{request.id}</span>
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">{request.equipmentName}</h1>
           </div>
-          <button onClick={() => navigate('/services/my-requests')} className="btn-secondary">Back to List</button>
+          <button onClick={() => navigate('/services/my-requests')} className="btn-secondary text-xs py-2 px-4 font-bold self-start sm:self-auto flex items-center gap-1.5">
+            <ArrowLeft className="w-3.5 h-3.5" /> Back to List
+          </button>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 space-y-8">
+          <div className="lg:col-span-2 space-y-6">
             
             {/* Timeline Progress */}
-            <div className="card p-6">
-              <h2 className="text-lg font-bold text-beige mb-6">Service Progress</h2>
+            <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-6">
+              <h2 className="text-base font-bold text-slate-900 mb-6">Service Progress</h2>
               <div className="flex justify-between items-center relative">
                 {['PENDING', 'ASSIGNED', 'IN_PROGRESS', 'COMPLETED'].map((step, idx) => {
                   const statuses = ['PENDING', 'ASSIGNED', 'IN_PROGRESS', 'COMPLETED'];
@@ -219,50 +224,49 @@ const ServiceDetailsPage = () => {
                   const isDone = currentIdx >= idx;
                   return (
                     <div key={step} className="flex flex-col items-center flex-1 relative z-10">
-                      <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs ${isDone ? 'bg-beige text-matte-black' : 'bg-charcoal text-light-gray'}`}>
+                      <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs ${isDone ? 'bg-sky-600 text-white' : 'bg-slate-100 text-slate-400'}`}>
                         {idx + 1}
                       </div>
-                      <span className="text-[10px] text-light-gray mt-2 uppercase font-semibold">{step.replace('_', ' ')}</span>
+                      <span className={`text-[10px] mt-2 uppercase font-bold ${isDone ? 'text-sky-700' : 'text-slate-400'}`}>{step.replace('_', ' ')}</span>
                     </div>
                   );
                 })}
-                <div className="absolute top-4 left-0 right-0 h-0.5 bg-charcoal -z-10" />
+                <div className="absolute top-4 left-0 right-0 h-0.5 bg-slate-200 -z-0" />
               </div>
             </div>
 
             {/* Visit Details */}
-            <div className="card p-6 space-y-4">
-              <h2 className="text-lg font-bold text-beige border-b border-medium-gray pb-2">Equipment & Clinic Details</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                <div><span className="text-light-gray">Hospital/Clinic:</span> <span className="text-beige font-semibold ml-2">{request.clinicHospitalName}</span></div>
-                <div><span className="text-light-gray">Contact Person:</span> <span className="text-beige font-semibold ml-2">{request.contactPerson}</span></div>
-                <div><span className="text-light-gray">Contact Phone:</span> <span className="text-beige font-semibold ml-2">{request.phone}</span></div>
-                <div><span className="text-light-gray">Service Type:</span> <span className="text-beige font-semibold ml-2">{request.serviceType}</span></div>
-                <div><span className="text-light-gray">Brand / Model:</span> <span className="text-beige font-semibold ml-2">{request.equipmentBrand} - {request.equipmentModel}</span></div>
-                <div><span className="text-light-gray">Serial Number:</span> <span className="text-beige font-semibold ml-2">{request.serialNumber}</span></div>
-                <div className="md:col-span-2"><span className="text-light-gray">Clinic Address:</span> <span className="text-beige font-semibold ml-2">{request.address}</span></div>
-                <div className="md:col-span-2"><span className="text-light-gray">Description:</span> <span className="text-beige ml-2">{request.description}</span></div>
+            <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-6 space-y-4">
+              <h2 className="text-base font-bold text-slate-900 border-b border-slate-100 pb-3">Equipment & Clinic Details</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                <div><span className="text-slate-500 font-medium">Hospital/Clinic:</span> <span className="text-slate-900 font-bold ml-1.5">{request.clinicHospitalName}</span></div>
+                <div><span className="text-slate-500 font-medium">Contact Person:</span> <span className="text-slate-900 font-bold ml-1.5">{request.contactPerson}</span></div>
+                <div><span className="text-slate-500 font-medium">Contact Phone:</span> <span className="text-sky-700 font-bold ml-1.5">{request.phone}</span></div>
+                <div><span className="text-slate-500 font-medium">Service Type:</span> <span className="text-slate-900 font-bold ml-1.5">{request.serviceType}</span></div>
+                <div><span className="text-slate-500 font-medium">Brand / Model:</span> <span className="text-slate-900 font-bold ml-1.5">{request.equipmentBrand} - {request.equipmentModel}</span></div>
+                <div><span className="text-slate-500 font-medium">Serial Number:</span> <span className="text-slate-900 font-bold ml-1.5">{request.serialNumber || 'N/A'}</span></div>
+                <div className="sm:col-span-2"><span className="text-slate-500 font-medium">Clinic Address:</span> <span className="text-slate-900 font-semibold ml-1.5">{request.address}</span></div>
+                <div className="sm:col-span-2"><span className="text-slate-500 font-medium">Description:</span> <span className="text-slate-900 font-medium ml-1.5">{request.description}</span></div>
               </div>
             </div>
 
             {/* Technical Visit History */}
-            <div className="card p-6">
-              <h2 className="text-lg font-bold text-beige mb-4">Technical Visits History ({visits.length})</h2>
+            <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-6">
+              <h2 className="text-base font-bold text-slate-900 mb-4">Technical Visits History ({visits.length})</h2>
               {visits.length === 0 ? (
-                <p className="text-sm text-light-gray">No visits have been logged by the technician yet.</p>
+                <p className="text-xs text-slate-500">No visits have been logged by the technician yet.</p>
               ) : (
                 <div className="space-y-4">
                   {visits.map((v) => (
-                    <div key={v.id} className="border-l-2 border-beige pl-4 py-1 space-y-2">
+                    <div key={v.id} className="border-l-2 border-sky-600 pl-4 py-1 space-y-1.5">
                       <div className="flex justify-between items-center">
-                        <span className="text-sm text-beige font-semibold">Visit #{v.visitNumber} ({v.purpose})</span>
-                        <span className="text-xs text-light-gray">{v.visitDate ? v.visitDate.split('T')[0] : ''}</span>
+                        <span className="text-xs text-slate-900 font-bold">Visit #{v.visitNumber} ({v.purpose})</span>
+                        <span className="text-[11px] text-slate-400">{v.visitDate ? new Date(v.visitDate).toLocaleDateString('en-IN') : ''}</span>
                       </div>
-                      <p className="text-xs text-light-gray">{v.notes}</p>
+                      <p className="text-xs text-slate-600">{v.notes}</p>
                       {v.engineerReportUrl && (
-                        <div className="text-xs">
-                          <span className="text-light-gray">Report:</span>
-                          <a href={v.engineerReportUrl} target="_blank" rel="noreferrer" className="text-beige hover:underline ml-2">Download Engineer Report</a>
+                        <div className="text-xs pt-1">
+                          <a href={v.engineerReportUrl} target="_blank" rel="noreferrer" className="text-sky-700 font-bold hover:underline">Download Engineer Report</a>
                         </div>
                       )}
                     </div>
@@ -272,43 +276,43 @@ const ServiceDetailsPage = () => {
             </div>
           </div>
 
-          <div className="space-y-8">
+          <div className="space-y-6">
             {/* Engineer Assignment Card */}
-            <div className="card p-6 text-center space-y-4">
-              <h2 className="text-lg font-bold text-beige border-b border-medium-gray pb-2 text-left">Assigned Technician</h2>
+            <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-6 text-center space-y-3">
+              <h2 className="text-base font-bold text-slate-900 border-b border-slate-100 pb-3 text-left">Assigned Field Engineer</h2>
               {assignment ? (
                 <div className="space-y-2">
-                  <div className="w-16 h-16 bg-charcoal rounded-full mx-auto flex items-center justify-center text-beige font-bold text-xl uppercase">
-                    {assignment.engineerName?.charAt(0) || 'T'}
+                  <div className="w-14 h-14 bg-sky-50 border border-sky-200 text-sky-700 rounded-full mx-auto flex items-center justify-center font-bold text-lg uppercase">
+                    {assignment.engineerName?.charAt(0) || 'E'}
                   </div>
-                  <h3 className="text-md font-bold text-beige">{assignment.engineerName}</h3>
-                  <p className="text-xs text-light-gray">Sri Balaji Field Engineer</p>
+                  <h3 className="text-sm font-bold text-slate-900">{assignment.engineerName}</h3>
+                  <p className="text-[11px] text-slate-500">Certified Bio-Medical Engineer</p>
                 </div>
               ) : (
-                <p className="text-sm text-light-gray py-4">Technician allocation pending review.</p>
+                <p className="text-xs text-slate-500 py-3">Technician allocation pending review.</p>
               )}
             </div>
 
             {/* Invoicing Summary */}
             {invoice && (
-              <div className="card p-6 space-y-4">
-                <h2 className="text-lg font-bold text-beige border-b border-medium-gray pb-2">Service Invoice</h2>
-                <div className="space-y-2 text-sm text-light-gray">
-                  <div className="flex justify-between"><span>Spare Parts Cost:</span><span className="text-beige font-semibold">${Number(invoice.partsCost).toFixed(2)}</span></div>
-                  <div className="flex justify-between"><span>Labor Fees:</span><span className="text-beige font-semibold">${Number(invoice.laborCost).toFixed(2)}</span></div>
-                  <div className="flex justify-between"><span>GST Taxes (18%):</span><span className="text-beige font-semibold">${Number(invoice.taxAmount).toFixed(2)}</span></div>
-                  <div className="flex justify-between text-beige font-bold border-t border-medium-gray pt-2 text-md">
+              <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-6 space-y-4">
+                <h2 className="text-base font-bold text-slate-900 border-b border-slate-100 pb-3">Service Invoice</h2>
+                <div className="space-y-2 text-xs text-slate-600">
+                  <div className="flex justify-between"><span>Spare Parts Cost:</span><span className="text-slate-900 font-semibold">{formatPrice(invoice.partsCost)}</span></div>
+                  <div className="flex justify-between"><span>Labor Fees:</span><span className="text-slate-900 font-semibold">{formatPrice(invoice.laborCost)}</span></div>
+                  <div className="flex justify-between"><span>GST Taxes (18%):</span><span className="text-slate-900 font-semibold">{formatPrice(invoice.taxAmount)}</span></div>
+                  <div className="flex justify-between text-slate-900 font-bold border-t border-slate-100 pt-2 text-sm">
                     <span>Total Bill:</span>
-                    <span>${Number(invoice.totalAmount).toFixed(2)}</span>
+                    <span className="text-sky-700">{formatPrice(invoice.totalAmount)}</span>
                   </div>
                 </div>
 
                 {invoice.invoiceStatus === 'UNPAID' ? (
-                  <button onClick={handlePayInvoice} className="btn-primary w-full py-2.5" disabled={paying}>
-                    {paying ? 'Paying Bill...' : 'Pay Invoice Online'}
+                  <button onClick={handlePayInvoice} className="btn-primary w-full py-2.5 text-xs font-bold" disabled={paying}>
+                    {paying ? 'Processing Payment...' : 'Pay Invoice Online'}
                   </button>
                 ) : (
-                  <div className="bg-green-950/20 border border-green-900/30 text-green-400 text-center py-2.5 rounded text-xs font-semibold uppercase">
+                  <div className="bg-emerald-50 border border-emerald-200 text-emerald-700 text-center py-2.5 rounded-xl text-xs font-bold uppercase">
                     Paid Successfully
                   </div>
                 )}
@@ -316,16 +320,16 @@ const ServiceDetailsPage = () => {
             )}
 
             {/* Audit Logs History */}
-            <div className="card p-6">
-              <h2 className="text-lg font-bold text-beige mb-4">Request Log Audit</h2>
-              <div className="space-y-3">
+            <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-6">
+              <h2 className="text-base font-bold text-slate-900 mb-3 border-b border-slate-100 pb-2">Service Audit Log</h2>
+              <div className="space-y-2.5">
                 {auditLogs.slice(0, 10).map((log) => (
-                  <div key={log.id} className="text-xs border-b border-medium-gray/50 pb-2">
-                    <div className="flex justify-between items-center text-[10px] text-light-gray mb-1">
-                      <span>{log.action}</span>
-                      <span>{log.timestamp ? log.timestamp.split('T')[0] : ''}</span>
+                  <div key={log.id} className="text-xs border-b border-slate-50 pb-2">
+                    <div className="flex justify-between items-center text-[10px] text-slate-400 mb-0.5">
+                      <span className="font-bold text-slate-600">{log.action}</span>
+                      <span>{log.timestamp ? new Date(log.timestamp).toLocaleDateString('en-IN') : ''}</span>
                     </div>
-                    <p className="text-beige">{log.notes || 'Status modified'}</p>
+                    <p className="text-slate-700 text-[11px]">{log.notes || 'Status modified'}</p>
                   </div>
                 ))}
               </div>
@@ -335,13 +339,13 @@ const ServiceDetailsPage = () => {
 
         {/* Customer Review Widget (unlocks only when request is completed) */}
         {request.status === 'COMPLETED' && (
-          <form onSubmit={handleFeedbackSubmit} className="card p-8 mt-8 space-y-6">
-            <h2 className="text-xl font-bold text-beige border-b border-medium-gray pb-2">Rate Our Service Visit</h2>
+          <form onSubmit={handleFeedbackSubmit} className="bg-white border border-slate-200 shadow-sm rounded-2xl p-6 sm:p-8 mt-8 space-y-5">
+            <h2 className="text-lg font-bold text-slate-900 border-b border-slate-100 pb-3">Rate Our Service Visit</h2>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div>
-                <label className="label">Rating (1 to 5 Stars)</label>
-                <select value={feedback.rating} onChange={(e) => setFeedback(p => ({ ...p, rating: Number(e.target.value) }))} className="input text-beige bg-charcoal">
+                <label className="block text-slate-700 font-semibold text-xs mb-1.5">Rating (1 to 5 Stars)</label>
+                <select value={feedback.rating} onChange={(e) => setFeedback(p => ({ ...p, rating: Number(e.target.value) }))} className="input-field w-full text-xs">
                   <option value={5}>⭐⭐⭐⭐⭐ (Excellent)</option>
                   <option value={4}>⭐⭐⭐⭐ (Very Good)</option>
                   <option value={3}>⭐⭐⭐ (Good)</option>
@@ -351,8 +355,8 @@ const ServiceDetailsPage = () => {
               </div>
 
               <div>
-                <label className="label">Would you recommend Sri Balaji Medi Systems?</label>
-                <select value={feedback.wouldRecommend ? 'yes' : 'no'} onChange={(e) => setFeedback(p => ({ ...p, wouldRecommend: e.target.value === 'yes' }))} className="input text-beige bg-charcoal">
+                <label className="block text-slate-700 font-semibold text-xs mb-1.5">Would you recommend Sri Balaji Medi Systems?</label>
+                <select value={feedback.wouldRecommend ? 'yes' : 'no'} onChange={(e) => setFeedback(p => ({ ...p, wouldRecommend: e.target.value === 'yes' }))} className="input-field w-full text-xs">
                   <option value="yes">Yes, definitely</option>
                   <option value="no">No</option>
                 </select>
@@ -360,16 +364,16 @@ const ServiceDetailsPage = () => {
             </div>
 
             <div>
-              <label className="label">Review / Experience Comments</label>
-              <textarea value={feedback.review} onChange={(e) => setFeedback(p => ({ ...p, review: e.target.value }))} className="input h-20" placeholder="Comment on technician professionalism, cleanliness, or tools..." />
+              <label className="block text-slate-700 font-semibold text-xs mb-1.5">Review / Experience Comments</label>
+              <textarea value={feedback.review} onChange={(e) => setFeedback(p => ({ ...p, review: e.target.value }))} className="input-field w-full text-xs h-20 resize-none" placeholder="Comment on technician professionalism, calibration precision, cleanliness..." />
             </div>
 
             <div>
-              <label className="label">Suggestions for Improvements</label>
-              <textarea value={feedback.suggestions} onChange={(e) => setFeedback(p => ({ ...p, suggestions: e.target.value }))} className="input h-20" placeholder="Any suggestions to make our services faster..." />
+              <label className="block text-slate-700 font-semibold text-xs mb-1.5">Suggestions for Improvements</label>
+              <textarea value={feedback.suggestions} onChange={(e) => setFeedback(p => ({ ...p, suggestions: e.target.value }))} className="input-field w-full text-xs h-20 resize-none" placeholder="Any suggestions to make our hospital support even better..." />
             </div>
 
-            <button type="submit" className="btn-primary py-3 w-full" disabled={submittingFeedback}>
+            <button type="submit" className="btn-primary py-3 w-full text-xs font-bold" disabled={submittingFeedback}>
               {submittingFeedback ? 'Submitting Review...' : 'Submit Feedback'}
             </button>
           </form>

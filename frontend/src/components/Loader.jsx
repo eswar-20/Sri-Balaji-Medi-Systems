@@ -9,9 +9,9 @@ const Loader = ({ size = 'medium', text = 'Loading...' }) => {
 
   return (
     <div className="flex flex-col items-center justify-center p-12 w-full text-center">
-      <div className={`animate-spin rounded-full border-t-[#D4AF37] border-r-transparent border-b-[#1D9BF0] border-l-transparent ${sizeClasses[size]}`}></div>
+      <div className={`animate-spin rounded-full border-t-sky-600 border-r-transparent border-b-sky-600 border-l-transparent ${sizeClasses[size]}`}></div>
       {text && (
-        <p className="text-[#C8D3E0] mt-5 text-xs font-bold uppercase tracking-widest animate-pulse">
+        <p className="text-slate-600 mt-4 text-xs font-bold tracking-wide">
           {text}
         </p>
       )}

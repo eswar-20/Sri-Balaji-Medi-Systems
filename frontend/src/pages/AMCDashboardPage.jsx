@@ -48,11 +48,11 @@ const AMCDashboardPage = () => {
     setLoading(true);
     customerServiceAPI.getMyContracts()
       .then((resp) => {
-        setContracts(resp.data);
+        setContracts(Array.isArray(resp.data) ? resp.data : []);
         setError('');
       })
       .catch(() => {
-        setError('Failed to load active contracts. Please check network logs.');
+        setError('Failed to load active contracts. Please check network connection.');
       })
       .finally(() => setLoading(false));
   };
@@ -160,7 +160,7 @@ const AMCDashboardPage = () => {
           }
         },
         theme: {
-          color: "#D4AF37"
+          color: "#0284C7"
         },
         modal: {
           ondismiss: function() {
@@ -183,27 +183,27 @@ const AMCDashboardPage = () => {
   if (loading) return <Loader size="large" text="Syncing Active AMC Registries..." />;
 
   return (
-    <div className="min-h-screen bg-[#071A2F] text-white py-12">
+    <div className="min-h-screen bg-slate-50 text-slate-900 py-10">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}
-        <div className="flex justify-between items-center mb-10 gap-4 flex-wrap">
+        <div className="flex justify-between items-center mb-8 gap-4 flex-wrap">
           <div>
-            <h1 className="text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
-              <Award className="w-7 h-7 text-[#D4AF37]" /> AMC Dashboard
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
+              <Award className="w-7 h-7 text-sky-700" /> AMC Contracts Dashboard
             </h1>
-            <p className="text-[#C8D3E0] text-sm mt-1">Manage preventative maintenance and service contract files</p>
+            <p className="text-slate-500 text-sm mt-1">Manage preventative maintenance and annual service agreements</p>
           </div>
           <button 
             onClick={() => navigate('/services/my-requests')} 
-            className="btn-secondary py-2 px-5 text-xs flex items-center gap-1.5"
+            className="btn-secondary py-2 px-4 text-xs font-bold flex items-center gap-1.5"
           >
             <ArrowLeft className="w-4 h-4" /> Service Pipeline
           </button>
         </div>
 
         {error && (
-          <div className="bg-red-500/10 border border-red-500/20 text-red-400 p-4 rounded-xl mb-6 text-center text-xs font-semibold flex items-center justify-center gap-2">
+          <div className="bg-red-50 border border-red-200 text-red-700 p-4 rounded-xl mb-6 text-center text-xs font-semibold flex items-center justify-center gap-2">
             <ShieldAlert className="w-4.5 h-4.5" />
             <span>{error}</span>
           </div>
@@ -213,18 +213,18 @@ const AMCDashboardPage = () => {
           
           {/* Contracts list panel */}
           <div className="lg:col-span-2 space-y-6">
-            <div className="bg-[#142F52]/30 border border-white/[0.06] rounded-2xl p-6 space-y-6 backdrop-blur">
-              <h2 className="text-white font-extrabold text-base tracking-wide uppercase flex items-center gap-2">
-                <FileText className="w-4.5 h-4.5 text-[#1D9BF0]" /> Active AMC Agreements ({contracts.length})
+            <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-6 space-y-6">
+              <h2 className="text-slate-900 font-extrabold text-base tracking-wide uppercase flex items-center gap-2 border-b border-slate-100 pb-3">
+                <FileText className="w-4.5 h-4.5 text-sky-700" /> Active AMC Agreements ({contracts.length})
               </h2>
 
               {contracts.length === 0 ? (
-                <div className="text-center py-10 bg-[#0F2745]/30 border border-dashed border-white/10 rounded-xl space-y-4">
-                  <p className="text-slate-400 text-xs font-bold uppercase tracking-wider">No active Maintenance agreements</p>
+                <div className="text-center py-10 bg-slate-50 border border-dashed border-slate-200 rounded-xl space-y-4">
+                  <p className="text-slate-500 text-xs font-bold uppercase tracking-wider">No active Maintenance agreements</p>
                   {!showPurchaseForm && (
                     <button 
                       onClick={() => setShowPurchaseForm(true)} 
-                      className="btn-primary py-2 px-6 text-xs flex items-center gap-1.5 mx-auto"
+                      className="btn-primary py-2 px-6 text-xs flex items-center gap-1.5 mx-auto font-bold"
                     >
                       <Plus className="w-4 h-4" /> Subscribe to AMC
                     </button>
@@ -233,30 +233,30 @@ const AMCDashboardPage = () => {
               ) : (
                 <div className="space-y-4">
                   {contracts.map((c) => (
-                    <div key={c.id} className="bg-[#0F2745]/40 border border-white/10 p-5 rounded-xl hover:border-white/20 transition-all space-y-4">
+                    <div key={c.id} className="bg-white border border-slate-200 shadow-sm p-5 rounded-xl hover:shadow-md transition-all space-y-4">
                       
                       <div className="flex justify-between items-start gap-4">
                         <div>
-                          <h3 className="text-white font-extrabold text-base leading-tight">{c.equipmentName}</h3>
-                          <p className="text-[10px] text-slate-400 font-bold uppercase mt-1 tracking-wider">{c.equipmentBrand} {c.equipmentModel} (S/N: {c.serialNumber})</p>
+                          <h3 className="text-slate-900 font-extrabold text-base leading-tight">{c.equipmentName}</h3>
+                          <p className="text-xs text-slate-500 font-medium mt-1">{c.equipmentBrand} {c.equipmentModel} (S/N: {c.serialNumber})</p>
                         </div>
-                        <span className="text-[9px] px-2.5 py-0.5 rounded-lg border border-emerald-500/20 bg-emerald-500/10 text-emerald-400 font-black uppercase tracking-wider">
+                        <span className="text-[10px] px-2.5 py-0.5 rounded-full border border-emerald-200 bg-emerald-50 text-emerald-700 font-bold uppercase">
                           {c.contractStatus}
                         </span>
                       </div>
                       
-                      <div className="grid grid-cols-3 gap-4 text-[10px] pt-3 border-t border-white/[0.06] text-slate-400 font-bold uppercase tracking-wider">
+                      <div className="grid grid-cols-3 gap-4 text-xs pt-3 border-t border-slate-100 text-slate-500">
                         <div>
-                          <span>Duration Range</span>
-                          <p className="text-white font-extrabold mt-1 text-xs">{c.startDate} to {c.endDate}</p>
+                          <span className="text-[10px] uppercase font-bold text-slate-400 block">Duration Range</span>
+                          <p className="text-slate-900 font-bold mt-1 text-xs">{c.startDate} to {c.endDate}</p>
                         </div>
                         <div>
-                          <span>Visits Done</span>
-                          <p className="text-white font-extrabold mt-1 text-xs">{c.visitsPerYear - c.remainingVisits} / {c.visitsPerYear}</p>
+                          <span className="text-[10px] uppercase font-bold text-slate-400 block">Visits Done</span>
+                          <p className="text-slate-900 font-bold mt-1 text-xs">{c.visitsPerYear - c.remainingVisits} / {c.visitsPerYear}</p>
                         </div>
                         <div>
-                          <span>Plan Cost</span>
-                          <p className="text-[#D4AF37] font-extrabold mt-1 text-xs">{formatPrice(c.price)}</p>
+                          <span className="text-[10px] uppercase font-bold text-slate-400 block">Plan Cost</span>
+                          <p className="text-sky-700 font-extrabold mt-1 text-xs">{formatPrice(c.price)}</p>
                         </div>
                       </div>
 
@@ -270,10 +270,10 @@ const AMCDashboardPage = () => {
           {/* Form / Sidebar */}
           <div>
             {!showPurchaseForm ? (
-              <div className="bg-[#142F52]/40 border border-white/[0.08] p-6 rounded-2xl space-y-4 shadow-xl text-center">
-                <Sparkles className="w-8 h-8 text-[#D4AF37] mx-auto" />
-                <h3 className="text-white font-extrabold text-base uppercase tracking-wider text-left border-b border-white/[0.06] pb-2">Preventative Protection</h3>
-                <p className="text-[#C8D3E0] text-xs leading-relaxed text-left">
+              <div className="bg-white border border-slate-200 shadow-sm p-6 rounded-2xl space-y-4 text-center">
+                <Sparkles className="w-8 h-8 text-sky-700 mx-auto" />
+                <h3 className="text-slate-900 font-extrabold text-base uppercase tracking-wider text-left border-b border-slate-100 pb-2">Preventative Protection</h3>
+                <p className="text-slate-600 text-xs leading-relaxed text-left">
                   Minimize diagnostic machinery failure rates. Subscribing to an AMC plan guarantees scheduled calibration cycles and safety inspections by field engineers.
                 </p>
                 <button 
@@ -284,13 +284,13 @@ const AMCDashboardPage = () => {
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="bg-[#142F52]/30 border border-white/[0.06] p-6 rounded-2xl space-y-4 shadow-xl backdrop-blur">
-                <h3 className="text-white font-extrabold text-base tracking-wide uppercase border-b border-white/[0.06] pb-2 flex items-center gap-1.5">
-                  <BadgeCheck className="w-4.5 h-4.5 text-emerald-400" /> New AMC Subscription
+              <form onSubmit={handleSubmit} className="bg-white border border-slate-200 shadow-sm p-6 rounded-2xl space-y-4">
+                <h3 className="text-slate-900 font-extrabold text-base tracking-wide uppercase border-b border-slate-100 pb-2 flex items-center gap-1.5">
+                  <BadgeCheck className="w-4.5 h-4.5 text-emerald-600" /> New AMC Subscription
                 </h3>
                 
                 <div className="space-y-1">
-                  <label className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Choose Machinery Plan</label>
+                  <label className="text-xs text-slate-700 font-semibold block">Choose Machinery Plan</label>
                   <select onChange={handleTemplateChange} className="input-field w-full text-xs">
                     {AMC_TEMPLATES.map(t => (
                       <option key={t.id} value={t.id}>{t.label}</option>
@@ -299,37 +299,37 @@ const AMCDashboardPage = () => {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Custom Equipment Name</label>
+                  <label className="text-xs text-slate-700 font-semibold block">Equipment Name *</label>
                   <input type="text" name="equipmentName" value={formData.equipmentName} onChange={handleInputChange} className="input-field w-full text-xs" placeholder="e.g. ECG Machine" required />
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-3">
                   <div className="space-y-1">
-                    <label className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Brand Name</label>
+                    <label className="text-xs text-slate-700 font-semibold block">Brand Name *</label>
                     <input type="text" name="equipmentBrand" value={formData.equipmentBrand} onChange={handleInputChange} className="input-field w-full text-xs" required />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Model Ref</label>
+                    <label className="text-xs text-slate-700 font-semibold block">Model Ref *</label>
                     <input type="text" name="equipmentModel" value={formData.equipmentModel} onChange={handleInputChange} className="input-field w-full text-xs" required />
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-3">
                   <div className="space-y-1">
-                    <label className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Serial Number (S/N)</label>
+                    <label className="text-xs text-slate-700 font-semibold block">Serial Number *</label>
                     <input type="text" name="serialNumber" value={formData.serialNumber} onChange={handleInputChange} className="input-field w-full text-xs" required />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Start Date</label>
+                    <label className="text-xs text-slate-700 font-semibold block">Start Date *</label>
                     <input type="date" name="startDate" value={formData.startDate} onChange={handleInputChange} className="input-field w-full text-xs" required />
                   </div>
                 </div>
 
                 <div className="flex gap-3 pt-2">
-                  <button type="submit" className="btn-primary py-2.5 flex-1 text-xs font-bold uppercase" disabled={submitting}>
+                  <button type="submit" className="btn-primary py-2.5 flex-1 text-xs font-bold" disabled={submitting}>
                     {submitting ? 'Connecting Gateway...' : 'Purchase Subscription'}
                   </button>
-                  <button type="button" onClick={() => setShowPurchaseForm(false)} className="btn-secondary py-2.5 px-4 text-xs font-bold uppercase">Cancel</button>
+                  <button type="button" onClick={() => setShowPurchaseForm(false)} className="btn-secondary py-2.5 px-4 text-xs font-bold">Cancel</button>
                 </div>
               </form>
             )}

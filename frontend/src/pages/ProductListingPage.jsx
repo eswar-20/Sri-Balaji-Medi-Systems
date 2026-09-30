@@ -7,19 +7,19 @@ import { validateProduct } from '../utils/productUtils';
 import { SlidersHorizontal, ArrowUpDown, Tag, DollarSign } from 'lucide-react';
 
 const SkeletonCard = () => (
-  <div className="bg-[#142F52]/30 border border-white/[0.06] p-4 rounded-2xl h-[400px] flex flex-col justify-between overflow-hidden relative">
-    <div className="aspect-square w-full rounded-xl bg-white/[0.04] shimmer"></div>
+  <div className="bg-white border border-slate-200 p-4 rounded-2xl h-[380px] flex flex-col justify-between overflow-hidden relative shadow-sm">
+    <div className="aspect-square w-full rounded-xl bg-slate-100 shimmer"></div>
     <div className="space-y-3 mt-4 flex-grow">
-      <div className="h-3 w-1/4 bg-white/[0.04] rounded shimmer"></div>
-      <div className="h-5 w-3/4 bg-white/[0.04] rounded shimmer"></div>
-      <div className="h-12 w-full bg-white/[0.04] rounded shimmer"></div>
+      <div className="h-3 w-1/4 bg-slate-100 rounded shimmer"></div>
+      <div className="h-5 w-3/4 bg-slate-100 rounded shimmer"></div>
+      <div className="h-10 w-full bg-slate-100 rounded shimmer"></div>
     </div>
-    <div className="flex justify-between items-center mt-4 pt-3 border-t border-white/[0.06]">
+    <div className="flex justify-between items-center mt-4 pt-3 border-t border-slate-100">
       <div className="space-y-2 w-1/2">
-        <div className="h-3 w-1/2 bg-white/[0.04] rounded shimmer"></div>
-        <div className="h-4 w-3/4 bg-white/[0.04] rounded shimmer"></div>
+        <div className="h-3 w-1/2 bg-slate-100 rounded shimmer"></div>
+        <div className="h-4 w-3/4 bg-slate-100 rounded shimmer"></div>
       </div>
-      <div className="h-10 w-10 bg-white/[0.04] rounded-xl shimmer"></div>
+      <div className="h-10 w-10 bg-slate-100 rounded-xl shimmer"></div>
     </div>
   </div>
 );
@@ -45,12 +45,9 @@ const ProductListingPage = () => {
         ]);
         
         if (mounted) {
-          console.log("Axios Response:", productsResp);
-          console.log("Response.data:", productsResp.data);
           const validatedProducts = Array.isArray(productsResp.data)
             ? productsResp.data.map(validateProduct)
             : [];
-          console.log("Products State:", validatedProducts);
           const fetchedCategories = Array.isArray(categoriesResp.data)
             ? ['All Categories', ...categoriesResp.data]
             : ['All Categories'];
@@ -58,7 +55,6 @@ const ProductListingPage = () => {
           setDisplayProducts(validatedProducts);
           setCategories(fetchedCategories);
           
-          // Cache to localStorage
           try {
             localStorage.setItem('cached_equipment_products', JSON.stringify(validatedProducts));
             localStorage.setItem('cached_equipment_categories', JSON.stringify(fetchedCategories));
@@ -77,7 +73,6 @@ const ProductListingPage = () => {
             
             setDisplayProducts(validatedProducts);
             setCategories(fetchedCategories);
-            console.info(`Loaded ${validatedProducts.length} equipment products from offline cache.`);
           } catch (e) {
             console.error('Failed to read offline products cache:', e);
             setCategories(['All Categories']);
@@ -164,40 +159,36 @@ const ProductListingPage = () => {
       }
     });
 
-  console.log("API Response (displayProducts):", displayProducts);
-  console.log("Filtered Products (filteredAndSortedProducts):", filteredAndSortedProducts);
-  console.log("Categories:", categories);
-
   return (
-    <div className="min-h-screen bg-[#071A2F] text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div className="min-h-screen bg-slate-50 text-slate-900">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12">
         
         {/* Header Block */}
-        <div className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div className="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200 pb-6">
           <div>
-            <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Medical Equipment</h1>
-            <p className="text-[#C8D3E0] text-sm mt-2">
+            <span className="text-xs uppercase font-bold text-sky-600 tracking-wider">Catalog Directory</span>
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mt-1">Medical Equipment</h1>
+            <p className="text-slate-500 text-sm mt-1">
               {loading ? 'Fetching catalogs...' : `${filteredAndSortedProducts.length} high-grade systems available`}
             </p>
           </div>
-          <div className="w-16 h-1 bg-[#1D9BF0] rounded-full hidden md:block"></div>
         </div>
 
         <div className="flex flex-col lg:flex-row gap-8">
           
           {/* Filters Sidebar */}
           <div className="lg:w-1/4 shrink-0">
-            <div className="bg-[#142F52]/30 border border-white/[0.06] rounded-2xl p-6 sticky top-24 space-y-6 backdrop-blur-lg">
+            <div className="bg-white border border-slate-200 rounded-2xl p-6 sticky top-24 space-y-6 shadow-sm">
               
-              <div className="flex items-center gap-2 pb-4 border-b border-white/[0.06]">
-                <SlidersHorizontal className="w-4 h-4 text-[#D4AF37]" />
-                <h2 className="text-white font-extrabold text-base tracking-wide uppercase">Filter Machinery</h2>
+              <div className="flex items-center gap-2 pb-4 border-b border-slate-100">
+                <SlidersHorizontal className="w-4 h-4 text-sky-600" />
+                <h2 className="text-slate-900 font-bold text-sm tracking-wide uppercase">Filter Machinery</h2>
               </div>
 
               {/* Category Filter */}
               <div className="space-y-2">
-                <label className="text-xs uppercase font-extrabold text-slate-400 tracking-wider flex items-center gap-1.5">
-                  <Tag className="w-3.5 h-3.5 text-[#1D9BF0]" /> Clinical Category
+                <label className="text-xs uppercase font-bold text-slate-600 tracking-wider flex items-center gap-1.5">
+                  <Tag className="w-3.5 h-3.5 text-sky-600" /> Clinical Category
                 </label>
                 <select
                   value={filters.category}
@@ -214,8 +205,8 @@ const ProductListingPage = () => {
 
               {/* Price Range Filter */}
               <div className="space-y-2">
-                <label className="text-xs uppercase font-extrabold text-slate-400 tracking-wider flex items-center gap-1.5">
-                  <DollarSign className="w-3.5 h-3.5 text-emerald-400" /> Price Budget
+                <label className="text-xs uppercase font-bold text-slate-600 tracking-wider flex items-center gap-1.5">
+                  <DollarSign className="w-3.5 h-3.5 text-emerald-600" /> Price Budget
                 </label>
                 <select
                   value={filters.priceRange}
@@ -233,8 +224,8 @@ const ProductListingPage = () => {
 
               {/* Sort By */}
               <div className="space-y-2">
-                <label className="text-xs uppercase font-extrabold text-slate-400 tracking-wider flex items-center gap-1.5">
-                  <ArrowUpDown className="w-3.5 h-3.5 text-[#D4AF37]" /> Sort Catalog
+                <label className="text-xs uppercase font-bold text-slate-600 tracking-wider flex items-center gap-1.5">
+                  <ArrowUpDown className="w-3.5 h-3.5 text-sky-600" /> Sort Catalog
                 </label>
                 <select
                   value={filters.sortBy}
@@ -256,7 +247,7 @@ const ProductListingPage = () => {
                   priceRange: '',
                   sortBy: 'featured'
                 })}
-                className="w-full btn-secondary text-xs"
+                className="w-full btn-secondary text-xs py-2.5"
               >
                 Clear All Filters
               </button>
@@ -280,7 +271,7 @@ const ProductListingPage = () => {
                       priceRange: '',
                       sortBy: 'featured'
                     })}
-                    className="btn-primary py-2.5 px-6 text-sm"
+                    className="btn-primary py-2.5 px-6 text-sm shadow-sm"
                   >
                     Clear Filter Selection
                   </button>
@@ -302,3 +293,4 @@ const ProductListingPage = () => {
 };
 
 export default ProductListingPage;
+

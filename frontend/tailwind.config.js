@@ -6,26 +6,33 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'charcoal': '#1a1a1a',
-        'matte-black': '#0d0d0d',
-        'beige': '#f5f5dc',
-        'ivory': '#fffff0',
-        'muted-gold': '#d4af37',
-        'dark-gray': '#2d2d2d',
-        'medium-gray': '#4a4a4a',
-        'light-gray': '#6b6b6b',
-        'pale-beige': '#faf8f3',
-        'warm-white': '#fefefe',
+        'medical-primary': '#0284C7',
+        'medical-dark': '#0369A1',
+        'medical-navy': '#0C4A6E',
+        'medical-teal': '#0D9488',
+        'medical-accent': '#0284C7',
+        // Compatibility & neutral tokens for clean light medical design
+        'matte-black': '#F8FAFC',
+        'charcoal': '#0F172A',
+        'beige': '#0F172A',
+        'ivory': '#FFFFFF',
+        'muted-gold': '#0284C7',
+        'dark-gray': '#334155',
+        'medium-gray': '#64748B',
+        'light-gray': '#94A3B8',
+        'pale-beige': '#F1F5F9',
+        'warm-white': '#FFFFFF',
       },
       fontFamily: {
         'sans': ['Inter', 'system-ui', 'sans-serif'],
       },
       boxShadow: {
-        'soft': '0 2px 15px rgba(0, 0, 0, 0.1)',
-        'medium': '0 4px 25px rgba(0, 0, 0, 0.15)',
-        'strong': '0 8px 35px rgba(0, 0, 0, 0.2)',
+        'soft': '0 2px 10px rgba(0, 0, 0, 0.05)',
+        'medium': '0 4px 20px rgba(0, 0, 0, 0.08)',
+        'strong': '0 10px 30px rgba(0, 0, 0, 0.12)',
       }
     },
   },
   plugins: [],
 }
+

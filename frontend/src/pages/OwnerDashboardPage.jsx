@@ -571,28 +571,28 @@ const OwnerDashboardPage = () => {
   const isCurrentUserSuper = isSuperOwner;
 
   return (
-    <div className="min-h-screen bg-[#071A2F] text-white flex">
+    <div className="min-h-screen bg-slate-50 text-slate-900 flex">
       
       {/* Sidebar Navigation */}
-      <aside className={`${sidebarOpen ? 'w-64' : 'w-20'} bg-[#0F2745] border-r border-white/[0.06] flex flex-col justify-between shrink-0 font-sans transition-all duration-300 relative print:hidden`}>
+      <aside className={`${sidebarOpen ? 'w-64' : 'w-20'} bg-white border-r border-slate-200 shadow-sm flex flex-col justify-between shrink-0 font-sans transition-all duration-300 relative print:hidden`}>
         
         {/* Toggle Trigger */}
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="absolute -right-3 top-7 w-6 h-6 rounded-full bg-[#142F52] border border-white/10 flex items-center justify-center text-slate-300 hover:text-white shadow-md z-20"
+          className="absolute -right-3 top-7 w-6 h-6 rounded-full bg-white border border-slate-200 shadow-sm flex items-center justify-center text-slate-600 hover:text-slate-900 shadow-md z-20"
         >
           {sidebarOpen ? <ChevronLeft className="w-3.5 h-3.5" /> : <ChevronRight className="w-3.5 h-3.5" />}
         </button>
 
         <div>
-          <div className="p-6 border-b border-white/[0.06]">
+          <div className="p-6 border-b border-slate-200">
             {sidebarOpen ? (
               <>
-                <h1 className="text-sm font-extrabold tracking-widest text-[#D4AF37] uppercase">Sri Balaji Suite</h1>
-                <p className="text-[9px] text-[#C8D3E0] font-bold uppercase tracking-wider mt-1">Management Portal</p>
+                <h1 className="text-sm font-extrabold tracking-widest text-sky-800 uppercase">Sri Balaji Suite</h1>
+                <p className="text-[9px] text-slate-500 font-bold uppercase tracking-wider mt-1">Management Portal</p>
               </>
             ) : (
-              <div className="w-8 h-8 rounded-lg bg-[#D4AF37] flex items-center justify-center text-[#071A2F] font-black text-xs mx-auto">SB</div>
+              <div className="w-8 h-8 rounded-lg bg-sky-600 flex items-center justify-center text-white font-black text-xs mx-auto">SB</div>
             )}
           </div>
           <nav className="p-4 space-y-1.5">
@@ -616,8 +616,8 @@ const OwnerDashboardPage = () => {
                   title={!sidebarOpen ? tab.label : undefined}
                   className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold tracking-wide transition-all flex items-center gap-3 ${
                     activeTab === tab.id 
-                      ? 'bg-[#1D9BF0] text-[#071A2F]' 
-                      : 'text-slate-300 hover:bg-white/[0.03] hover:text-white'
+                      ? 'bg-sky-600 text-white' 
+                      : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
                   }`}
                 >
                   {tab.icon}
@@ -628,11 +628,11 @@ const OwnerDashboardPage = () => {
           </nav>
         </div>
 
-        <div className="p-6 border-t border-white/[0.06] bg-[#071A2F]/30 text-xs">
+        <div className="p-6 border-t border-slate-100 bg-slate-50 text-xs">
           {sidebarOpen ? (
             <>
-              <p className="font-extrabold text-white truncate">{user?.name}</p>
-              <p className="text-[#C8D3E0] mt-0.5 text-[10px] font-bold uppercase tracking-wider truncate">
+              <p className="font-extrabold text-slate-900 truncate">{user?.name}</p>
+              <p className="text-slate-500 mt-0.5 text-[10px] font-bold uppercase tracking-wider truncate">
                 {isCurrentUserSuper ? 'Super Owner' : 'Owner'}
               </p>
               <button 
@@ -646,7 +646,7 @@ const OwnerDashboardPage = () => {
             <button 
               onClick={() => { logout(); navigate('/login'); }} 
               title="Logout"
-              className="mx-auto text-red-400 hover:text-red-300 p-2 hover:bg-white/[0.03] rounded-lg block"
+              className="mx-auto text-red-400 hover:text-red-300 p-2 hover:bg-slate-50 rounded-lg block"
             >
               <LogOut className="w-4 h-4" />
             </button>
@@ -669,7 +669,7 @@ const OwnerDashboardPage = () => {
             <div className="flex justify-between items-center gap-4 flex-wrap">
               <div>
                 <h2 className="text-3xl font-extrabold tracking-tight text-white">Management Dashboard</h2>
-                <p className="text-[#C8D3E0] text-xs mt-1">Platform-wide transactional telemetry</p>
+                <p className="text-slate-500 text-xs mt-1">Platform-wide transactional telemetry</p>
               </div>
               <button onClick={loadData} className="btn-secondary text-xs px-4 py-2 flex items-center gap-1.5">
                 <RefreshCw className="w-3.5 h-3.5" /> Refresh Telemetry
@@ -703,14 +703,14 @@ const OwnerDashboardPage = () => {
               {[
                 { label: 'Total Revenue (Delivered)', val: `₹${Number(dashboard?.totalRevenue || 0).toLocaleString('en-IN')}`, color: 'text-emerald-400' },
                 { label: 'Store Orders Count', val: dashboard?.totalOrders || 0, color: 'text-white' },
-                { label: 'Pending Store Orders', val: dashboard?.pendingOrders || 0, color: 'text-[#D4AF37]' },
-                { label: 'Active Service Visits', val: servicesSummary?.activeServicesCount || 0, color: 'text-[#1D9BF0]' },
+                { label: 'Pending Store Orders', val: dashboard?.pendingOrders || 0, color: 'text-sky-700' },
+                { label: 'Active Service Visits', val: servicesSummary?.activeServicesCount || 0, color: 'text-sky-600' },
                 { label: 'AMC Total Revenue', val: `₹${Number(servicesSummary?.amcRevenueTotal || 0).toLocaleString('en-IN')}`, color: 'text-white' },
                 { label: 'Total Customers', val: dashboard?.totalCustomers || 0, color: 'text-white' },
                 { label: 'Catalog Products', val: dashboard?.totalProducts || 0, color: 'text-white' },
                 { label: 'Low Stock Alerts', val: dashboard?.lowStockCount || 0, color: dashboard?.lowStockCount > 0 ? 'text-red-400 font-black animate-pulse' : 'text-white' }
               ].map((card, idx) => (
-                <div key={idx} className="bg-[#142F52]/30 border border-white/[0.06] p-6 rounded-2xl">
+                <div key={idx} className="bg-white border border-slate-200 shadow-sm p-6 rounded-2xl">
                   <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400">{card.label}</span>
                   <p className={`text-2xl font-black mt-2 ${card.color}`}>{card.val}</p>
                 </div>
@@ -721,13 +721,13 @@ const OwnerDashboardPage = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               
               {/* Chart 1: Monthly Sales Trend */}
-              <div className="bg-[#142F52]/30 border border-white/[0.06] p-6 rounded-2xl space-y-4">
+              <div className="bg-white border border-slate-200 shadow-sm p-6 rounded-2xl space-y-4">
                 <h3 className="text-sm font-extrabold uppercase tracking-wider text-slate-300">Monthly Revenue Trend (FY26)</h3>
                 <div className="h-48 w-full flex items-end">
-                  <svg className="w-full h-full text-[#D4AF37]" viewBox="0 0 1000 200" preserveAspectRatio="none">
-                    <line x1="0" y1="50" x2="1000" y2="50" stroke="#1E3E62" strokeDasharray="5,5" />
-                    <line x1="0" y1="100" x2="1000" y2="100" stroke="#1E3E62" strokeDasharray="5,5" />
-                    <line x1="0" y1="150" x2="1000" y2="150" stroke="#1E3E62" strokeDasharray="5,5" />
+                  <svg className="w-full h-full text-sky-700" viewBox="0 0 1000 200" preserveAspectRatio="none">
+                    <line x1="0" y1="50" x2="1000" y2="50" stroke="#E2E8F0" strokeDasharray="5,5" />
+                    <line x1="0" y1="100" x2="1000" y2="100" stroke="#E2E8F0" strokeDasharray="5,5" />
+                    <line x1="0" y1="150" x2="1000" y2="150" stroke="#E2E8F0" strokeDasharray="5,5" />
                     <path
                       d="M 50 180 Q 200 80 400 130 T 700 40 T 950 60"
                       fill="none"
@@ -751,13 +751,13 @@ const OwnerDashboardPage = () => {
               </div>
 
               {/* Chart 2: Daily Sales Velocity */}
-              <div className="bg-[#142F52]/30 border border-white/[0.06] p-6 rounded-2xl space-y-4">
+              <div className="bg-white border border-slate-200 shadow-sm p-6 rounded-2xl space-y-4">
                 <h3 className="text-sm font-extrabold uppercase tracking-wider text-slate-300">Daily Sales Velocity (Last 7 Days)</h3>
                 <div className="h-48 w-full flex items-end justify-between px-4 pt-4">
                   {[24, 38, 15, 60, 45, 80, 55].map((val, idx) => (
                     <div key={idx} className="w-8 flex flex-col items-center gap-2 h-full justify-end">
-                      <span className="text-[9px] text-[#1D9BF0] font-bold">{val}k</span>
-                      <div className="w-full bg-[#1D9BF0] rounded-t-lg transition-all duration-500" style={{ height: `${val}%` }} />
+                      <span className="text-[9px] text-sky-600 font-bold">{val}k</span>
+                      <div className="w-full bg-sky-600 rounded-t-lg transition-all duration-500" style={{ height: `${val}%` }} />
                       <span className="text-[9px] text-slate-400 font-bold uppercase">Day {idx+1}</span>
                     </div>
                   ))}
@@ -769,19 +769,19 @@ const OwnerDashboardPage = () => {
             {/* Out of Stock and Out of Calibration warning lists */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               
-              <div className="bg-[#142F52]/30 border border-white/[0.06] p-6 rounded-2xl space-y-4">
+              <div className="bg-white border border-slate-200 shadow-sm p-6 rounded-2xl space-y-4">
                 <h3 className="text-xs font-black uppercase tracking-wider text-slate-400">Best Selling Products</h3>
                 <div className="divide-y divide-white/[0.04] text-xs">
                   {products.slice(0, 3).map(p => (
                     <div key={p.id} className="py-2.5 flex justify-between">
                       <span className="font-extrabold text-white">{p.name}</span>
-                      <span className="text-[#D4AF37] font-black">₹{p.price.toLocaleString('en-IN')}</span>
+                      <span className="text-sky-700 font-black">₹{p.price.toLocaleString('en-IN')}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
-              <div className="bg-[#142F52]/30 border border-white/[0.06] p-6 rounded-2xl space-y-4">
+              <div className="bg-white border border-slate-200 shadow-sm p-6 rounded-2xl space-y-4">
                 <h3 className="text-xs font-black uppercase tracking-wider text-slate-400">Out of Stock Warnings</h3>
                 <div className="divide-y divide-white/[0.04] text-xs">
                   {products.filter(p => p.stock <= 0).slice(0, 3).map(p => (
@@ -805,8 +805,8 @@ const OwnerDashboardPage = () => {
           <div className="space-y-8 print:hidden">
             <div className="flex justify-between items-center gap-4 flex-wrap">
               <div>
-                <h2 className="text-3xl font-extrabold text-white tracking-tight">Inventory Console</h2>
-                <p className="text-[#C8D3E0] text-xs mt-1">Manage stock details, soft deletes, and catalog features</p>
+                <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">Inventory Console</h2>
+                <p className="text-slate-500 text-xs mt-1">Manage stock details, soft deletes, and catalog features</p>
               </div>
               <div className="flex items-center gap-3">
                 <button onClick={handleExportCSV} className="btn-secondary py-2 px-4 text-xs font-bold flex items-center gap-1.5">
@@ -823,7 +823,7 @@ const OwnerDashboardPage = () => {
             </div>
 
             {/* Filter tools */}
-            <div className="bg-[#142F52]/30 border border-white/[0.06] p-6 rounded-2xl">
+            <div className="bg-white border border-slate-200 shadow-sm p-6 rounded-2xl">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
                 <div className="relative">
                   <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400"><Search className="w-4 h-4" /></span>
@@ -847,15 +847,15 @@ const OwnerDashboardPage = () => {
                   </select>
                 </div>
                 <div className="text-xs text-slate-400 font-bold uppercase tracking-wider text-right pr-4">
-                  Count: <span className="text-white font-extrabold">{filteredProducts.length}</span> items
+                  Count: <span className="text-slate-900 font-extrabold">{filteredProducts.length}</span> items
                 </div>
               </div>
             </div>
 
             {/* Products Table */}
-            <div className="bg-[#142F52]/30 border border-white/[0.06] rounded-2xl overflow-x-auto">
+            <div className="bg-white border border-slate-200 shadow-sm rounded-2xl overflow-x-auto">
               <table className="w-full text-left text-xs divide-y divide-white/[0.06]">
-                <thead className="bg-[#0F2745]/60 text-slate-300 font-bold uppercase tracking-wider text-[10px]">
+                <thead className="bg-slate-50 text-slate-700 font-bold uppercase tracking-wider text-[10px]">
                   <tr>
                     <th className="p-4">Reference</th>
                     <th className="p-4">SKU / Code</th>
@@ -875,10 +875,10 @@ const OwnerDashboardPage = () => {
                         <span className="text-[10px] text-slate-400 uppercase font-bold">{p.brand} – {p.category}</span>
                       </td>
                       <td className="p-4 font-mono font-bold text-slate-300">{p.sku || 'N/A'}</td>
-                      <td className="p-4 font-extrabold text-[#D4AF37]">₹{p.price.toLocaleString('en-IN')}</td>
+                      <td className="p-4 font-extrabold text-sky-700">₹{p.price.toLocaleString('en-IN')}</td>
                       <td className="p-4 text-center font-extrabold text-white">{p.stock}</td>
                       <td className="p-4 text-center font-bold text-slate-300">{p.reservedStock || 0}</td>
-                      <td className="p-4 text-center font-extrabold text-[#1D9BF0]">{p.availableStock}</td>
+                      <td className="p-4 text-center font-extrabold text-sky-600">{p.availableStock}</td>
                       <td className="p-4 text-center">
                         {p.deleted ? (
                           <span className="text-[9px] px-2 py-0.5 rounded border border-red-500/20 bg-red-500/10 text-red-400 font-black uppercase">Deleted</span>
@@ -895,9 +895,9 @@ const OwnerDashboardPage = () => {
                           <button onClick={() => handleRestoreProduct(p.id)} className="text-emerald-400 hover:text-emerald-300 font-bold uppercase tracking-wider text-[10px]">Restore</button>
                         ) : (
                           <>
-                            <button onClick={() => openEditProductModal(p)} title="Edit" className="text-slate-300 hover:text-white"><Edit className="w-4 h-4 inline" /></button>
-                            <button onClick={() => handleDuplicateProduct(p.id)} title="Clone" className="text-[#1D9BF0] hover:text-[#1D9BF0]/80"><Copy className="w-4 h-4 inline" /></button>
-                            <button onClick={() => openAdjustStockModal(p)} title="Stock Adjust" className="text-[#D4AF37] hover:text-[#D4AF37]/80"><Printer className="w-4 h-4 inline" /></button>
+                            <button onClick={() => openEditProductModal(p)} title="Edit" className="text-slate-600 hover:text-slate-900"><Edit className="w-4 h-4 inline" /></button>
+                            <button onClick={() => handleDuplicateProduct(p.id)} title="Clone" className="text-sky-600 hover:text-sky-600/80"><Copy className="w-4 h-4 inline" /></button>
+                            <button onClick={() => openAdjustStockModal(p)} title="Stock Adjust" className="text-sky-700 hover:text-sky-700/80"><Printer className="w-4 h-4 inline" /></button>
                             <button onClick={() => handleToggleProductEnabled(p)} className="text-xs uppercase font-bold text-slate-400 hover:text-white">
                               {p.enabled ? 'Disable' : 'Enable'}
                             </button>
@@ -912,17 +912,17 @@ const OwnerDashboardPage = () => {
             </div>
 
             {/* Inventory History Section */}
-            <div className="bg-[#142F52]/30 border border-white/[0.06] p-6 rounded-2xl">
+            <div className="bg-white border border-slate-200 shadow-sm p-6 rounded-2xl">
               <h3 className="text-sm font-extrabold uppercase tracking-wider text-slate-300 mb-4">Stock Adjustment Logs</h3>
               <div className="max-h-60 overflow-y-auto divide-y divide-white/[0.04] text-xs">
                 {stockHistory.map(log => (
                   <div key={log.id} className="py-2.5 flex justify-between items-center gap-4">
                     <div>
-                      <span className="font-bold text-white uppercase text-[10px] tracking-wider bg-white/[0.04] px-2 py-0.5 rounded border border-white/5 mr-2">{log.adjustmentType}</span>
+                      <span className="font-bold text-white uppercase text-[10px] tracking-wider bg-white/[0.04] px-2 py-0.5 rounded border border-slate-100 mr-2">{log.adjustmentType}</span>
                       <span className="text-slate-300">Product Ref ID: #{log.productId} – {log.reason || 'Manual Check'}</span>
                     </div>
                     <div className="text-right">
-                      <span className="font-bold text-[#D4AF37]">{log.quantityChanged > 0 ? `+${log.quantityChanged}` : log.quantityChanged} units</span>
+                      <span className="font-bold text-sky-700">{log.quantityChanged > 0 ? `+${log.quantityChanged}` : log.quantityChanged} units</span>
                       <p className="text-[10px] text-slate-400 font-bold mt-0.5">{log.performedBy} on {new Date(log.timestamp).toLocaleString('en-IN')}</p>
                     </div>
                   </div>
@@ -937,13 +937,13 @@ const OwnerDashboardPage = () => {
           <div className="space-y-8 print:hidden">
             <div className="flex justify-between items-center gap-4 flex-wrap">
               <div>
-                <h2 className="text-3xl font-extrabold text-white tracking-tight">Order Fulfillment Board</h2>
-                <p className="text-[#C8D3E0] text-xs mt-1">Control dispatch stages, print packing list templates, and generate labels</p>
+                <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">Order Fulfillment Board</h2>
+                <p className="text-slate-500 text-xs mt-1">Control dispatch stages, print packing list templates, and generate labels</p>
               </div>
             </div>
 
             {/* Filters */}
-            <div className="bg-[#142F52]/30 border border-white/[0.06] p-6 rounded-2xl">
+            <div className="bg-white border border-slate-200 shadow-sm p-6 rounded-2xl">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
                 <div className="relative">
                   <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400"><Search className="w-4 h-4" /></span>
@@ -976,7 +976,7 @@ const OwnerDashboardPage = () => {
                   </select>
                 </div>
                 <div className="text-xs text-slate-400 font-bold uppercase tracking-wider text-right pr-4">
-                  Filtered: <span className="text-white font-extrabold">{filteredOrders.length}</span> orders
+                  Filtered: <span className="text-slate-900 font-extrabold">{filteredOrders.length}</span> orders
                 </div>
               </div>
             </div>
@@ -984,19 +984,19 @@ const OwnerDashboardPage = () => {
             {/* Orders list cards */}
             <div className="space-y-4">
               {filteredOrders.map(order => (
-                <div key={order.id} className="bg-[#142F52]/30 border border-white/[0.06] p-6 rounded-2xl space-y-6">
+                <div key={order.id} className="bg-white border border-slate-200 shadow-sm p-6 rounded-2xl space-y-6">
                   
                   {/* Header Row */}
-                  <div className="flex justify-between items-start gap-4 flex-wrap border-b border-white/[0.04] pb-4">
+                  <div className="flex justify-between items-start gap-4 flex-wrap border-b border-slate-100 pb-4">
                     <div>
-                      <span className="text-[#D4AF37] font-black uppercase text-xs tracking-wider">ME-{order.id}</span>
+                      <span className="text-sky-700 font-black uppercase text-xs tracking-wider">ME-{order.id}</span>
                       <p className="text-[10px] text-slate-400 font-bold mt-1 uppercase">Date: {new Date(order.createdAt).toLocaleDateString('en-IN')}</p>
                     </div>
                     <div className="flex items-center gap-3">
                       <select
                         value={order.status.toUpperCase()}
                         onChange={(e) => handleUpdateOrderStatus(order.id, e.target.value)}
-                        className="bg-[#0F2745] border border-white/10 rounded-lg text-xs font-bold text-slate-200 px-3 py-1.5"
+                        className="bg-white border border-slate-200 rounded-lg text-xs font-bold text-slate-200 px-3 py-1.5"
                       >
                         <option value="PENDING">Pending</option>
                         <option value="CONFIRMED">Confirmed</option>
@@ -1010,31 +1010,31 @@ const OwnerDashboardPage = () => {
                         <option value="RETURNED">Returned</option>
                         <option value="REFUNDED">Refunded</option>
                       </select>
-                      <button onClick={() => triggerPrintWindow(order, 'SHIPPING')} title="Print Shipping Label" className="p-2 hover:bg-white/[0.04] border border-white/5 rounded-lg"><Printer className="w-4 h-4 text-slate-300" /></button>
-                      <button onClick={() => triggerPrintWindow(order, 'INVOICE')} title="Print Invoice" className="p-2 hover:bg-white/[0.04] border border-white/5 rounded-lg"><FileText className="w-4 h-4 text-[#D4AF37]" /></button>
-                      <button onClick={() => triggerPrintWindow(order, 'PACKING')} title="Print Packing Slip" className="p-2 hover:bg-white/[0.04] border border-white/5 rounded-lg"><ClipboardList className="w-4 h-4 text-[#1D9BF0]" /></button>
+                      <button onClick={() => triggerPrintWindow(order, 'SHIPPING')} title="Print Shipping Label" className="p-2 hover:bg-slate-100 border border-slate-100 rounded-lg"><Printer className="w-4 h-4 text-slate-300" /></button>
+                      <button onClick={() => triggerPrintWindow(order, 'INVOICE')} title="Print Invoice" className="p-2 hover:bg-slate-100 border border-slate-100 rounded-lg"><FileText className="w-4 h-4 text-sky-700" /></button>
+                      <button onClick={() => triggerPrintWindow(order, 'PACKING')} title="Print Packing Slip" className="p-2 hover:bg-slate-100 border border-slate-100 rounded-lg"><ClipboardList className="w-4 h-4 text-sky-600" /></button>
                     </div>
                   </div>
 
                   {/* Body columns */}
-                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 text-xs text-[#C8D3E0]">
+                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 text-xs text-slate-500">
                     
                     <div className="space-y-1">
-                      <h4 className="text-white font-extrabold uppercase tracking-wide text-[10px]">Client Details</h4>
+                      <h4 className="text-slate-900 font-extrabold uppercase tracking-wide text-[10px]">Client Details</h4>
                       <p className="font-bold text-white">{order.customerName}</p>
                       <p>Phone: {order.phone}</p>
                       <p className="truncate">Address: {order.address}, {order.city} – {order.pincode}</p>
                     </div>
 
                     <div className="space-y-1.5">
-                      <h4 className="text-white font-extrabold uppercase tracking-wide text-[10px]">Billing Info</h4>
-                      <div className="flex justify-between"><span>Payment Method:</span><span className="text-white font-bold">{order.paymentMethod}</span></div>
-                      <div className="flex justify-between"><span>Payment Status:</span><span className="text-white font-bold">{order.paymentStatus}</span></div>
-                      <div className="flex justify-between"><span>Grand Total:</span><span className="text-[#D4AF37] font-black text-sm">₹{order.totalPrice.toLocaleString('en-IN')}</span></div>
+                      <h4 className="text-slate-900 font-extrabold uppercase tracking-wide text-[10px]">Billing Info</h4>
+                      <div className="flex justify-between"><span>Payment Method:</span><span className="text-slate-900 font-bold">{order.paymentMethod}</span></div>
+                      <div className="flex justify-between"><span>Payment Status:</span><span className="text-slate-900 font-bold">{order.paymentStatus}</span></div>
+                      <div className="flex justify-between"><span>Grand Total:</span><span className="text-sky-700 font-black text-sm">₹{order.totalPrice.toLocaleString('en-IN')}</span></div>
                     </div>
 
                     <div className="space-y-2">
-                      <h4 className="text-white font-extrabold uppercase tracking-wide text-[10px]">Logistics Actions</h4>
+                      <h4 className="text-slate-900 font-extrabold uppercase tracking-wide text-[10px]">Logistics Actions</h4>
                       <div className="flex gap-2 flex-wrap">
                         <button onClick={() => handleUpdateOrderStatus(order.id, 'SHIPPED')} className="btn-secondary py-1 px-3 text-[10px] uppercase font-bold flex-grow">Mark Shipped</button>
                         <button onClick={() => handleUpdateOrderStatus(order.id, 'DELIVERED')} className="btn-secondary py-1 px-3 text-[10px] uppercase font-bold flex-grow">Mark Delivered</button>
@@ -1056,13 +1056,13 @@ const OwnerDashboardPage = () => {
           <div className="space-y-8 print:hidden">
             <div className="flex justify-between items-center gap-4 flex-wrap">
               <div>
-                <h2 className="text-3xl font-extrabold text-white tracking-tight">Client Ledger</h2>
-                <p className="text-[#C8D3E0] text-xs mt-1">Block/unblock credentials, promote security roles, and view histories</p>
+                <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">Client Ledger</h2>
+                <p className="text-slate-500 text-xs mt-1">Block/unblock credentials, promote security roles, and view histories</p>
               </div>
             </div>
 
             {/* Filter search */}
-            <div className="bg-[#142F52]/30 border border-white/[0.06] p-6 rounded-2xl">
+            <div className="bg-white border border-slate-200 shadow-sm p-6 rounded-2xl">
               <div className="relative">
                 <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400"><Search className="w-4 h-4" /></span>
                 <input
@@ -1076,9 +1076,9 @@ const OwnerDashboardPage = () => {
             </div>
 
             {/* Customers table */}
-            <div className="bg-[#142F52]/30 border border-white/[0.06] rounded-2xl overflow-x-auto">
+            <div className="bg-white border border-slate-200 shadow-sm rounded-2xl overflow-x-auto">
               <table className="w-full text-left text-xs divide-y divide-white/[0.06]">
-                <thead className="bg-[#0F2745]/60 text-slate-300 font-bold uppercase tracking-wider text-[10px]">
+                <thead className="bg-slate-50 text-slate-700 font-bold uppercase tracking-wider text-[10px]">
                   <tr>
                     <th className="p-4">User Details</th>
                     <th className="p-4">Role</th>
@@ -1098,7 +1098,7 @@ const OwnerDashboardPage = () => {
                         <select
                           value={u.role}
                           onChange={(e) => handlePromoteUser(u.id, e.target.value)}
-                          className="bg-[#0F2745] border border-white/10 rounded-lg text-xs font-bold text-slate-200 px-2.5 py-1"
+                          className="bg-white border border-slate-200 rounded-lg text-xs font-bold text-slate-200 px-2.5 py-1"
                         >
                           <option value="USER">Customer</option>
                           <option value="OWNER">Owner</option>
@@ -1115,7 +1115,7 @@ const OwnerDashboardPage = () => {
                       </td>
                       <td className="p-4 text-center font-bold">
                         {u.isSuperOwner ? (
-                          <span className="text-[#D4AF37] font-extrabold">SUPER</span>
+                          <span className="text-sky-700 font-extrabold">SUPER</span>
                         ) : (
                           <span className="text-slate-500">–</span>
                         )}
@@ -1147,17 +1147,17 @@ const OwnerDashboardPage = () => {
           <div className="space-y-8 print:hidden">
             <div className="flex justify-between items-center gap-4 flex-wrap">
               <div>
-                <h2 className="text-3xl font-extrabold text-white tracking-tight">Technician Board</h2>
-                <p className="text-[#C8D3E0] text-xs mt-1">Audit field engineer profiles and update availability</p>
+                <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">Technician Board</h2>
+                <p className="text-slate-500 text-xs mt-1">Audit field engineer profiles and update availability</p>
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {engineers.map(eng => (
-                <div key={eng.id} className="bg-[#142F52]/30 border border-white/[0.06] p-6 rounded-2xl space-y-4">
+                <div key={eng.id} className="bg-white border border-slate-200 shadow-sm p-6 rounded-2xl space-y-4">
                   <div className="flex justify-between items-start">
                     <div>
-                      <h3 className="text-white font-extrabold text-base leading-tight">{eng.name}</h3>
+                      <h3 className="text-slate-900 font-extrabold text-base leading-tight">{eng.name}</h3>
                       <p className="text-[10px] text-slate-400 uppercase font-bold mt-1">Specialization: {eng.specialization || 'ICU Systems'}</p>
                     </div>
                     <span className={`text-[9px] px-2 py-0.5 rounded font-black uppercase tracking-wider ${eng.available ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-slate-500/10 text-slate-400 border border-slate-500/20'}`}>
@@ -1165,7 +1165,7 @@ const OwnerDashboardPage = () => {
                     </span>
                   </div>
 
-                  <div className="border-t border-white/[0.04] pt-3 text-xs text-[#C8D3E0] space-y-1">
+                  <div className="border-t border-slate-100 pt-3 text-xs text-slate-500 space-y-1">
                     <p>Phone: {eng.phone || 'N/A'}</p>
                     <p>Open tickets: {eng.openJobsCount || 0} jobs</p>
                     <p>Performance rating: ★★★★☆ ({eng.rating || '4.5'}/5.0)</p>
@@ -1181,26 +1181,26 @@ const OwnerDashboardPage = () => {
           <div className="space-y-8 print:hidden">
             <div className="flex justify-between items-center gap-4 flex-wrap">
               <div>
-                <h2 className="text-3xl font-extrabold text-white tracking-tight">Service Ticket Pipeline</h2>
-                <p className="text-[#C8D3E0] text-xs mt-1">Approve service requests, dispatch engineers, and monitor visits</p>
+                <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">Service Ticket Pipeline</h2>
+                <p className="text-slate-500 text-xs mt-1">Approve service requests, dispatch engineers, and monitor visits</p>
               </div>
             </div>
 
             <div className="space-y-4">
               {serviceRequests.map(req => (
-                <div key={req.id} className="bg-[#142F52]/30 border border-white/[0.06] p-6 rounded-2xl space-y-4">
+                <div key={req.id} className="bg-white border border-slate-200 shadow-sm p-6 rounded-2xl space-y-4">
                   <div className="flex justify-between items-start gap-4 flex-wrap">
                     <div>
-                      <span className="text-[#1D9BF0] font-black uppercase text-[10px]">TICKET #{req.id}</span>
-                      <h3 className="text-white font-extrabold text-base leading-tight">{req.clinicHospitalName}</h3>
+                      <span className="text-sky-600 font-black uppercase text-[10px]">TICKET #{req.id}</span>
+                      <h3 className="text-slate-900 font-extrabold text-base leading-tight">{req.clinicHospitalName}</h3>
                       <p className="text-xs text-slate-300 mt-1">Equipment: {req.equipmentName} ({req.equipmentBrand} - {req.equipmentModel})</p>
                     </div>
-                    <span className="text-[9px] px-2 py-0.5 rounded font-black uppercase tracking-wider bg-white/[0.04] text-[#D4AF37] border border-white/5">
+                    <span className="text-[9px] px-2 py-0.5 rounded font-black uppercase tracking-wider bg-white/[0.04] text-sky-700 border border-slate-100">
                       {req.status}
                     </span>
                   </div>
 
-                  <div className="border-t border-white/[0.04] pt-3 text-xs text-[#C8D3E0] flex justify-between items-center gap-4 flex-wrap">
+                  <div className="border-t border-slate-100 pt-3 text-xs text-slate-500 flex justify-between items-center gap-4 flex-wrap">
                     <div>
                       <p>S/N: {req.serialNumber}</p>
                       <p>Issue description: {req.description}</p>
@@ -1222,12 +1222,12 @@ const OwnerDashboardPage = () => {
         {activeTab === 'settings' && (
           <form onSubmit={handleSaveCMS} className="space-y-8 print:hidden">
             <div>
-              <h2 className="text-3xl font-extrabold text-white tracking-tight">Website CMS Dashboard</h2>
-              <p className="text-[#C8D3E0] text-xs mt-1">Configure homepage settings, parameters, and policies without editing code</p>
+              <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">Website CMS Dashboard</h2>
+              <p className="text-slate-500 text-xs mt-1">Configure homepage settings, parameters, and policies without editing code</p>
             </div>
 
-            <div className="bg-[#142F52]/30 border border-white/[0.06] p-6 rounded-2xl space-y-6">
-              <h3 className="text-white font-extrabold text-sm uppercase tracking-wide border-b border-white/[0.06] pb-2">Hero Section Settings</h3>
+            <div className="bg-white border border-slate-200 shadow-sm p-6 rounded-2xl space-y-6">
+              <h3 className="text-slate-900 font-extrabold text-sm uppercase tracking-wide border-b border-slate-200 pb-2">Hero Section Settings</h3>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-1">
@@ -1253,8 +1253,8 @@ const OwnerDashboardPage = () => {
               </div>
             </div>
 
-            <div className="bg-[#142F52]/30 border border-white/[0.06] p-6 rounded-2xl space-y-6">
-              <h3 className="text-white font-extrabold text-sm uppercase tracking-wide border-b border-white/[0.06] pb-2">Checkout Variables</h3>
+            <div className="bg-white border border-slate-200 shadow-sm p-6 rounded-2xl space-y-6">
+              <h3 className="text-slate-900 font-extrabold text-sm uppercase tracking-wide border-b border-slate-200 pb-2">Checkout Variables</h3>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-1">
@@ -1280,8 +1280,8 @@ const OwnerDashboardPage = () => {
               </div>
             </div>
 
-            <div className="bg-[#142F52]/30 border border-white/[0.06] p-6 rounded-2xl space-y-6">
-              <h3 className="text-white font-extrabold text-sm uppercase tracking-wide border-b border-white/[0.06] pb-2">Contact & Policies CMS</h3>
+            <div className="bg-white border border-slate-200 shadow-sm p-6 rounded-2xl space-y-6">
+              <h3 className="text-slate-900 font-extrabold text-sm uppercase tracking-wide border-b border-slate-200 pb-2">Contact & Policies CMS</h3>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-1">
@@ -1326,13 +1326,13 @@ const OwnerDashboardPage = () => {
         {activeTab === 'audit-logs' && (
           <div className="space-y-8 print:hidden">
             <div>
-              <h2 className="text-3xl font-extrabold text-white tracking-tight">Audit Trail</h2>
-              <p className="text-[#C8D3E0] text-xs mt-1">Verifiable ledger records of every admin activity (non-deletable)</p>
+              <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">Audit Trail</h2>
+              <p className="text-slate-500 text-xs mt-1">Verifiable ledger records of every admin activity (non-deletable)</p>
             </div>
 
-            <div className="bg-[#142F52]/30 border border-white/[0.06] rounded-2xl overflow-x-auto">
+            <div className="bg-white border border-slate-200 shadow-sm rounded-2xl overflow-x-auto">
               <table className="w-full text-left text-xs divide-y divide-white/[0.06]">
-                <thead className="bg-[#0F2745]/60 text-slate-300 font-bold uppercase tracking-wider text-[10px]">
+                <thead className="bg-slate-50 text-slate-700 font-bold uppercase tracking-wider text-[10px]">
                   <tr>
                     <th className="p-4">User</th>
                     <th className="p-4">Action</th>
@@ -1343,8 +1343,8 @@ const OwnerDashboardPage = () => {
                 <tbody className="divide-y divide-white/[0.04] font-mono text-[11px]">
                   {auditLogs.map(log => (
                     <tr key={log.id} className="hover:bg-white/[0.01]">
-                      <td className="p-4 text-white font-bold">{log.performedBy}</td>
-                      <td className="p-4 text-[#D4AF37] font-bold">{log.actionName}</td>
+                      <td className="p-4 text-slate-900 font-bold">{log.performedBy}</td>
+                      <td className="p-4 text-sky-700 font-bold">{log.actionName}</td>
                       <td className="p-4 text-slate-300">{log.details || '–'}</td>
                       <td className="p-4 text-slate-400">{new Date(log.timestamp).toLocaleString('en-IN')}</td>
                     </tr>
@@ -1360,8 +1360,8 @@ const OwnerDashboardPage = () => {
           <div className="space-y-8 print:hidden">
             <div className="flex justify-between items-center gap-4 flex-wrap">
               <div>
-                <h2 className="text-3xl font-extrabold text-white tracking-tight">Analytics & Reports</h2>
-                <p className="text-[#C8D3E0] text-xs mt-1">Export transaction registries or audit stock sheets</p>
+                <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">Analytics & Reports</h2>
+                <p className="text-slate-500 text-xs mt-1">Export transaction registries or audit stock sheets</p>
               </div>
             </div>
 
@@ -1371,9 +1371,9 @@ const OwnerDashboardPage = () => {
                 { name: 'Low Stock Telemetry', desc: 'Identifies inventory lines below critical threshold (stock <= 10).' },
                 { name: 'Field Engineer Report', desc: 'Completed service tickets and average ratings count per technician.' }
               ].map((rep, idx) => (
-                <div key={idx} className="bg-[#142F52]/30 border border-white/[0.06] p-6 rounded-2xl space-y-4">
-                  <h3 className="text-white font-extrabold text-sm uppercase tracking-wider">{rep.name}</h3>
-                  <p className="text-[#C8D3E0] text-xs leading-relaxed">{rep.desc}</p>
+                <div key={idx} className="bg-white border border-slate-200 shadow-sm p-6 rounded-2xl space-y-4">
+                  <h3 className="text-slate-900 font-extrabold text-sm uppercase tracking-wider">{rep.name}</h3>
+                  <p className="text-slate-500 text-xs leading-relaxed">{rep.desc}</p>
                   <div className="flex gap-2">
                     <button onClick={() => alert('PDF export generated in background!')} className="btn-primary py-1.5 px-3 text-[10px] uppercase font-bold flex-grow flex items-center justify-center gap-1">
                       <FileDown className="w-3.5 h-3.5" /> PDF
@@ -1392,15 +1392,15 @@ const OwnerDashboardPage = () => {
         {activeTab === 'notifications' && (
           <div className="space-y-8 print:hidden">
             <div>
-              <h2 className="text-3xl font-extrabold text-white tracking-tight">Alert Notification Center</h2>
-              <p className="text-[#C8D3E0] text-xs mt-1">Broadcast SMS, email or WhatsApp templates to users</p>
+              <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">Alert Notification Center</h2>
+              <p className="text-slate-500 text-xs mt-1">Broadcast SMS, email or WhatsApp templates to users</p>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
               
               {/* Form */}
-              <form onSubmit={handleSendNotification} className="lg:col-span-2 bg-[#142F52]/30 border border-white/[0.06] p-6 rounded-2xl space-y-4">
-                <h3 className="text-white font-extrabold text-sm uppercase tracking-wide border-b border-white/[0.06] pb-2">Broadcast Alert Panel</h3>
+              <form onSubmit={handleSendNotification} className="lg:col-span-2 bg-white border border-slate-200 shadow-sm p-6 rounded-2xl space-y-4">
+                <h3 className="text-slate-900 font-extrabold text-sm uppercase tracking-wide border-b border-slate-200 pb-2">Broadcast Alert Panel</h3>
                 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-1">
@@ -1459,13 +1459,13 @@ const OwnerDashboardPage = () => {
               </form>
 
               {/* Logs */}
-              <div className="bg-[#142F52]/30 border border-white/[0.06] p-6 rounded-2xl space-y-4">
-                <h3 className="text-white font-extrabold text-sm uppercase tracking-wide border-b border-white/[0.06] pb-2">Recent Broadcasts</h3>
+              <div className="bg-white border border-slate-200 shadow-sm p-6 rounded-2xl space-y-4">
+                <h3 className="text-slate-900 font-extrabold text-sm uppercase tracking-wide border-b border-slate-200 pb-2">Recent Broadcasts</h3>
                 <div className="space-y-3 max-h-72 overflow-y-auto text-xs">
                   {notificationLogs.map(log => (
-                    <div key={log.id} className="border-b border-white/[0.04] pb-2 last:border-0">
+                    <div key={log.id} className="border-b border-slate-100 pb-2 last:border-0">
                       <div className="flex justify-between font-bold">
-                        <span className="text-[#D4AF37] uppercase text-[9px]">{log.type}</span>
+                        <span className="text-sky-700 uppercase text-[9px]">{log.type}</span>
                         <span className="text-slate-500 text-[9px]">{log.sentAt}</span>
                       </div>
                       <p className="font-extrabold text-white mt-1">{log.title}</p>
@@ -1481,23 +1481,23 @@ const OwnerDashboardPage = () => {
 
         {/* Modal: Add/Edit Product */}
         {showProductModal && (
-          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 print:hidden">
-            <div className="bg-[#0F2745] border border-white/10 rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl p-6 sm:p-8 space-y-6">
+          <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4 z-50 print:hidden">
+            <div className="bg-white border border-slate-200 rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl p-6 sm:p-8 space-y-6">
               
-              <div className="flex justify-between items-center border-b border-white/10 pb-4">
+              <div className="flex justify-between items-center border-b border-slate-200 pb-4">
                 <h3 className="text-xl font-extrabold text-white">
                   {editingProduct ? 'Edit Catalog Product' : 'Add New Product'}
                 </h3>
-                <button onClick={() => setShowProductModal(false)} className="p-2 hover:bg-white/[0.04] rounded-lg transition-colors text-slate-400 hover:text-white">
+                <button onClick={() => setShowProductModal(false)} className="p-2 hover:bg-slate-100 rounded-lg transition-colors text-slate-400 hover:text-white">
                   <X className="w-5 h-5" />
                 </button>
               </div>
 
-              <form onSubmit={handleSaveProduct} className="space-y-6 text-xs text-[#C8D3E0]">
+              <form onSubmit={handleSaveProduct} className="space-y-6 text-xs text-slate-500">
                 
                 {/* Section 1: Basic Specifications */}
                 <div className="space-y-4">
-                  <h4 className="text-white font-extrabold uppercase tracking-wider text-[10px] border-b border-white/5 pb-1">1. Product Identification</h4>
+                  <h4 className="text-slate-900 font-extrabold uppercase tracking-wider text-[10px] border-b border-slate-100 pb-1">1. Product Identification</h4>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="space-y-1">
                       <label className="text-slate-400 font-bold uppercase text-[9px]">Product Name</label>
@@ -1519,7 +1519,7 @@ const OwnerDashboardPage = () => {
 
                 {/* Section 2: Codes, Logistics, Warranty */}
                 <div className="space-y-4">
-                  <h4 className="text-white font-extrabold uppercase tracking-wider text-[10px] border-b border-white/5 pb-1">2. Logistics & Compliance Code</h4>
+                  <h4 className="text-slate-900 font-extrabold uppercase tracking-wider text-[10px] border-b border-slate-100 pb-1">2. Logistics & Compliance Code</h4>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <div className="space-y-1">
                       <label className="text-slate-400 font-bold uppercase text-[9px]">SKU Ref</label>
@@ -1542,7 +1542,7 @@ const OwnerDashboardPage = () => {
 
                 {/* Section 3: Branding & Manufacturer details */}
                 <div className="space-y-4">
-                  <h4 className="text-white font-extrabold uppercase tracking-wider text-[10px] border-b border-white/5 pb-1">3. Manufacture & Branding</h4>
+                  <h4 className="text-slate-900 font-extrabold uppercase tracking-wider text-[10px] border-b border-slate-100 pb-1">3. Manufacture & Branding</h4>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <div className="space-y-1">
                       <label className="text-slate-400 font-bold uppercase text-[9px]">Brand Name</label>
@@ -1565,7 +1565,7 @@ const OwnerDashboardPage = () => {
 
                 {/* Section 4: Media Assets & Descriptions */}
                 <div className="space-y-4">
-                  <h4 className="text-white font-extrabold uppercase tracking-wider text-[10px] border-b border-white/5 pb-1">4. Marketing & Brochure URLs</h4>
+                  <h4 className="text-slate-900 font-extrabold uppercase tracking-wider text-[10px] border-b border-slate-100 pb-1">4. Marketing & Brochure URLs</h4>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="space-y-1">
                       <label className="text-slate-400 font-bold uppercase text-[9px]">Main Image URL</label>
@@ -1622,16 +1622,16 @@ const OwnerDashboardPage = () => {
 
         {/* Modal: Stock Adjust */}
         {showAdjustModal && (
-          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 print:hidden">
-            <div className="bg-[#0F2745] border border-white/10 rounded-2xl max-w-md w-full shadow-2xl p-6 space-y-6">
-              <div className="flex justify-between items-center border-b border-white/10 pb-4">
+          <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4 z-50 print:hidden">
+            <div className="bg-white border border-slate-200 rounded-2xl max-w-md w-full shadow-2xl p-6 space-y-6">
+              <div className="flex justify-between items-center border-b border-slate-200 pb-4">
                 <h3 className="text-base font-extrabold text-white">Adjust Product Stock Levels</h3>
                 <button onClick={() => setShowAdjustModal(false)} className="text-slate-400 hover:text-white"><X className="w-5 h-5" /></button>
               </div>
 
-              <form onSubmit={handleAdjustStock} className="space-y-4 text-xs text-[#C8D3E0]">
+              <form onSubmit={handleAdjustStock} className="space-y-4 text-xs text-slate-500">
                 <p className="font-bold text-white uppercase text-[10px]">Reference: {selectedAdjustProduct?.name}</p>
-                <p>Current Total Stock: <span className="text-[#D4AF37] font-black">{selectedAdjustProduct?.stock}</span> units</p>
+                <p>Current Total Stock: <span className="text-sky-700 font-black">{selectedAdjustProduct?.stock}</span> units</p>
                 
                 <div className="space-y-1">
                   <label className="text-slate-400 font-bold uppercase text-[9px]">Adjustment Category</label>
@@ -1695,7 +1695,7 @@ const OwnerDashboardPage = () => {
                   <p className="text-[10px] text-slate-500 uppercase font-bold tracking-wider">Hospital Machinery & Calibration Services</p>
                 </div>
                 <div className="text-right">
-                  <h2 className="text-md font-extrabold uppercase text-[#D4AF37]">Tax Invoice</h2>
+                  <h2 className="text-md font-extrabold uppercase text-sky-700">Tax Invoice</h2>
                   <p className="text-[10px] text-slate-500 font-mono">Invoice Reference: ME-{activePrintOrder.id}</p>
                 </div>
               </div>

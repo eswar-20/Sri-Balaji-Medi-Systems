@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { authAPI, handleApiError } from '../services/api';
+import { Shield, KeyRound, User, Mail } from 'lucide-react';
 
 const LoginPage = () => {
   const [contact, setContact] = useState('');
@@ -86,42 +87,101 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-matte-black flex items-center justify-center px-4">
-      <div className="max-w-md w-full card p-8">
-        <h1 className="text-2xl font-bold text-beige text-center mb-2">Sign in</h1>
-        <p className="text-light-gray text-center mb-6 text-sm">Shop medical equipment or access your owner dashboard</p>
+    <div className="min-h-screen bg-slate-50 flex items-center justify-center px-4 py-12">
+      <div className="max-w-md w-full bg-white p-8 sm:p-10 rounded-3xl border border-slate-200 shadow-xl space-y-6">
+        
+        {/* Brand Header */}
+        <div className="text-center space-y-2">
+          <div className="w-12 h-12 bg-sky-600 rounded-2xl flex items-center justify-center text-white mx-auto shadow-md">
+            <Shield className="w-6 h-6" />
+          </div>
+          <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">Sri Balaji Portal</h1>
+          <p className="text-slate-500 text-sm">Secure sign in for clients, technicians, and administrators</p>
+        </div>
 
         {!showOtpInput ? (
-          <form onSubmit={handleSendOtp} className="space-y-4">
+          <form onSubmit={handleSendOtp} className="space-y-4 pt-2">
             <div>
-              <label className="block text-beige mb-2">Email or Phone</label>
-              <input className="input-field w-full" value={contact} onChange={(e) => setContact(e.target.value)} placeholder="email@example.com or 9948073090" />
+              <label className="block text-slate-700 text-xs font-bold uppercase tracking-wider mb-2">Email or Phone</label>
+              <div className="relative">
+                <input 
+                  className="input-field w-full pl-10" 
+                  value={contact} 
+                  onChange={(e) => setContact(e.target.value)} 
+                  placeholder="name@hospital.com or 9948073090" 
+                />
+                <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+              </div>
             </div>
+
             {contact.trim().toLowerCase() === 'sribalajimedisystemsofficial@gmail.com' && (
               <div>
-                <label className="block text-beige mb-2">Password</label>
-                <input type="password" className="input-field w-full text-center" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Enter admin password" />
+                <label className="block text-slate-700 text-xs font-bold uppercase tracking-wider mb-2">Owner Password</label>
+                <div className="relative">
+                  <input 
+                    type="password" 
+                    className="input-field w-full pl-10 text-center" 
+                    value={password} 
+                    onChange={(e) => setPassword(e.target.value)} 
+                    placeholder="Enter owner admin password" 
+                  />
+                  <KeyRound className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+                </div>
               </div>
             )}
-            <button type="submit" disabled={loading} className="btn-primary w-full">{loading ? 'Sending...' : 'Send OTP'}</button>
+
+            <button type="submit" disabled={loading} className="btn-primary w-full py-3 text-sm shadow-md">
+              {loading ? 'Sending OTP...' : 'Send Verification Code'}
+            </button>
           </form>
         ) : (
-          <form onSubmit={handleVerifyOtp} className="space-y-4">
+          <form onSubmit={handleVerifyOtp} className="space-y-4 pt-2">
             <div>
-              <label className="block text-beige mb-2">Your Name</label>
-              <input className="input-field w-full" value={name} onChange={(e) => setName(e.target.value)} placeholder="Full name" />
+              <label className="block text-slate-700 text-xs font-bold uppercase tracking-wider mb-2">Full Name</label>
+              <div className="relative">
+                <input 
+                  className="input-field w-full pl-10" 
+                  value={name} 
+                  onChange={(e) => setName(e.target.value)} 
+                  placeholder="Dr. Rajesh Kumar" 
+                />
+                <User className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+              </div>
             </div>
+
             <div>
-              <label className="block text-beige mb-2">OTP</label>
-              <input className="input-field w-full text-center tracking-widest" value={otp} onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))} placeholder="6-digit OTP" maxLength={6} />
+              <label className="block text-slate-700 text-xs font-bold uppercase tracking-wider mb-2">6-Digit Verification Code</label>
+              <input 
+                className="input-field w-full text-center text-lg font-bold tracking-widest text-slate-900" 
+                value={otp} 
+                onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))} 
+                placeholder="• • • • • •" 
+                maxLength={6} 
+              />
             </div>
-            <button type="submit" disabled={loading} className="btn-primary w-full">{loading ? 'Verifying...' : 'Verify & Login'}</button>
-            <button type="button" onClick={() => setShowOtpInput(false)} className="btn-secondary w-full">Change contact</button>
+
+            <button type="submit" disabled={loading} className="btn-primary w-full py-3 text-sm shadow-md">
+              {loading ? 'Verifying...' : 'Verify & Enter Dashboard'}
+            </button>
+            
+            <button 
+              type="button" 
+              onClick={() => setShowOtpInput(false)} 
+              className="btn-secondary w-full py-2.5 text-xs"
+            >
+              Change Contact Details
+            </button>
           </form>
         )}
 
         {message && (
-          <p className={`mt-4 text-sm text-center ${messageType === 'error' ? 'text-red-400' : 'text-green-400'}`}>{message}</p>
+          <div className={`p-3.5 rounded-xl text-xs font-medium text-center border ${
+            messageType === 'error' 
+              ? 'bg-rose-50 text-rose-700 border-rose-200' 
+              : 'bg-emerald-50 text-emerald-700 border-emerald-200'
+          }`}>
+            {message}
+          </div>
         )}
       </div>
     </div>
@@ -129,3 +189,4 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
+

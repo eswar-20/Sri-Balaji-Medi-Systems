@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { customerServiceAPI, orderAPI } from '../services/api';
 import Loader from '../components/Loader';
+import { AlertCircle, ArrowLeft } from 'lucide-react';
 
 const SERVICE_TYPES = [
   { value: 'INSTALLATION', label: 'Equipment Installation' },
@@ -55,17 +56,20 @@ const RequestServicePage = () => {
     orderAPI.getMyOrders()
       .then((resp) => {
         const products = [];
-        resp.data.forEach(order => {
-          if (order.items) {
-            order.items.forEach(item => {
-              products.push({
-                id: item.productId,
-                name: item.productName || 'Equipment',
-                orderDate: order.orderDate || ''
+        if (Array.isArray(resp.data)) {
+          resp.data.forEach(order => {
+            if (order.items || order.orderItems) {
+              const list = order.items || order.orderItems;
+              list.forEach(item => {
+                products.push({
+                  id: item.productId || item.id,
+                  name: item.productName || item.name || 'Equipment',
+                  orderDate: order.orderDate || order.createdAt || ''
+                });
               });
-            });
-          }
-        });
+            }
+          });
+        }
         setPurchasedProducts(products);
       })
       .catch(() => {})
@@ -106,8 +110,7 @@ const RequestServicePage = () => {
     setError('');
 
     try {
-      // Ensure date includes time mapping for LocalDateTime
-      const scheduledDateTime = formData.scheduledDate + 'T10:00:00';
+      const scheduledDateTime = formData.scheduledDate ? formData.scheduledDate + 'T10:00:00' : null;
       const payload = {
         ...formData,
         productId: formData.productId ? Number(formData.productId) : null,
@@ -117,36 +120,41 @@ const RequestServicePage = () => {
       };
 
       await customerServiceAPI.createRequest(payload);
-      alert('Service request created successfully!');
       navigate('/services/my-requests');
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to submit service request. Please try again.');
+      setError(err.response?.data?.message || 'Failed to submit service request. Please check required fields.');
     } finally {
       setSubmitting(false);
     }
   };
 
-  if (loading) return <Loader size="large" text="Loading equipment profile..." />;
+  if (loading) return <Loader size="large" text="Loading equipment records..." />;
 
   return (
-    <div className="min-h-screen bg-matte-black py-8">
-      <div className="max-w-3xl mx-auto px-4">
+    <div className="min-h-screen bg-slate-50 py-10">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-beige">Book a Service Request</h1>
-          <button onClick={() => navigate('/services/my-requests')} className="btn-secondary">My Requests</button>
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Book Bio-Engineer Visit</h1>
+            <p className="text-slate-500 text-sm mt-1">Schedule certified hospital equipment service, repair, or calibration</p>
+          </div>
+          <button onClick={() => navigate('/services/my-requests')} className="btn-secondary text-xs py-2 px-4 font-bold flex items-center gap-1.5">
+            <ArrowLeft className="w-3.5 h-3.5" /> My Requests
+          </button>
         </div>
 
         {error && (
-          <div className="bg-red-950/30 border border-red-900/50 text-red-400 p-4 rounded mb-6 text-sm">
-            {error}
+          <div className="bg-red-50 border border-red-200 text-red-700 p-4 rounded-xl mb-6 text-xs flex items-center gap-2">
+            <AlertCircle className="w-4 h-4 flex-shrink-0" />
+            <span>{error}</span>
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="card p-8 space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <form onSubmit={handleSubmit} className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8 space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div>
-              <label className="label">Select Purchased Equipment (Optional)</label>
-              <select onChange={handleProductSelect} className="input text-beige bg-charcoal">
+              <label className="block text-slate-700 font-semibold text-xs mb-1.5">Select Purchased Equipment (Optional)</label>
+              <select onChange={handleProductSelect} className="input-field w-full text-xs">
                 <option value="">-- Or Write Details Manually --</option>
                 {purchasedProducts.map((p, idx) => (
                   <option key={idx} value={p.id}>{p.name} (Order: {p.orderDate ? p.orderDate.split('T')[0] : ''})</option>
@@ -155,8 +163,8 @@ const RequestServicePage = () => {
             </div>
 
             <div>
-              <label className="label">Service Type</label>
-              <select name="serviceType" value={formData.serviceType} onChange={handleInputChange} className="input text-beige bg-charcoal" required>
+              <label className="block text-slate-700 font-semibold text-xs mb-1.5">Service Type *</label>
+              <select name="serviceType" value={formData.serviceType} onChange={handleInputChange} className="input-field w-full text-xs" required>
                 {SERVICE_TYPES.map(st => (
                   <option key={st.value} value={st.value}>{st.label}</option>
                 ))}
@@ -164,55 +172,55 @@ const RequestServicePage = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             <div>
-              <label className="label">Equipment Name</label>
-              <input type="text" name="equipmentName" value={formData.equipmentName} onChange={handleInputChange} className="input" placeholder="e.g. ECG Machine" required />
+              <label className="block text-slate-700 font-semibold text-xs mb-1.5">Equipment Name *</label>
+              <input type="text" name="equipmentName" value={formData.equipmentName} onChange={handleInputChange} className="input-field w-full text-xs" placeholder="e.g. ECG Machine" required />
             </div>
             <div>
-              <label className="label">Equipment Brand</label>
-              <input type="text" name="equipmentBrand" value={formData.equipmentBrand} onChange={handleInputChange} className="input" placeholder="e.g. GE Healthcare" required />
+              <label className="block text-slate-700 font-semibold text-xs mb-1.5">Equipment Brand *</label>
+              <input type="text" name="equipmentBrand" value={formData.equipmentBrand} onChange={handleInputChange} className="input-field w-full text-xs" placeholder="e.g. GE Healthcare" required />
             </div>
             <div>
-              <label className="label">Equipment Model</label>
-              <input type="text" name="equipmentModel" value={formData.equipmentModel} onChange={handleInputChange} className="input" placeholder="e.g. MAC 2000" required />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div>
-              <label className="label">Serial Number</label>
-              <input type="text" name="serialNumber" value={formData.serialNumber} onChange={handleInputChange} className="input" placeholder="e.g. SN-998822" required />
-            </div>
-            <div>
-              <label className="label">Purchase Date (Optional)</label>
-              <input type="date" name="purchaseDate" value={formData.purchaseDate} onChange={handleInputChange} className="input" />
-            </div>
-            <div>
-              <label className="label">Warranty Expiry (Optional)</label>
-              <input type="date" name="warrantyExpiry" value={formData.warrantyExpiry} onChange={handleInputChange} className="input" />
+              <label className="block text-slate-700 font-semibold text-xs mb-1.5">Model Number *</label>
+              <input type="text" name="equipmentModel" value={formData.equipmentModel} onChange={handleInputChange} className="input-field w-full text-xs" placeholder="e.g. MAC 2000" required />
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             <div>
-              <label className="label">Clinic / Hospital Name</label>
-              <input type="text" name="clinicHospitalName" value={formData.clinicHospitalName} onChange={handleInputChange} className="input" placeholder="e.g. Care Diagnostics" required />
+              <label className="block text-slate-700 font-semibold text-xs mb-1.5">Serial Number *</label>
+              <input type="text" name="serialNumber" value={formData.serialNumber} onChange={handleInputChange} className="input-field w-full text-xs" placeholder="e.g. SN-998822" required />
             </div>
             <div>
-              <label className="label">Contact Person Name</label>
-              <input type="text" name="contactPerson" value={formData.contactPerson} onChange={handleInputChange} className="input" placeholder="e.g. Dr. Satish Prasad" required />
+              <label className="block text-slate-700 font-semibold text-xs mb-1.5">Purchase Date (Optional)</label>
+              <input type="date" name="purchaseDate" value={formData.purchaseDate} onChange={handleInputChange} className="input-field w-full text-xs" />
+            </div>
+            <div>
+              <label className="block text-slate-700 font-semibold text-xs mb-1.5">Warranty Expiry (Optional)</label>
+              <input type="date" name="warrantyExpiry" value={formData.warrantyExpiry} onChange={handleInputChange} className="input-field w-full text-xs" />
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div>
-              <label className="label">Contact Phone</label>
-              <input type="tel" name="phone" value={formData.phone} onChange={handleInputChange} className="input" placeholder="e.g. 9876543210" required />
+              <label className="block text-slate-700 font-semibold text-xs mb-1.5">Hospital / Clinic Name *</label>
+              <input type="text" name="clinicHospitalName" value={formData.clinicHospitalName} onChange={handleInputChange} className="input-field w-full text-xs" placeholder="e.g. Care Diagnostics" required />
             </div>
             <div>
-              <label className="label">Priority</label>
-              <select name="priority" value={formData.priority} onChange={handleInputChange} className="input text-beige bg-charcoal" required>
+              <label className="block text-slate-700 font-semibold text-xs mb-1.5">Contact Person Name *</label>
+              <input type="text" name="contactPerson" value={formData.contactPerson} onChange={handleInputChange} className="input-field w-full text-xs" placeholder="e.g. Dr. Satish Prasad" required />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div>
+              <label className="block text-slate-700 font-semibold text-xs mb-1.5">Contact Phone *</label>
+              <input type="tel" name="phone" value={formData.phone} onChange={handleInputChange} className="input-field w-full text-xs" placeholder="e.g. 9876543210" required />
+            </div>
+            <div>
+              <label className="block text-slate-700 font-semibold text-xs mb-1.5">Priority *</label>
+              <select name="priority" value={formData.priority} onChange={handleInputChange} className="input-field w-full text-xs" required>
                 {PRIORITIES.map(p => (
                   <option key={p.value} value={p.value}>{p.label}</option>
                 ))}
@@ -220,14 +228,14 @@ const RequestServicePage = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div>
-              <label className="label">Preferred Visit Date</label>
-              <input type="date" name="scheduledDate" value={formData.scheduledDate} onChange={handleInputChange} className="input" required />
+              <label className="block text-slate-700 font-semibold text-xs mb-1.5">Preferred Visit Date *</label>
+              <input type="date" name="scheduledDate" value={formData.scheduledDate} onChange={handleInputChange} className="input-field w-full text-xs" required />
             </div>
             <div>
-              <label className="label">Preferred Time Window</label>
-              <select name="preferredVisitTime" value={formData.preferredVisitTime} onChange={handleInputChange} className="input text-beige bg-charcoal" required>
+              <label className="block text-slate-700 font-semibold text-xs mb-1.5">Preferred Time Window *</label>
+              <select name="preferredVisitTime" value={formData.preferredVisitTime} onChange={handleInputChange} className="input-field w-full text-xs" required>
                 <option value="Morning 9 AM - 12 PM">Morning 9 AM - 12 PM</option>
                 <option value="Afternoon 12 PM - 4 PM">Afternoon 12 PM - 4 PM</option>
                 <option value="Evening 4 PM - 7 PM">Evening 4 PM - 7 PM</option>
@@ -236,31 +244,22 @@ const RequestServicePage = () => {
           </div>
 
           <div>
-            <label className="label">Service Address</label>
-            <textarea name="address" value={formData.address} onChange={handleInputChange} className="input h-20" placeholder="Full shipping / clinic address in Andhra Pradesh" required />
+            <label className="block text-slate-700 font-semibold text-xs mb-1.5">Service Location Address *</label>
+            <textarea name="address" value={formData.address} onChange={handleInputChange} className="input-field w-full text-xs h-20 resize-none" placeholder="Full clinic or lab address in Andhra Pradesh" required />
           </div>
 
           <div>
-            <label className="label">Describe Issue / Request Details</label>
-            <textarea name="description" value={formData.description} onChange={handleInputChange} className="input h-32" placeholder="Explain the symptoms or details of calibration needed" required />
+            <label className="block text-slate-700 font-semibold text-xs mb-1.5">Describe Issue / Request Details *</label>
+            <textarea name="description" value={formData.description} onChange={handleInputChange} className="input-field w-full text-xs h-28 resize-none" placeholder="Explain the symptoms or details of calibration needed..." required />
           </div>
 
-          <div>
-            <label className="label">Attach Image/Photos (Optional - UI Placeholder)</label>
-            <input type="file" className="input cursor-pointer py-2 bg-charcoal border-dashed" disabled />
-            <span className="text-xs text-light-gray">Upload attachments for diagnostic reference. Only jpeg/png accepted.</span>
-          </div>
-
-          <div>
-            <label className="label">Customer Remarks (Optional)</label>
-            <input type="text" name="customerRemarks" value={formData.customerRemarks} onChange={handleInputChange} className="input" placeholder="Additional instruction details" />
-          </div>
-
-          <div className="flex gap-4">
-            <button type="submit" className="btn-primary flex-1 py-3" disabled={submitting}>
+          <div className="flex gap-4 pt-4 border-t border-slate-100">
+            <button type="submit" className="btn-primary flex-1 py-3 text-xs font-bold" disabled={submitting}>
               {submitting ? 'Submitting Request...' : 'Book Service Visit'}
             </button>
-            <button type="button" onClick={() => navigate('/services/my-requests')} className="btn-secondary px-6">Cancel</button>
+            <button type="button" onClick={() => navigate('/services/my-requests')} className="btn-secondary px-6 text-xs font-bold">
+              Cancel
+            </button>
           </div>
         </form>
       </div>

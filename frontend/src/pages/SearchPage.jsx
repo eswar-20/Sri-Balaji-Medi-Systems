@@ -5,6 +5,7 @@ import Loader from '../components/Loader';
 import EmptyState from '../components/EmptyState';
 import { productAPI } from '../services/api';
 import { validateProduct } from '../utils/productUtils';
+import { Search } from 'lucide-react';
 
 const SearchPage = () => {
   const [searchParams] = useSearchParams();
@@ -34,17 +35,31 @@ const SearchPage = () => {
     return () => { mounted = false; };
   }, [query]);
 
-  if (loading) return <Loader size="large" text="Searching..." />;
+  if (loading) return <Loader size="large" text="Searching equipment catalog..." />;
 
   return (
-    <div className="min-h-screen bg-matte-black">
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold text-beige mb-2">Search Results</h1>
-        <p className="text-light-gray mb-8">{products.length} results for &quot;{query}&quot;</p>
+    <div className="min-h-screen bg-slate-50 text-slate-900 py-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="mb-8">
+          <div className="flex items-center gap-2 text-sky-700 mb-1">
+            <Search className="w-4 h-4" />
+            <span className="text-xs uppercase font-extrabold tracking-wider">Catalog Search</span>
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+            Search Results {query && <span>for &ldquo;{query}&rdquo;</span>}
+          </h1>
+          <p className="text-slate-500 text-sm mt-1">{products.length} matching medical products found</p>
+        </div>
+
         {products.length === 0 ? (
-          <EmptyState title="No results" description="Try a different search term" />
+          <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-8">
+            <EmptyState 
+              title="No products matched your search" 
+              description={`We couldn't find any medical devices or spare parts matching "${query}". Try searching for categories like "ECG", "X-Ray", "Ultrasound", or "Sensor".`} 
+            />
+          </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {products.map((product) => <ProductCard key={product.id} product={product} />)}
           </div>
         )}
