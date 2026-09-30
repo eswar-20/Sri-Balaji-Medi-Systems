@@ -28,11 +28,18 @@ public class AuthController {
 
     @PostMapping("/send-otp")
     public ResponseEntity<Map<String, String>> sendOtp(@Valid @RequestBody OtpRequest request) {
-        otpService.sendOtp(request.getIdentifier(), request.getPassword());
-        Map<String, String> response = new HashMap<>();
-        response.put("message", "OTP sent successfully");
-        response.put("identifier", request.getIdentifier());
-        return ResponseEntity.ok(response);
+        try {
+            otpService.sendOtp(request.getIdentifier(), request.getPassword());
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "OTP sent successfully");
+            response.put("identifier", request.getIdentifier());
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("message", e.getMessage());
+            errorResponse.put("identifier", request.getIdentifier());
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
     }
 
     @PostMapping("/verify-otp")
@@ -79,10 +86,16 @@ public class AuthController {
 
     @PostMapping("/resend-otp")
     public ResponseEntity<Map<String, String>> resendOtp(@Valid @RequestBody OtpRequest request) {
-        otpService.sendOtp(request.getIdentifier(), request.getPassword());
-        Map<String, String> response = new HashMap<>();
-        response.put("message", "OTP resent successfully");
-        return ResponseEntity.ok(response);
+        try {
+            otpService.sendOtp(request.getIdentifier(), request.getPassword());
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "OTP resent successfully");
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("message", e.getMessage());
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
     }
 
     @GetMapping("/me")
