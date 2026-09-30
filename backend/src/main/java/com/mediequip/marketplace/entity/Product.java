@@ -44,7 +44,7 @@ public class Product {
     @Size(max = 2000, message = "Description cannot exceed 2000 characters")
     private String description;
     
-    @Size(max = 500, message = "Image URL cannot exceed 500 characters")
+    @Column(name = "image_url", columnDefinition = "MEDIUMTEXT")
     private String imageUrl;
 
     @Enumerated(EnumType.STRING)

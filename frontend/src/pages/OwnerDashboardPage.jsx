@@ -28,7 +28,8 @@ import {
   RefreshCw,
   Copy,
   PlusCircle,
-  FileDown
+  FileDown,
+  Image as ImageIcon
 } from 'lucide-react';
 
 const OwnerDashboardPage = () => {
@@ -290,6 +291,20 @@ const OwnerDashboardPage = () => {
       featuresInput: featsStr
     });
     setShowProductModal(true);
+  };
+
+  const handleImageFileSelect = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    if (file.size > 2 * 1024 * 1024) {
+      alert('Image file size is too large (max 2MB). Please select a smaller photo.');
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = (evt) => {
+      setProductForm(prev => ({ ...prev, imageUrl: evt.target.result }));
+    };
+    reader.readAsDataURL(file);
   };
 
   const handleSaveProduct = async (e) => {
@@ -854,55 +869,63 @@ const OwnerDashboardPage = () => {
 
             {/* Products Table */}
             <div className="bg-white border border-slate-200 shadow-sm rounded-2xl overflow-x-auto">
-              <table className="w-full text-left text-xs divide-y divide-white/[0.06]">
+              <table className="w-full text-left text-xs divide-y divide-slate-200">
                 <thead className="bg-slate-50 text-slate-700 font-bold uppercase tracking-wider text-[10px]">
                   <tr>
-                    <th className="p-4">Reference</th>
-                    <th className="p-4">SKU / Code</th>
+                    <th className="p-4">Photo</th>
+                    <th className="p-4">Product Info</th>
+                    <th className="p-4">SKU</th>
                     <th className="p-4">Price</th>
-                    <th className="p-4 text-center">Total Stock</th>
-                    <th className="p-4 text-center">Reserved</th>
+                    <th className="p-4 text-center">Stock</th>
                     <th className="p-4 text-center">Available</th>
                     <th className="p-4 text-center">Status</th>
                     <th className="p-4 text-right">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-white/[0.04]">
+                <tbody className="divide-y divide-slate-100">
                   {filteredProducts.map(p => (
-                    <tr key={p.id} className={p.deleted ? 'opacity-40 bg-red-950/5' : ''}>
+                    <tr key={p.id} className={p.deleted ? 'opacity-40 bg-rose-50/40' : 'hover:bg-slate-50/70 transition'}>
                       <td className="p-4">
-                        <span className="font-extrabold text-white block">{p.name}</span>
-                        <span className="text-[10px] text-slate-400 uppercase font-bold">{p.brand} – {p.category}</span>
+                        <div className="w-12 h-12 rounded-xl bg-slate-100 border border-slate-200 overflow-hidden flex items-center justify-center">
+                          {p.imageUrl ? (
+                            <img src={p.imageUrl} alt={p.name} className="w-full h-full object-contain" />
+                          ) : (
+                            <Package className="w-5 h-5 text-slate-400" />
+                          )}
+                        </div>
                       </td>
-                      <td className="p-4 font-mono font-bold text-slate-300">{p.sku || 'N/A'}</td>
-                      <td className="p-4 font-extrabold text-sky-700">₹{p.price.toLocaleString('en-IN')}</td>
-                      <td className="p-4 text-center font-extrabold text-white">{p.stock}</td>
-                      <td className="p-4 text-center font-bold text-slate-300">{p.reservedStock || 0}</td>
-                      <td className="p-4 text-center font-extrabold text-sky-600">{p.availableStock}</td>
+                      <td className="p-4">
+                        <span className="font-extrabold text-slate-900 block text-sm">{p.name}</span>
+                        <span className="text-[11px] text-slate-500 font-semibold">{p.brand || 'Sri Balaji'} • {p.category}</span>
+                      </td>
+                      <td className="p-4 font-mono font-medium text-slate-600">{p.sku || 'N/A'}</td>
+                      <td className="p-4 font-extrabold text-sky-700 text-sm">₹{p.price?.toLocaleString('en-IN')}</td>
+                      <td className="p-4 text-center font-bold text-slate-800">{p.stock}</td>
+                      <td className="p-4 text-center font-extrabold text-sky-600">{p.availableStock ?? p.stock}</td>
                       <td className="p-4 text-center">
                         {p.deleted ? (
-                          <span className="text-[9px] px-2 py-0.5 rounded border border-red-500/20 bg-red-500/10 text-red-400 font-black uppercase">Deleted</span>
+                          <span className="text-[10px] px-2.5 py-0.5 rounded-full border border-rose-200 bg-rose-50 text-rose-700 font-bold uppercase">Removed</span>
                         ) : p.stock <= 0 ? (
-                          <span className="text-[9px] px-2 py-0.5 rounded border border-amber-500/20 bg-amber-500/10 text-amber-400 font-black uppercase">Out of Stock</span>
+                          <span className="text-[10px] px-2.5 py-0.5 rounded-full border border-amber-200 bg-amber-50 text-amber-700 font-bold uppercase">Out of Stock</span>
                         ) : p.enabled ? (
-                          <span className="text-[9px] px-2 py-0.5 rounded border border-emerald-500/20 bg-emerald-500/10 text-emerald-400 font-black uppercase">Active</span>
+                          <span className="text-[10px] px-2.5 py-0.5 rounded-full border border-emerald-200 bg-emerald-50 text-emerald-700 font-bold uppercase">Active</span>
                         ) : (
-                          <span className="text-[9px] px-2 py-0.5 rounded border border-slate-500/20 bg-slate-500/10 text-slate-400 font-black uppercase">Disabled</span>
+                          <span className="text-[10px] px-2.5 py-0.5 rounded-full border border-slate-200 bg-slate-100 text-slate-600 font-bold uppercase">Disabled</span>
                         )}
                       </td>
                       <td className="p-4 text-right space-x-2">
                         {p.deleted ? (
-                          <button onClick={() => handleRestoreProduct(p.id)} className="text-emerald-400 hover:text-emerald-300 font-bold uppercase tracking-wider text-[10px]">Restore</button>
+                          <button onClick={() => handleRestoreProduct(p.id)} className="btn-secondary py-1 px-2.5 text-[10px] font-bold text-emerald-700 hover:bg-emerald-50 border-emerald-200">Restore</button>
                         ) : (
-                          <>
-                            <button onClick={() => openEditProductModal(p)} title="Edit" className="text-slate-600 hover:text-slate-900"><Edit className="w-4 h-4 inline" /></button>
-                            <button onClick={() => handleDuplicateProduct(p.id)} title="Clone" className="text-sky-600 hover:text-sky-600/80"><Copy className="w-4 h-4 inline" /></button>
-                            <button onClick={() => openAdjustStockModal(p)} title="Stock Adjust" className="text-sky-700 hover:text-sky-700/80"><Printer className="w-4 h-4 inline" /></button>
-                            <button onClick={() => handleToggleProductEnabled(p)} className="text-xs uppercase font-bold text-slate-400 hover:text-white">
+                          <div className="flex items-center justify-end gap-1.5">
+                            <button onClick={() => openEditProductModal(p)} title="Edit Product" className="p-1.5 hover:bg-slate-100 rounded-lg text-slate-600 hover:text-slate-900"><Edit className="w-4 h-4" /></button>
+                            <button onClick={() => openAdjustStockModal(p)} title="Adjust Stock" className="p-1.5 hover:bg-slate-100 rounded-lg text-sky-700 hover:text-sky-800"><Package className="w-4 h-4" /></button>
+                            <button onClick={() => handleToggleProductEnabled(p)} title={p.enabled ? 'Disable Product' : 'Enable Product'} className="text-[10px] uppercase font-bold text-slate-500 hover:text-slate-800 px-1.5 py-1 border border-slate-200 rounded">
                               {p.enabled ? 'Disable' : 'Enable'}
                             </button>
-                            <button onClick={() => handleDeleteProduct(p.id)} className="text-red-400 hover:text-red-300"><Trash2 className="w-4 h-4 inline" /></button>
-                          </>
+                            <button onClick={() => handleDuplicateProduct(p.id)} title="Clone Product" className="p-1.5 hover:bg-sky-50 rounded-lg text-sky-600"><Copy className="w-4 h-4" /></button>
+                            <button onClick={() => handleDeleteProduct(p.id)} title="Remove Product from Catalog" className="p-1.5 hover:bg-rose-50 rounded-lg text-rose-600 hover:text-rose-700 font-bold"><Trash2 className="w-4 h-4" /></button>
+                          </div>
                         )}
                       </td>
                     </tr>
@@ -1563,21 +1586,77 @@ const OwnerDashboardPage = () => {
                   </div>
                 </div>
 
-                {/* Section 4: Media Assets & Descriptions */}
+                {/* Section 4: Media Assets & Photos */}
                 <div className="space-y-4">
-                  <h4 className="text-slate-900 font-extrabold uppercase tracking-wider text-[10px] border-b border-slate-100 pb-1">4. Marketing & Brochure URLs</h4>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="space-y-1">
-                      <label className="text-slate-400 font-bold uppercase text-[9px]">Main Image URL</label>
-                      <input type="text" value={productForm.imageUrl} onChange={(e) => setProductForm({ ...productForm, imageUrl: e.target.value })} className="input-field w-full" required />
+                  <h4 className="text-slate-900 font-extrabold uppercase tracking-wider text-[10px] border-b border-slate-100 pb-1 flex items-center justify-between">
+                    <span>4. Product Photos & Media</span>
+                    <span className="text-[10px] text-sky-600 font-semibold lowercase">Upload image file or enter URL</span>
+                  </h4>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+                    {/* Upload & Preview */}
+                    <div className="space-y-2 p-3.5 bg-slate-50 border border-slate-200 rounded-xl">
+                      <label className="text-slate-700 font-bold uppercase text-[10px] block">Upload Photo File</label>
+                      <div className="flex items-center gap-3">
+                        <label className="cursor-pointer btn-secondary py-2 px-3 text-xs font-semibold flex items-center gap-2">
+                          <Upload className="w-4 h-4 text-sky-600" /> Choose Image File
+                          <input type="file" accept="image/*" onChange={handleImageFileSelect} className="hidden" />
+                        </label>
+                        {productForm.imageUrl && (
+                          <button
+                            type="button"
+                            onClick={() => setProductForm(prev => ({ ...prev, imageUrl: '' }))}
+                            className="text-xs text-rose-600 hover:text-rose-700 font-medium"
+                          >
+                            Clear Photo
+                          </button>
+                        )}
+                      </div>
+
+                      {productForm.imageUrl ? (
+                        <div className="mt-2 relative w-32 h-32 rounded-xl overflow-hidden border border-slate-200 bg-white shadow-sm flex items-center justify-center">
+                          <img src={productForm.imageUrl} alt="Preview" className="w-full h-full object-contain" />
+                        </div>
+                      ) : (
+                        <div className="mt-2 w-32 h-32 rounded-xl border-2 border-dashed border-slate-300 bg-white flex flex-col items-center justify-center text-slate-400 gap-1">
+                          <ImageIcon className="w-8 h-8 stroke-1" />
+                          <span className="text-[10px]">No photo selected</span>
+                        </div>
+                      )}
                     </div>
-                    <div className="space-y-1">
-                      <label className="text-slate-400 font-bold uppercase text-[9px]">YouTube Demo URL</label>
-                      <input type="text" value={productForm.youtubeUrl} onChange={(e) => setProductForm({ ...productForm, youtubeUrl: e.target.value })} className="input-field w-full" placeholder="e.g. https://youtube.com/watch?..." />
-                    </div>
-                    <div className="space-y-1">
-                      <label className="text-slate-400 font-bold uppercase text-[9px]">PDF Brochure URL</label>
-                      <input type="text" value={productForm.brochureUrl} onChange={(e) => setProductForm({ ...productForm, brochureUrl: e.target.value })} className="input-field w-full" />
+
+                    {/* URL Inputs */}
+                    <div className="space-y-3">
+                      <div className="space-y-1">
+                        <label className="text-slate-700 font-bold uppercase text-[9px]">Image URL (or Auto-filled from Upload)</label>
+                        <input 
+                          type="text" 
+                          value={productForm.imageUrl} 
+                          onChange={(e) => setProductForm({ ...productForm, imageUrl: e.target.value })} 
+                          className="input-field w-full" 
+                          placeholder="https://images.unsplash.com/... or data:image/..." 
+                          required 
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-slate-700 font-bold uppercase text-[9px]">YouTube Demo URL (Optional)</label>
+                        <input 
+                          type="text" 
+                          value={productForm.youtubeUrl} 
+                          onChange={(e) => setProductForm({ ...productForm, youtubeUrl: e.target.value })} 
+                          className="input-field w-full" 
+                          placeholder="https://youtube.com/watch?..." 
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-slate-700 font-bold uppercase text-[9px]">PDF Brochure URL (Optional)</label>
+                        <input 
+                          type="text" 
+                          value={productForm.brochureUrl} 
+                          onChange={(e) => setProductForm({ ...productForm, brochureUrl: e.target.value })} 
+                          className="input-field w-full" 
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
