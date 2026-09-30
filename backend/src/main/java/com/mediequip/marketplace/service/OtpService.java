@@ -113,7 +113,9 @@ public class OtpService {
                 throw new RuntimeException("Brevo API key is not configured. Please define BREVO_API_KEY environment variable on your server.");
             }
 
-            java.net.http.HttpClient client = java.net.http.HttpClient.newHttpClient();
+            java.net.http.HttpClient client = java.net.http.HttpClient.newBuilder()
+                    .connectTimeout(java.time.Duration.ofSeconds(5))
+                    .build();
             
             String jsonPayload = "{"
                     + "\"sender\":{"
@@ -132,6 +134,7 @@ public class OtpService {
                     .header("api-key", apiKey.trim())
                     .header("Content-Type", "application/json")
                     .header("Accept", "application/json")
+                    .timeout(java.time.Duration.ofSeconds(8))
                     .POST(java.net.http.HttpRequest.BodyPublishers.ofString(jsonPayload))
                     .build();
 
