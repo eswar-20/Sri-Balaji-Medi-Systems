@@ -42,7 +42,7 @@ public class OtpService {
         return String.format("%06d", random.nextInt(1000000));
     }
 
-    @Transactional
+    @Transactional(noRollbackFor = RuntimeException.class)
     public void sendOtp(String identifier, String password) {
         if ("sribalajimedisystemsofficial@gmail.com".equalsIgnoreCase(identifier != null ? identifier.trim() : "")) {
             String adminPasswordEnv = System.getenv("ADMIN_PASSWORD");

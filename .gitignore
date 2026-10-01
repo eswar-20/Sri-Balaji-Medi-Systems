@@ -18,3 +18,5 @@ user_token.txt
 .DS_Store
 .vscode/
 **/.vscode/
+local_mysql_data/
+**/local_mysql_data/
