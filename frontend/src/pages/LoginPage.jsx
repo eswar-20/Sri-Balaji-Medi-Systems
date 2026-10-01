@@ -105,14 +105,10 @@ const LoginPage = () => {
     setSuccessMessage('');
 
     try {
-      // Seamlessly supply default administrative secret if Super Owner email is used
-      const isOwner = cleanEmail.toLowerCase() === 'sribalajimedisystemsofficial@gmail.com';
-      const passwordPayload = isOwner ? 'SBMS@2026' : undefined;
-
-      await authAPI.sendOtp(cleanEmail, passwordPayload);
+      await authAPI.sendOtp(cleanEmail);
       setStep('otp');
-      setResendCooldown(30);
-      setSuccessMessage(`A 6-digit verification code has been sent to ${cleanEmail}.`);
+      setResendCooldown(60);
+      setSuccessMessage(`OTP sent successfully to ${cleanEmail}`);
     } catch (err) {
       setError(sanitizeError(err, 'send'));
     } finally {
@@ -123,10 +119,11 @@ const LoginPage = () => {
   // STEP 2: Verify OTP
   const handleVerifyOtp = async (e) => {
     if (e) e.preventDefault();
+    const cleanEmail = email.trim();
     const cleanOtp = otp.trim();
 
-    if (cleanOtp.length !== 6) {
-      setError('Please enter the complete 6-digit OTP code.');
+    if (!cleanOtp || cleanOtp.length !== 6) {
+      setError('Please enter the complete 6-digit verification code.');
       setSuccessMessage('');
       return;
     }
@@ -136,24 +133,28 @@ const LoginPage = () => {
     setSuccessMessage('');
 
     try {
-      const resp = await authAPI.verifyOtp(email.trim(), cleanOtp, 'Customer');
-      
-      if (resp.data && resp.data.success) {
-        setSuccessMessage('Authentication successful! Directing you now...');
-        login(resp.data.user, resp.data.token);
+      const response = await authAPI.verifyOtp(cleanEmail, cleanOtp);
+      const data = response.data;
 
-        const from = location.state?.from?.pathname;
-        const role = resp.data.user?.role?.name || resp.data.user?.role;
-        
-        setTimeout(() => {
-          if (role === 'OWNER') {
-            navigate('/owner/dashboard');
-          } else {
-            navigate(from || '/');
-          }
-        }, 700);
+      const userRole = data.role ? data.role.toUpperCase() : 'CUSTOMER';
+      const userData = {
+        name: data.name || (cleanEmail === 'sribalajimedisystemsofficial@gmail.com' ? 'Balaji Admin' : cleanEmail.split('@')[0]),
+        email: cleanEmail,
+        role: userRole,
+        token: data.token,
+      };
+
+      login(userData, data.token);
+
+      const redirectFromState = location.state?.from?.pathname;
+      if (redirectFromState) {
+        navigate(redirectFromState);
+      } else if (userRole === 'OWNER') {
+        navigate('/owner/dashboard');
+      } else if (userRole === 'TECHNICIAN') {
+        navigate('/technician/dashboard');
       } else {
-        setError('Incorrect OTP. Please check your email and try again.');
+        navigate('/');
       }
     } catch (err) {
       setError(sanitizeError(err, 'verify'));
@@ -162,20 +163,18 @@ const LoginPage = () => {
     }
   };
 
-  // Resend OTP action
+  // Resend OTP Action
   const handleResendOtp = async () => {
     if (resendCooldown > 0 || resending) return;
+
     setResending(true);
     setError('');
     setSuccessMessage('');
 
     try {
-      const isOwner = email.trim().toLowerCase() === 'sribalajimedisystemsofficial@gmail.com';
-      const passwordPayload = isOwner ? 'SBMS@2026' : undefined;
-
-      await authAPI.sendOtp(email.trim(), passwordPayload);
-      setResendCooldown(45);
-      setSuccessMessage('A fresh verification code has been dispatched to your email.');
+      await authAPI.sendOtp(email.trim());
+      setResendCooldown(60);
+      setSuccessMessage('A fresh verification code has been sent to your email.');
     } catch (err) {
       setError(sanitizeError(err, 'send'));
     } finally {
@@ -183,7 +182,6 @@ const LoginPage = () => {
     }
   };
 
-  // Reset to email entry
   const handleChangeEmail = () => {
     setStep('email');
     setOtp('');
@@ -192,13 +190,13 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex items-center justify-center px-4 py-12 select-none">
+    <div className="min-h-screen bg-[#FCFBF8] flex items-center justify-center px-4 py-12 select-none">
       
       <motion.div
         initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 15, scale: 0.98 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.5, ease: 'easeOut' }}
-        className="max-w-md w-full bg-white p-8 sm:p-10 rounded-3xl border border-slate-200/90 shadow-xl space-y-6"
+        className="max-w-md w-full bg-white p-8 sm:p-10 rounded-3xl border border-[#E5E1DA] shadow-[0_16px_40px_rgba(0,0,0,0.06)] space-y-6"
       >
         
         {/* Brand Header */}
@@ -212,15 +210,15 @@ const LoginPage = () => {
           </div>
           
           <div>
-            <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">
+            <h1 className="text-2xl font-extrabold text-[#252525] tracking-tight">
               Sign In
             </h1>
-            <p className="text-sky-600 text-[11px] font-black tracking-widest uppercase mt-0.5">
+            <p className="text-[#77736E] text-[11px] font-bold tracking-widest uppercase mt-0.5">
               Sri Balaji Medi Systems
             </p>
           </div>
 
-          <p className="text-slate-500 text-xs sm:text-sm">
+          <p className="text-[#77736E] text-xs sm:text-sm">
             {step === 'email'
               ? 'Access hospital equipment, order tracking, and healthcare services.'
               : 'Enter the verification code sent to your email.'}
@@ -231,7 +229,7 @@ const LoginPage = () => {
         {step === 'email' && (
           <form onSubmit={handleSendOtp} className="space-y-4 pt-1">
             <div>
-              <label className="block text-slate-700 text-xs font-bold uppercase tracking-wider mb-2">
+              <label className="block text-[#252525] text-xs font-bold uppercase tracking-wider mb-2">
                 Email Address
               </label>
               <div className="relative">
@@ -244,7 +242,7 @@ const LoginPage = () => {
                   autoFocus
                   required
                 />
-                <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+                <Mail className="w-4 h-4 text-[#77736E] absolute left-3.5 top-3" />
               </div>
             </div>
 
@@ -266,22 +264,22 @@ const LoginPage = () => {
           <form onSubmit={handleVerifyOtp} className="space-y-5 pt-1">
             
             {/* Target Email Banner */}
-            <div className="p-3 bg-sky-50/70 border border-sky-100 rounded-2xl flex items-center justify-between text-xs">
+            <div className="p-3 bg-[#F7F5F0] border border-[#E5E1DA] rounded-2xl flex items-center justify-between text-xs">
               <div className="truncate pr-2">
-                <span className="text-slate-500 block text-[10px] uppercase font-bold tracking-wider">Verifying</span>
-                <span className="font-bold text-slate-900 truncate block">{email}</span>
+                <span className="text-[#77736E] block text-[10px] uppercase font-bold tracking-wider">Verifying</span>
+                <span className="font-bold text-[#252525] truncate block">{email}</span>
               </div>
               <button
                 type="button"
                 onClick={handleChangeEmail}
-                className="text-sky-600 hover:text-sky-700 font-bold text-xs underline shrink-0"
+                className="text-[#252525] hover:text-black font-bold text-xs underline shrink-0"
               >
                 Change
               </button>
             </div>
 
             <div>
-              <label className="block text-slate-700 text-xs font-bold uppercase tracking-wider mb-2">
+              <label className="block text-[#252525] text-xs font-bold uppercase tracking-wider mb-2">
                 Verification Code
               </label>
               <div className="relative">
@@ -289,7 +287,7 @@ const LoginPage = () => {
                   type="text"
                   inputMode="numeric"
                   pattern="[0-9]*"
-                  className="input-field w-full text-center text-2xl font-black tracking-[0.35em] text-slate-900"
+                  className="input-field w-full text-center text-2xl font-black tracking-[0.35em] text-[#252525]"
                   value={otp}
                   onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
                   placeholder="• • • • • •"
@@ -297,7 +295,7 @@ const LoginPage = () => {
                   autoFocus
                   required
                 />
-                <KeyRound className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
+                <KeyRound className="w-4 h-4 text-[#77736E] absolute left-3.5 top-3.5" />
               </div>
             </div>
 
@@ -317,7 +315,7 @@ const LoginPage = () => {
               <button
                 type="button"
                 onClick={handleChangeEmail}
-                className="flex items-center gap-1.5 text-slate-500 hover:text-slate-900 font-semibold"
+                className="flex items-center gap-1.5 text-[#77736E] hover:text-[#252525] font-semibold"
               >
                 <ArrowLeft className="w-3.5 h-3.5" />
                 Change email
@@ -329,8 +327,8 @@ const LoginPage = () => {
                 disabled={resendCooldown > 0 || resending}
                 className={`flex items-center gap-1.5 font-bold ${
                   resendCooldown > 0 || resending
-                    ? 'text-slate-400 cursor-not-allowed'
-                    : 'text-sky-600 hover:text-sky-700'
+                    ? 'text-[#77736E] cursor-not-allowed opacity-60'
+                    : 'text-[#252525] hover:text-black'
                 }`}
               >
                 <RotateCw className={`w-3.5 h-3.5 ${resending ? 'animate-spin' : ''}`} />
@@ -343,15 +341,15 @@ const LoginPage = () => {
 
         {/* Feedback Messages */}
         {error && (
-          <div className="p-3.5 rounded-2xl text-xs font-semibold text-center border bg-rose-50 text-rose-700 border-rose-200 flex items-center justify-center gap-2">
-            <AlertCircle className="w-4 h-4 shrink-0" />
+          <div className="p-3.5 rounded-2xl text-xs font-semibold text-center border bg-neutral-100 text-neutral-800 border-neutral-300 flex items-center justify-center gap-2">
+            <AlertCircle className="w-4 h-4 shrink-0 text-neutral-600" />
             <span>{error}</span>
           </div>
         )}
 
         {successMessage && (
-          <div className="p-3.5 rounded-2xl text-xs font-semibold text-center border bg-emerald-50 text-emerald-700 border-emerald-200 flex items-center justify-center gap-2">
-            <CheckCircle2 className="w-4 h-4 shrink-0" />
+          <div className="p-3.5 rounded-2xl text-xs font-semibold text-center border bg-neutral-100 text-neutral-900 border-neutral-300 flex items-center justify-center gap-2">
+            <CheckCircle2 className="w-4 h-4 shrink-0 text-neutral-800" />
             <span>{successMessage}</span>
           </div>
         )}
