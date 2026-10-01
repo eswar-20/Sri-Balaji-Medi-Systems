@@ -1,206 +1,120 @@
 import React from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
-import { Activity, ShieldCheck, Cpu, Sparkles } from 'lucide-react';
+import monogramColor from '../assets/sbms-monogram-color.png';
 
 const BrandHeroVisual = () => {
   const shouldReduceMotion = useReducedMotion();
 
-  // Floating animation variant that respects accessibility preferences
-  const floatAnimation = shouldReduceMotion
+  // Floating animation for a gentle, premium breathing effect
+  const floatingAnimation = shouldReduceMotion
     ? {}
     : {
-        y: [-6, 6, -6],
+        y: [-8, 8, -8],
         transition: {
-          duration: 6,
+          duration: 7,
           repeat: Infinity,
           ease: 'easeInOut',
         },
       };
 
-  const orbitAnimation = shouldReduceMotion
+  // Ambient aura pulse
+  const auraPulse = shouldReduceMotion
     ? {}
     : {
-        rotate: 360,
+        opacity: [0.35, 0.65, 0.35],
+        scale: [0.97, 1.05, 0.97],
         transition: {
-          duration: 40,
+          duration: 5,
           repeat: Infinity,
-          ease: 'linear',
+          ease: 'easeInOut',
         },
       };
 
-  const reverseOrbitAnimation = shouldReduceMotion
+  // Subtle continuous shimmer / light sweep
+  const shimmerSweep = shouldReduceMotion
     ? {}
     : {
-        rotate: -360,
+        x: ['-120%', '150%'],
         transition: {
-          duration: 50,
+          duration: 4.5,
           repeat: Infinity,
-          ease: 'linear',
-        },
-      };
-
-  const glowPulse = shouldReduceMotion
-    ? {}
-    : {
-        opacity: [0.35, 0.6, 0.35],
-        scale: [0.98, 1.04, 0.98],
-        transition: {
-          duration: 4,
-          repeat: Infinity,
+          repeatDelay: 2.5,
           ease: 'easeInOut',
         },
       };
 
   return (
-    <div className="relative w-full max-w-[460px] sm:max-w-[500px] lg:max-w-[520px] mx-auto flex items-center justify-center py-6 select-none">
+    <div className="relative w-full max-w-[420px] sm:max-w-[480px] lg:max-w-[520px] mx-auto flex flex-col items-center justify-center py-4 select-none">
       
       {/* 1. Ambient Background Glows */}
       <motion.div
-        animate={glowPulse}
-        className="absolute w-72 h-72 sm:w-96 sm:h-96 rounded-full bg-gradient-to-tr from-sky-400/25 via-blue-500/20 to-teal-300/20 blur-3xl pointer-events-none"
+        animate={auraPulse}
+        className="absolute w-80 h-80 sm:w-96 sm:h-96 rounded-full bg-gradient-to-tr from-sky-400/20 via-blue-600/15 to-cyan-300/20 blur-3xl pointer-events-none"
       />
-      <div className="absolute w-60 h-60 rounded-full bg-sky-200/40 blur-2xl pointer-events-none" />
+      <div className="absolute w-64 h-64 rounded-full bg-sky-200/35 blur-2xl pointer-events-none" />
 
-      {/* 2. Concentric Orbit Rings (Technology & Precision Motif) */}
+      {/* 2. Main Logo Emblem Showcase */}
       <motion.div
-        animate={orbitAnimation}
-        className="absolute w-[360px] h-[360px] sm:w-[420px] sm:h-[420px] rounded-full border border-dashed border-sky-300/50 pointer-events-none"
-      >
-        <span className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-sky-500/70 shadow-sm shadow-sky-400" />
-        <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-teal-400/70" />
-      </motion.div>
-
-      <motion.div
-        animate={reverseOrbitAnimation}
-        className="absolute w-[290px] h-[290px] sm:w-[330px] sm:h-[330px] rounded-full border border-sky-200/60 pointer-events-none"
-      >
-        <span className="absolute top-1/2 -right-1.5 -translate-y-1/2 w-2.5 h-2.5 rounded-full bg-blue-500/60 shadow-sm" />
-      </motion.div>
-
-      {/* 3. Main Brand Emblem Card */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.8, ease: 'easeOut' }}
-        whileHover={{ scale: 1.02 }}
-        className="relative z-10 w-full"
+        initial={{ opacity: 0, scale: 0.92, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+        className="relative z-10 w-full flex flex-col items-center"
       >
         <motion.div
-          animate={floatAnimation}
-          className="relative bg-white/95 backdrop-blur-xl rounded-[2.5rem] border border-white/80 p-8 sm:p-10 shadow-[0_20px_50px_rgba(2,132,199,0.12)] flex flex-col items-center text-center overflow-hidden transition-shadow duration-300 hover:shadow-[0_25px_60px_rgba(2,132,199,0.18)]"
+          animate={floatingAnimation}
+          whileHover={{ scale: 1.03 }}
+          transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+          className="group relative cursor-pointer flex flex-col items-center"
         >
-          {/* Subtle top light flare */}
-          <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-52 h-52 bg-gradient-to-b from-sky-400/20 to-transparent rounded-full blur-2xl pointer-events-none" />
+          {/* Subtle Glass Backdrop Pedestal */}
+          <div className="relative bg-white/70 backdrop-blur-md rounded-[3rem] p-8 sm:p-10 border border-slate-200/70 shadow-[0_20px_50px_rgba(2,132,199,0.1)] group-hover:shadow-[0_25px_60px_rgba(2,132,199,0.18)] transition-all duration-500 overflow-hidden flex flex-col items-center">
+            
+            {/* Shimmer light sweep highlight */}
+            {!shouldReduceMotion && (
+              <motion.div
+                animate={shimmerSweep}
+                className="absolute inset-0 w-1/2 h-full bg-gradient-to-r from-transparent via-white/50 to-transparent skew-x-[-25deg] pointer-events-none"
+              />
+            )}
 
-          {/* Central Logo Crest */}
-          <div className="relative mb-5 group">
-            {/* Outer gradient glow ring */}
-            <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-3xl bg-gradient-to-tr from-sky-600 via-blue-600 to-cyan-400 p-1 shadow-xl shadow-sky-600/25 flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
-              <div className="w-full h-full rounded-[1.35rem] bg-gradient-to-br from-slate-900 via-sky-950 to-blue-900 flex flex-col items-center justify-center relative overflow-hidden p-3">
-                
-                {/* Background tech grid lines */}
-                <div className="absolute inset-0 bg-[radial-gradient(#38bdf8_1px,transparent_1px)] [background-size:10px_10px] opacity-20" />
+            {/* Top subtle radial reflection */}
+            <div className="absolute -top-16 left-1/2 -translate-x-1/2 w-48 h-48 bg-sky-400/15 rounded-full blur-2xl pointer-events-none" />
 
-                {/* "SB" Brand Monogram */}
-                <span className="text-white font-black text-3xl sm:text-4xl tracking-tighter drop-shadow-md select-none">
-                  SB
-                </span>
+            {/* The Interlocked Geometric Monogram (SBMS) */}
+            <div className="relative w-56 h-56 sm:w-64 sm:h-64 lg:w-72 lg:h-72 flex items-center justify-center p-2">
+              <img
+                src={monogramColor}
+                alt="Sri Balaji Medi Systems Monogram"
+                className="w-full h-full object-contain filter drop-shadow-[0_10px_20px_rgba(2,132,199,0.18)] group-hover:drop-shadow-[0_16px_28px_rgba(2,132,199,0.28)] transition-all duration-300"
+                loading="eager"
+              />
+            </div>
 
-                {/* ECG / Cardiogram pulse wave SVG */}
-                <svg
-                  className="w-16 h-4 sm:w-20 sm:h-5 text-cyan-400 mt-1"
-                  viewBox="0 0 100 20"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M 0 10 L 25 10 L 32 3 L 42 17 L 50 2 L 58 14 L 66 10 L 100 10" />
-                </svg>
+            {/* Brand Identity Typography */}
+            <div className="text-center mt-6 pt-4 border-t border-slate-100 w-full flex flex-col items-center">
+              <h2 className="text-slate-900 font-extrabold text-2xl sm:text-3xl tracking-tight leading-none group-hover:text-sky-600 transition-colors duration-300">
+                SRI BALAJI
+              </h2>
+              <p className="text-sky-600 text-xs sm:text-sm font-black tracking-[0.3em] uppercase mt-1.5">
+                MEDI SYSTEMS
+              </p>
+              
+              {/* Refined Geometric Indicator */}
+              <div className="flex items-center gap-2.5 w-32 my-3">
+                <span className="h-px bg-slate-200 flex-1" />
+                <span className="w-1.5 h-1.5 rounded-full bg-sky-500" />
+                <span className="h-px bg-slate-200 flex-1" />
               </div>
+
+              <p className="text-slate-500 text-[10px] sm:text-xs font-semibold tracking-widest uppercase">
+                Healthcare & Diagnostic Technologies
+              </p>
             </div>
 
-            {/* Micro accent badge */}
-            <div className="absolute -bottom-2 -right-2 bg-white text-sky-600 rounded-full p-1.5 shadow-md border border-sky-100">
-              <Sparkles className="w-3.5 h-3.5" />
-            </div>
           </div>
 
-          {/* Brand Name Typography */}
-          <h2 className="text-slate-900 font-extrabold text-2xl sm:text-3xl tracking-tight leading-none">
-            SRI BALAJI
-          </h2>
-          <p className="text-sky-600 text-xs sm:text-sm font-black tracking-[0.25em] uppercase mt-1.5">
-            MEDI SYSTEMS
-          </p>
-
-          {/* Clean Medical Divider */}
-          <div className="flex items-center gap-2.5 w-36 my-3.5">
-            <span className="h-px bg-slate-200 flex-1" />
-            <span className="w-1.5 h-1.5 rounded-full bg-sky-500" />
-            <span className="h-px bg-slate-200 flex-1" />
-          </div>
-
-          {/* Core Subtitle */}
-          <p className="text-slate-500 text-[11px] sm:text-xs font-semibold tracking-wider uppercase">
-            Healthcare & Diagnostic Technologies
-          </p>
-
-          {/* 4. Satellite Floating Badges */}
-          {/* Badge 1: Diagnostic Systems (Top-Right) */}
-          <motion.div
-            animate={
-              shouldReduceMotion
-                ? {}
-                : {
-                    y: [-4, 4, -4],
-                    transition: { duration: 4.5, repeat: Infinity, ease: 'easeInOut' },
-                  }
-            }
-            className="hidden sm:flex absolute -top-3 -right-3 items-center gap-2 bg-white/95 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-sky-100 shadow-md text-xs font-bold text-slate-800"
-          >
-            <span className="w-6 h-6 rounded-full bg-sky-100 flex items-center justify-center text-sky-600 shrink-0">
-              <Activity className="w-3.5 h-3.5" />
-            </span>
-            <span>Diagnostic Systems</span>
-          </motion.div>
-
-          {/* Badge 2: Biomedical Engineering (Bottom-Left) */}
-          <motion.div
-            animate={
-              shouldReduceMotion
-                ? {}
-                : {
-                    y: [4, -4, 4],
-                    transition: { duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 0.5 },
-                  }
-            }
-            className="hidden sm:flex absolute -bottom-3 -left-3 items-center gap-2 bg-white/95 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-teal-100 shadow-md text-xs font-bold text-slate-800"
-          >
-            <span className="w-6 h-6 rounded-full bg-teal-100 flex items-center justify-center text-teal-600 shrink-0">
-              <ShieldCheck className="w-3.5 h-3.5" />
-            </span>
-            <span>Biomedical Care</span>
-          </motion.div>
-
-          {/* Badge 3: Genuine Spares (Bottom-Right) */}
-          <motion.div
-            animate={
-              shouldReduceMotion
-                ? {}
-                : {
-                    y: [-3, 3, -3],
-                    transition: { duration: 4, repeat: Infinity, ease: 'easeInOut', delay: 1 },
-                  }
-            }
-            className="hidden sm:flex absolute -bottom-3 -right-3 items-center gap-2 bg-white/95 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-blue-100 shadow-md text-xs font-bold text-slate-800"
-          >
-            <span className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 shrink-0">
-              <Cpu className="w-3.5 h-3.5" />
-            </span>
-            <span>Certified Tech</span>
-          </motion.div>
+          {/* Soft Ground Reflection Shadow */}
+          <div className="w-48 sm:w-64 h-4 bg-sky-900/10 rounded-full blur-md mt-4 transition-all duration-500 group-hover:scale-90 group-hover:opacity-70" />
         </motion.div>
       </motion.div>
 
