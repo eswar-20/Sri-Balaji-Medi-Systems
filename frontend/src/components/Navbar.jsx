@@ -3,6 +3,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { ShoppingCart, Heart, LogOut, User, Menu, X } from 'lucide-react';
 import { CartContext } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
+import monogramLogo from '../assets/sbms-monogram-color.png';
 
 const Navbar = () => {
   const { cartItems } = useContext(CartContext);
@@ -51,10 +52,12 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-20">
           
           {/* Brand Logo */}
-          <Link to="/" className="flex items-center space-x-3 group">
-            <div className="w-10 h-10 bg-gradient-to-tr from-sky-600 to-sky-500 rounded-xl flex items-center justify-center shadow-md group-hover:scale-105 transition-all duration-300">
-              <span className="text-white font-black text-base tracking-tighter">SB</span>
-            </div>
+          <Link to="/" className="flex items-center space-x-3 group select-none">
+            <img
+              src={monogramLogo}
+              alt="Sri Balaji Medi Systems Monogram Logo"
+              className="h-11 sm:h-12 w-auto object-contain filter drop-shadow-sm group-hover:scale-105 group-hover:drop-shadow-md transition-all duration-300"
+            />
             <div>
               <h1 className="text-slate-900 font-extrabold text-base tracking-tight leading-none group-hover:text-sky-600 transition-colors">SRI BALAJI</h1>
               <p className="text-sky-600 text-[10px] uppercase font-bold tracking-widest mt-1">Medical Systems</p>
