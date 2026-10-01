@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Phone, Mail, MapPin, Star, Shield, Activity, Truck, ArrowRight, Award, Zap, HardHat, CheckCircle2 } from 'lucide-react';
+import { Shield, Activity, Truck, ArrowRight, Award, Zap, HardHat, CheckCircle2 } from 'lucide-react';
+import BrandHeroVisual from '../components/BrandHeroVisual';
 
 const HomePage = () => {
   return (
@@ -38,22 +39,6 @@ const HomePage = () => {
               Sri Balaji Medi Systems supplies, calibrates, and maintains diagnostic imaging machinery, patient monitors, and genuine spare parts across India.
             </p>
 
-            {/* Quick Stats Grid inside Hero */}
-            <div className="grid grid-cols-3 gap-6 pt-4 border-t border-slate-200 max-w-md">
-              <div>
-                <p className="text-sky-600 text-2xl font-black">28+</p>
-                <p className="text-slate-500 text-xs uppercase font-bold tracking-wider mt-0.5">Years Active</p>
-              </div>
-              <div>
-                <p className="text-teal-600 text-2xl font-black">1.2K+</p>
-                <p className="text-slate-500 text-xs uppercase font-bold tracking-wider mt-0.5">Hospitals Fed</p>
-              </div>
-              <div>
-                <p className="text-emerald-600 text-2xl font-black">99.8%</p>
-                <p className="text-slate-500 text-xs uppercase font-bold tracking-wider mt-0.5">SLA Uptime</p>
-              </div>
-            </div>
-
             <div className="flex flex-wrap gap-3.5 pt-2">
               <Link to="/products" className="btn-primary flex items-center gap-2 text-sm shadow-md">
                 Explore Equipment <ArrowRight className="w-4 h-4" />
@@ -64,66 +49,10 @@ const HomePage = () => {
             </div>
           </motion.div>
 
-          {/* Hero Right Banner Card */}
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7, delay: 0.15 }}
-            className="relative"
-          >
-            {/* Direct Support Card */}
-            <div className="relative overflow-hidden bg-white p-8 sm:p-10 rounded-3xl border border-slate-200/90 shadow-xl">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-sky-100 to-transparent rounded-bl-3xl"></div>
-              
-              <h2 className="text-slate-900 font-extrabold text-xl tracking-tight mb-6">Direct Hotline Support</h2>
-              
-              <div className="space-y-5">
-                
-                {/* Support Block 1 */}
-                <div className="flex items-start gap-4 p-3 rounded-2xl bg-slate-50/70 border border-slate-100">
-                  <div className="w-11 h-11 rounded-xl bg-sky-100 flex items-center justify-center text-sky-600 shrink-0">
-                    <Phone className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <p className="text-xs uppercase font-bold text-slate-500 tracking-wider">Tele-Support Phone</p>
-                    <p className="text-slate-900 font-bold text-base mt-0.5">+91 99480 73090</p>
-                  </div>
-                </div>
-
-                {/* Support Block 2 */}
-                <div className="flex items-start gap-4 p-3 rounded-2xl bg-slate-50/70 border border-slate-100">
-                  <div className="w-11 h-11 rounded-xl bg-teal-100 flex items-center justify-center text-teal-600 shrink-0">
-                    <Mail className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <p className="text-xs uppercase font-bold text-slate-500 tracking-wider">Direct Business Email</p>
-                    <p className="text-slate-900 font-bold text-xs sm:text-sm mt-0.5 break-all">sribalajimedisystemsofficial@gmail.com</p>
-                  </div>
-                </div>
-
-                {/* Support Block 3 */}
-                <div className="flex items-start gap-4 p-3 rounded-2xl bg-slate-50/70 border border-slate-100">
-                  <div className="w-11 h-11 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-600 shrink-0">
-                    <MapPin className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <p className="text-xs uppercase font-bold text-slate-500 tracking-wider">Central HQ & Diagnostics</p>
-                    <p className="text-slate-900 font-bold text-xs sm:text-sm mt-0.5">Rajahmundry, Andhra Pradesh, India</p>
-                  </div>
-                </div>
-
-              </div>
-
-              {/* Verified Badge */}
-              <div className="mt-6 pt-5 border-t border-slate-100 flex items-center gap-3 text-xs text-slate-600">
-                <div className="flex text-amber-400">
-                  {[...Array(5)].map((_, i) => <Star key={i} className="w-3.5 h-3.5 fill-amber-400" />)}
-                </div>
-                <span className="font-medium">Rated 4.9/5 by 180+ Medical Institutions</span>
-              </div>
-            </div>
-            
-          </motion.div>
+          {/* Hero Right: Animated Brand Visual */}
+          <div className="flex justify-center items-center w-full">
+            <BrandHeroVisual />
+          </div>
 
         </div>
       </section>
