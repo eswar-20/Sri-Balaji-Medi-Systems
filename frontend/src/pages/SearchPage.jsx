@@ -38,21 +38,21 @@ const SearchPage = () => {
   if (loading) return <Loader size="large" text="Searching equipment catalog..." />;
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 py-10">
+    <div className="min-h-screen bg-[#FCFBF8] text-[#252525] py-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
-          <div className="flex items-center gap-2 text-sky-700 mb-1">
+          <div className="flex items-center gap-2 text-[#252525] mb-1">
             <Search className="w-4 h-4" />
             <span className="text-xs uppercase font-extrabold tracking-wider">Catalog Search</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-[#252525] tracking-tight">
             Search Results {query && <span>for &ldquo;{query}&rdquo;</span>}
           </h1>
-          <p className="text-slate-500 text-sm mt-1">{products.length} matching medical products found</p>
+          <p className="text-[#77736E] text-sm mt-1">{products.length} matching medical products found</p>
         </div>
 
         {products.length === 0 ? (
-          <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-8">
+          <div className="bg-white rounded-2xl border border-[#E5E1DA] shadow-sm p-8">
             <EmptyState 
               title="No products matched your search" 
               description={`We couldn't find any medical devices or spare parts matching "${query}". Try searching for categories like "ECG", "X-Ray", "Ultrasound", or "Sensor".`} 

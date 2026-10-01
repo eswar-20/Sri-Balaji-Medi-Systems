@@ -97,11 +97,11 @@ const ProductCard = ({ product }) => {
       <div className="mt-4 pt-3 border-t border-[#E5E1DA] flex items-center justify-between px-1">
         <div className="space-y-0.5">
           <div className="flex items-center gap-1">
-            <div className="flex text-amber-500">
+            <div className="flex text-neutral-400">
               {[...Array(5)].map((_, i) => (
                 <Star 
                   key={i} 
-                  className={`w-3 h-3 ${i < Math.floor(validatedProduct.rating || 0) ? 'fill-amber-500' : 'text-neutral-200 fill-none'}`} 
+                  className={`w-3 h-3 ${i < Math.floor(validatedProduct.rating || 0) ? 'fill-neutral-400' : 'text-neutral-200 fill-none'}`} 
                 />
               ))}
             </div>

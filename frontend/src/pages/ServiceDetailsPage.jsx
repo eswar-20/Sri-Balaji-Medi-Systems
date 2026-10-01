@@ -140,7 +140,7 @@ const ServiceDetailsPage = () => {
           }
         },
         theme: {
-          color: "#0284C7"
+          color: "#252525"
         },
         modal: {
           ondismiss: function() {
@@ -178,9 +178,9 @@ const ServiceDetailsPage = () => {
 
   if (error || !request) {
     return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center px-4 py-12">
-        <div className="bg-white border border-slate-200 rounded-2xl p-8 text-center max-w-md shadow-sm">
-          <p className="text-red-600 text-sm mb-6">{error || 'Request details not found.'}</p>
+      <div className="min-h-screen bg-[#FCFBF8] flex items-center justify-center px-4 py-12">
+        <div className="bg-white border border-[#E5E1DA] rounded-2xl p-8 text-center max-w-md shadow-sm">
+          <p className="text-[#252525] text-sm mb-6">{error || 'Request details not found.'}</p>
           <div className="flex gap-4 justify-center">
             <button onClick={loadData} className="btn-primary text-xs py-2 px-5 font-bold">Retry</button>
             <button onClick={() => navigate('/services/my-requests')} className="btn-secondary text-xs py-2 px-5 font-bold">Back to Tracker</button>
@@ -199,12 +199,12 @@ const ServiceDetailsPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 py-10">
+    <div className="min-h-screen bg-[#FCFBF8] text-[#252525] py-10">
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
         <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-8">
           <div>
-            <span className="text-xs text-sky-700 font-bold uppercase tracking-wider">Service Call / Ref #{request.id}</span>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">{request.equipmentName}</h1>
+            <span className="text-xs text-[#252525] font-bold uppercase tracking-wider">Service Call / Ref #{request.id}</span>
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-[#252525] mt-1">{request.equipmentName}</h1>
           </div>
           <button onClick={() => navigate('/services/my-requests')} className="btn-secondary text-xs py-2 px-4 font-bold self-start sm:self-auto flex items-center gap-1.5">
             <ArrowLeft className="w-3.5 h-3.5" /> Back to List
@@ -215,8 +215,8 @@ const ServiceDetailsPage = () => {
           <div className="lg:col-span-2 space-y-6">
             
             {/* Timeline Progress */}
-            <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-6">
-              <h2 className="text-base font-bold text-slate-900 mb-6">Service Progress</h2>
+            <div className="bg-white border border-[#E5E1DA] shadow-sm rounded-2xl p-6">
+              <h2 className="text-base font-bold text-[#252525] mb-6">Service Progress</h2>
               <div className="flex justify-between items-center relative">
                 {['PENDING', 'ASSIGNED', 'IN_PROGRESS', 'COMPLETED'].map((step, idx) => {
                   const statuses = ['PENDING', 'ASSIGNED', 'IN_PROGRESS', 'COMPLETED'];
@@ -224,49 +224,49 @@ const ServiceDetailsPage = () => {
                   const isDone = currentIdx >= idx;
                   return (
                     <div key={step} className="flex flex-col items-center flex-1 relative z-10">
-                      <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs ${isDone ? 'bg-sky-600 text-white' : 'bg-slate-100 text-slate-400'}`}>
+                      <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs ${isDone ? 'bg-[#252525] text-white' : 'bg-[#F7F5F0] text-[#77736E]'}`}>
                         {idx + 1}
                       </div>
-                      <span className={`text-[10px] mt-2 uppercase font-bold ${isDone ? 'text-sky-700' : 'text-slate-400'}`}>{step.replace('_', ' ')}</span>
+                      <span className={`text-[10px] mt-2 uppercase font-bold ${isDone ? 'text-[#252525]' : 'text-[#77736E]'}`}>{step.replace('_', ' ')}</span>
                     </div>
                   );
                 })}
-                <div className="absolute top-4 left-0 right-0 h-0.5 bg-slate-200 -z-0" />
+                <div className="absolute top-4 left-0 right-0 h-0.5 bg-[#E5E1DA] -z-0" />
               </div>
             </div>
 
             {/* Visit Details */}
-            <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-6 space-y-4">
-              <h2 className="text-base font-bold text-slate-900 border-b border-slate-100 pb-3">Equipment & Clinic Details</h2>
+            <div className="bg-white border border-[#E5E1DA] shadow-sm rounded-2xl p-6 space-y-4">
+              <h2 className="text-base font-bold text-[#252525] border-b border-[#E5E1DA] pb-3">Equipment & Clinic Details</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-                <div><span className="text-slate-500 font-medium">Hospital/Clinic:</span> <span className="text-slate-900 font-bold ml-1.5">{request.clinicHospitalName}</span></div>
-                <div><span className="text-slate-500 font-medium">Contact Person:</span> <span className="text-slate-900 font-bold ml-1.5">{request.contactPerson}</span></div>
-                <div><span className="text-slate-500 font-medium">Contact Phone:</span> <span className="text-sky-700 font-bold ml-1.5">{request.phone}</span></div>
-                <div><span className="text-slate-500 font-medium">Service Type:</span> <span className="text-slate-900 font-bold ml-1.5">{request.serviceType}</span></div>
-                <div><span className="text-slate-500 font-medium">Brand / Model:</span> <span className="text-slate-900 font-bold ml-1.5">{request.equipmentBrand} - {request.equipmentModel}</span></div>
-                <div><span className="text-slate-500 font-medium">Serial Number:</span> <span className="text-slate-900 font-bold ml-1.5">{request.serialNumber || 'N/A'}</span></div>
-                <div className="sm:col-span-2"><span className="text-slate-500 font-medium">Clinic Address:</span> <span className="text-slate-900 font-semibold ml-1.5">{request.address}</span></div>
-                <div className="sm:col-span-2"><span className="text-slate-500 font-medium">Description:</span> <span className="text-slate-900 font-medium ml-1.5">{request.description}</span></div>
+                <div><span className="text-[#77736E] font-medium">Hospital/Clinic:</span> <span className="text-[#252525] font-bold ml-1.5">{request.clinicHospitalName}</span></div>
+                <div><span className="text-[#77736E] font-medium">Contact Person:</span> <span className="text-[#252525] font-bold ml-1.5">{request.contactPerson}</span></div>
+                <div><span className="text-[#77736E] font-medium">Contact Phone:</span> <span className="text-[#252525] font-bold ml-1.5">{request.phone}</span></div>
+                <div><span className="text-[#77736E] font-medium">Service Type:</span> <span className="text-[#252525] font-bold ml-1.5">{request.serviceType}</span></div>
+                <div><span className="text-[#77736E] font-medium">Brand / Model:</span> <span className="text-[#252525] font-bold ml-1.5">{request.equipmentBrand} - {request.equipmentModel}</span></div>
+                <div><span className="text-[#77736E] font-medium">Serial Number:</span> <span className="text-[#252525] font-bold ml-1.5">{request.serialNumber || 'N/A'}</span></div>
+                <div className="sm:col-span-2"><span className="text-[#77736E] font-medium">Clinic Address:</span> <span className="text-[#252525] font-semibold ml-1.5">{request.address}</span></div>
+                <div className="sm:col-span-2"><span className="text-[#77736E] font-medium">Description:</span> <span className="text-[#252525] font-medium ml-1.5">{request.description}</span></div>
               </div>
             </div>
 
             {/* Technical Visit History */}
-            <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-6">
-              <h2 className="text-base font-bold text-slate-900 mb-4">Technical Visits History ({visits.length})</h2>
+            <div className="bg-white border border-[#E5E1DA] shadow-sm rounded-2xl p-6">
+              <h2 className="text-base font-bold text-[#252525] mb-4">Technical Visits History ({visits.length})</h2>
               {visits.length === 0 ? (
-                <p className="text-xs text-slate-500">No visits have been logged by the technician yet.</p>
+                <p className="text-xs text-[#77736E]">No visits have been logged by the technician yet.</p>
               ) : (
                 <div className="space-y-4">
                   {visits.map((v) => (
-                    <div key={v.id} className="border-l-2 border-sky-600 pl-4 py-1 space-y-1.5">
+                    <div key={v.id} className="border-l-2 border-[#E5E1DA] pl-4 py-1 space-y-1.5">
                       <div className="flex justify-between items-center">
-                        <span className="text-xs text-slate-900 font-bold">Visit #{v.visitNumber} ({v.purpose})</span>
-                        <span className="text-[11px] text-slate-400">{v.visitDate ? new Date(v.visitDate).toLocaleDateString('en-IN') : ''}</span>
+                        <span className="text-xs text-[#252525] font-bold">Visit #{v.visitNumber} ({v.purpose})</span>
+                        <span className="text-[11px] text-[#77736E]">{v.visitDate ? new Date(v.visitDate).toLocaleDateString('en-IN') : ''}</span>
                       </div>
-                      <p className="text-xs text-slate-600">{v.notes}</p>
+                      <p className="text-xs text-[#55514D]">{v.notes}</p>
                       {v.engineerReportUrl && (
                         <div className="text-xs pt-1">
-                          <a href={v.engineerReportUrl} target="_blank" rel="noreferrer" className="text-sky-700 font-bold hover:underline">Download Engineer Report</a>
+                          <a href={v.engineerReportUrl} target="_blank" rel="noreferrer" className="text-[#252525] font-bold hover:underline">Download Engineer Report</a>
                         </div>
                       )}
                     </div>
@@ -278,32 +278,32 @@ const ServiceDetailsPage = () => {
 
           <div className="space-y-6">
             {/* Engineer Assignment Card */}
-            <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-6 text-center space-y-3">
-              <h2 className="text-base font-bold text-slate-900 border-b border-slate-100 pb-3 text-left">Assigned Field Engineer</h2>
+            <div className="bg-white border border-[#E5E1DA] shadow-sm rounded-2xl p-6 text-center space-y-3">
+              <h2 className="text-base font-bold text-[#252525] border-b border-[#E5E1DA] pb-3 text-left">Assigned Field Engineer</h2>
               {assignment ? (
                 <div className="space-y-2">
-                  <div className="w-14 h-14 bg-sky-50 border border-sky-200 text-sky-700 rounded-full mx-auto flex items-center justify-center font-bold text-lg uppercase">
+                  <div className="w-14 h-14 bg-[#252525] border border-[#E5E1DA] text-[#252525] rounded-full mx-auto flex items-center justify-center font-bold text-lg uppercase">
                     {assignment.engineerName?.charAt(0) || 'E'}
                   </div>
-                  <h3 className="text-sm font-bold text-slate-900">{assignment.engineerName}</h3>
-                  <p className="text-[11px] text-slate-500">Certified Bio-Medical Engineer</p>
+                  <h3 className="text-sm font-bold text-[#252525]">{assignment.engineerName}</h3>
+                  <p className="text-[11px] text-[#77736E]">Certified Bio-Medical Engineer</p>
                 </div>
               ) : (
-                <p className="text-xs text-slate-500 py-3">Technician allocation pending review.</p>
+                <p className="text-xs text-[#77736E] py-3">Technician allocation pending review.</p>
               )}
             </div>
 
             {/* Invoicing Summary */}
             {invoice && (
-              <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-6 space-y-4">
-                <h2 className="text-base font-bold text-slate-900 border-b border-slate-100 pb-3">Service Invoice</h2>
-                <div className="space-y-2 text-xs text-slate-600">
-                  <div className="flex justify-between"><span>Spare Parts Cost:</span><span className="text-slate-900 font-semibold">{formatPrice(invoice.partsCost)}</span></div>
-                  <div className="flex justify-between"><span>Labor Fees:</span><span className="text-slate-900 font-semibold">{formatPrice(invoice.laborCost)}</span></div>
-                  <div className="flex justify-between"><span>GST Taxes (18%):</span><span className="text-slate-900 font-semibold">{formatPrice(invoice.taxAmount)}</span></div>
-                  <div className="flex justify-between text-slate-900 font-bold border-t border-slate-100 pt-2 text-sm">
+              <div className="bg-white border border-[#E5E1DA] shadow-sm rounded-2xl p-6 space-y-4">
+                <h2 className="text-base font-bold text-[#252525] border-b border-[#E5E1DA] pb-3">Service Invoice</h2>
+                <div className="space-y-2 text-xs text-[#55514D]">
+                  <div className="flex justify-between"><span>Spare Parts Cost:</span><span className="text-[#252525] font-semibold">{formatPrice(invoice.partsCost)}</span></div>
+                  <div className="flex justify-between"><span>Labor Fees:</span><span className="text-[#252525] font-semibold">{formatPrice(invoice.laborCost)}</span></div>
+                  <div className="flex justify-between"><span>GST Taxes (18%):</span><span className="text-[#252525] font-semibold">{formatPrice(invoice.taxAmount)}</span></div>
+                  <div className="flex justify-between text-[#252525] font-bold border-t border-[#E5E1DA] pt-2 text-sm">
                     <span>Total Bill:</span>
-                    <span className="text-sky-700">{formatPrice(invoice.totalAmount)}</span>
+                    <span className="text-[#252525]">{formatPrice(invoice.totalAmount)}</span>
                   </div>
                 </div>
 
@@ -312,7 +312,7 @@ const ServiceDetailsPage = () => {
                     {paying ? 'Processing Payment...' : 'Pay Invoice Online'}
                   </button>
                 ) : (
-                  <div className="bg-emerald-50 border border-emerald-200 text-emerald-700 text-center py-2.5 rounded-xl text-xs font-bold uppercase">
+                  <div className="bg-[#252525] border border-[#E5E1DA] text-[#252525] text-center py-2.5 rounded-xl text-xs font-bold uppercase">
                     Paid Successfully
                   </div>
                 )}
@@ -320,16 +320,16 @@ const ServiceDetailsPage = () => {
             )}
 
             {/* Audit Logs History */}
-            <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-6">
-              <h2 className="text-base font-bold text-slate-900 mb-3 border-b border-slate-100 pb-2">Service Audit Log</h2>
+            <div className="bg-white border border-[#E5E1DA] shadow-sm rounded-2xl p-6">
+              <h2 className="text-base font-bold text-[#252525] mb-3 border-b border-[#E5E1DA] pb-2">Service Audit Log</h2>
               <div className="space-y-2.5">
                 {auditLogs.slice(0, 10).map((log) => (
-                  <div key={log.id} className="text-xs border-b border-slate-50 pb-2">
-                    <div className="flex justify-between items-center text-[10px] text-slate-400 mb-0.5">
-                      <span className="font-bold text-slate-600">{log.action}</span>
+                  <div key={log.id} className="text-xs border-b border-[#E5E1DA] pb-2">
+                    <div className="flex justify-between items-center text-[10px] text-[#77736E] mb-0.5">
+                      <span className="font-bold text-[#55514D]">{log.action}</span>
                       <span>{log.timestamp ? new Date(log.timestamp).toLocaleDateString('en-IN') : ''}</span>
                     </div>
-                    <p className="text-slate-700 text-[11px]">{log.notes || 'Status modified'}</p>
+                    <p className="text-[#252525] text-[11px]">{log.notes || 'Status modified'}</p>
                   </div>
                 ))}
               </div>
@@ -339,12 +339,12 @@ const ServiceDetailsPage = () => {
 
         {/* Customer Review Widget (unlocks only when request is completed) */}
         {request.status === 'COMPLETED' && (
-          <form onSubmit={handleFeedbackSubmit} className="bg-white border border-slate-200 shadow-sm rounded-2xl p-6 sm:p-8 mt-8 space-y-5">
-            <h2 className="text-lg font-bold text-slate-900 border-b border-slate-100 pb-3">Rate Our Service Visit</h2>
+          <form onSubmit={handleFeedbackSubmit} className="bg-white border border-[#E5E1DA] shadow-sm rounded-2xl p-6 sm:p-8 mt-8 space-y-5">
+            <h2 className="text-lg font-bold text-[#252525] border-b border-[#E5E1DA] pb-3">Rate Our Service Visit</h2>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div>
-                <label className="block text-slate-700 font-semibold text-xs mb-1.5">Rating (1 to 5 Stars)</label>
+                <label className="block text-[#252525] font-semibold text-xs mb-1.5">Rating (1 to 5 Stars)</label>
                 <select value={feedback.rating} onChange={(e) => setFeedback(p => ({ ...p, rating: Number(e.target.value) }))} className="input-field w-full text-xs">
                   <option value={5}>⭐⭐⭐⭐⭐ (Excellent)</option>
                   <option value={4}>⭐⭐⭐⭐ (Very Good)</option>
@@ -355,7 +355,7 @@ const ServiceDetailsPage = () => {
               </div>
 
               <div>
-                <label className="block text-slate-700 font-semibold text-xs mb-1.5">Would you recommend Sri Balaji Medi Systems?</label>
+                <label className="block text-[#252525] font-semibold text-xs mb-1.5">Would you recommend Sri Balaji Medi Systems?</label>
                 <select value={feedback.wouldRecommend ? 'yes' : 'no'} onChange={(e) => setFeedback(p => ({ ...p, wouldRecommend: e.target.value === 'yes' }))} className="input-field w-full text-xs">
                   <option value="yes">Yes, definitely</option>
                   <option value="no">No</option>
@@ -364,12 +364,12 @@ const ServiceDetailsPage = () => {
             </div>
 
             <div>
-              <label className="block text-slate-700 font-semibold text-xs mb-1.5">Review / Experience Comments</label>
+              <label className="block text-[#252525] font-semibold text-xs mb-1.5">Review / Experience Comments</label>
               <textarea value={feedback.review} onChange={(e) => setFeedback(p => ({ ...p, review: e.target.value }))} className="input-field w-full text-xs h-20 resize-none" placeholder="Comment on technician professionalism, calibration precision, cleanliness..." />
             </div>
 
             <div>
-              <label className="block text-slate-700 font-semibold text-xs mb-1.5">Suggestions for Improvements</label>
+              <label className="block text-[#252525] font-semibold text-xs mb-1.5">Suggestions for Improvements</label>
               <textarea value={feedback.suggestions} onChange={(e) => setFeedback(p => ({ ...p, suggestions: e.target.value }))} className="input-field w-full text-xs h-20 resize-none" placeholder="Any suggestions to make our hospital support even better..." />
             </div>
 

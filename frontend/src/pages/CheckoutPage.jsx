@@ -211,7 +211,7 @@ const CheckoutPage = () => {
             contact: formData.phone
           },
           theme: {
-            color: "#1D9BF0"
+            color: "#252525"
           },
           modal: {
             ondismiss: function() {
@@ -232,22 +232,22 @@ const CheckoutPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 py-12">
+    <div className="min-h-screen bg-[#FCFBF8] text-[#252525] py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Title */}
-        <h1 className="text-3xl font-extrabold text-slate-900 mb-8 tracking-tight">Secure Checkout</h1>
+        <h1 className="text-3xl font-extrabold text-[#252525] mb-8 tracking-tight">Secure Checkout</h1>
         
         {/* Step indicator */}
-        <div className="flex items-center gap-4 mb-8 bg-white border border-slate-200 shadow-sm p-4 rounded-xl max-w-xl">
+        <div className="flex items-center gap-4 mb-8 bg-white border border-[#E5E1DA] shadow-sm p-4 rounded-xl max-w-xl">
           <div className="flex items-center gap-2">
-            <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-black ${step === 1 ? 'bg-sky-600 text-white' : 'bg-emerald-100 text-emerald-700'}`}>1</span>
-            <span className={`text-xs font-bold uppercase tracking-wider ${step === 1 ? 'text-sky-700' : 'text-slate-500'}`}>Address</span>
+            <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-black ${step === 1 ? 'bg-[#252525] text-white' : 'bg-[#252525] text-[#252525]'}`}>1</span>
+            <span className={`text-xs font-bold uppercase tracking-wider ${step === 1 ? 'text-[#252525]' : 'text-[#77736E]'}`}>Address</span>
           </div>
-          <div className="flex-grow h-px bg-slate-200"></div>
+          <div className="flex-grow h-px bg-[#E5E1DA]"></div>
           <div className="flex items-center gap-2">
-            <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-black ${step === 2 ? 'bg-sky-600 text-white' : 'bg-slate-100 text-slate-400'}`}>2</span>
-            <span className={`text-xs font-bold uppercase tracking-wider ${step === 2 ? 'text-sky-700' : 'text-slate-500'}`}>Payment</span>
+            <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-black ${step === 2 ? 'bg-[#252525] text-white' : 'bg-[#F7F5F0] text-[#77736E]'}`}>2</span>
+            <span className={`text-xs font-bold uppercase tracking-wider ${step === 2 ? 'text-[#252525]' : 'text-[#77736E]'}`}>Payment</span>
           </div>
         </div>
 
@@ -260,13 +260,13 @@ const CheckoutPage = () => {
               <form onSubmit={proceedToPayment} className="space-y-6">
                 
                 {/* Step 1: Identity & Address info */}
-                <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-6 space-y-6">
-                  <h2 className="text-slate-900 font-extrabold text-base tracking-wide uppercase flex items-center gap-2">
-                    <User className="w-4.5 h-4.5 text-sky-600" /> Primary Contact Info
+                <div className="bg-white border border-[#E5E1DA] shadow-sm rounded-2xl p-6 space-y-6">
+                  <h2 className="text-[#252525] font-extrabold text-base tracking-wide uppercase flex items-center gap-2">
+                    <User className="w-4.5 h-4.5 text-[#252525]" /> Primary Contact Info
                   </h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-slate-700 text-xs font-bold mb-2">First Name *</label>
+                      <label className="block text-[#252525] text-xs font-bold mb-2">First Name *</label>
                       <input
                         type="text"
                         name="firstName"
@@ -274,10 +274,10 @@ const CheckoutPage = () => {
                         onChange={handleInputChange}
                         className="input-field w-full"
                       />
-                      {errors.firstName && <p className="text-red-500 text-[10px] font-bold mt-1">{errors.firstName}</p>}
+                      {errors.firstName && <p className="text-[#252525] text-[10px] font-semibold mt-1">{errors.firstName}</p>}
                     </div>
                     <div>
-                      <label className="block text-slate-700 text-xs font-bold mb-2">Last Name *</label>
+                      <label className="block text-[#252525] text-xs font-bold mb-2">Last Name *</label>
                       <input
                         type="text"
                         name="lastName"
@@ -285,10 +285,10 @@ const CheckoutPage = () => {
                         onChange={handleInputChange}
                         className="input-field w-full"
                       />
-                      {errors.lastName && <p className="text-red-500 text-[10px] font-bold mt-1">{errors.lastName}</p>}
+                      {errors.lastName && <p className="text-[#252525] text-[10px] font-semibold mt-1">{errors.lastName}</p>}
                     </div>
                     <div>
-                      <label className="block text-slate-700 text-xs font-bold mb-2">Email Address *</label>
+                      <label className="block text-[#252525] text-xs font-bold mb-2">Email Address *</label>
                       <input
                         type="email"
                         name="email"
@@ -296,10 +296,10 @@ const CheckoutPage = () => {
                         onChange={handleInputChange}
                         className="input-field w-full"
                       />
-                      {errors.email && <p className="text-red-500 text-[10px] font-bold mt-1">{errors.email}</p>}
+                      {errors.email && <p className="text-[#252525] text-[10px] font-semibold mt-1">{errors.email}</p>}
                     </div>
                     <div>
-                      <label className="block text-slate-700 text-xs font-bold mb-2">Contact Phone *</label>
+                      <label className="block text-[#252525] text-xs font-bold mb-2">Contact Phone *</label>
                       <input
                         type="tel"
                         name="phone"
@@ -308,18 +308,18 @@ const CheckoutPage = () => {
                         placeholder="e.g. 9490123456"
                         className="input-field w-full"
                       />
-                      {errors.phone && <p className="text-red-500 text-[10px] font-bold mt-1">{errors.phone}</p>}
+                      {errors.phone && <p className="text-[#252525] text-[10px] font-semibold mt-1">{errors.phone}</p>}
                     </div>
                   </div>
                 </div>
 
-                <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-6 space-y-6">
-                  <h2 className="text-slate-900 font-extrabold text-base tracking-wide uppercase flex items-center gap-2">
-                    <MapPin className="w-4.5 h-4.5 text-teal-600" /> Hospital Delivery Address
+                <div className="bg-white border border-[#E5E1DA] shadow-sm rounded-2xl p-6 space-y-6">
+                  <h2 className="text-[#252525] font-extrabold text-base tracking-wide uppercase flex items-center gap-2">
+                    <MapPin className="w-4.5 h-4.5 text-[#252525]" /> Hospital Delivery Address
                   </h2>
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-slate-700 text-xs font-bold mb-2">Street Address *</label>
+                      <label className="block text-[#252525] text-xs font-bold mb-2">Street Address *</label>
                       <input
                         type="text"
                         name="address"
@@ -327,11 +327,11 @@ const CheckoutPage = () => {
                         onChange={handleInputChange}
                         className="input-field w-full"
                       />
-                      {errors.address && <p className="text-red-500 text-[10px] font-bold mt-1">{errors.address}</p>}
+                      {errors.address && <p className="text-[#252525] text-[10px] font-semibold mt-1">{errors.address}</p>}
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       <div>
-                        <label className="block text-slate-700 text-xs font-bold mb-2">City *</label>
+                        <label className="block text-[#252525] text-xs font-bold mb-2">City *</label>
                         <input
                           type="text"
                           name="city"
@@ -339,10 +339,10 @@ const CheckoutPage = () => {
                           onChange={handleInputChange}
                           className="input-field w-full"
                         />
-                        {errors.city && <p className="text-red-500 text-[10px] font-bold mt-1">{errors.city}</p>}
+                        {errors.city && <p className="text-[#252525] text-[10px] font-semibold mt-1">{errors.city}</p>}
                       </div>
                       <div>
-                        <label className="block text-slate-700 text-xs font-bold mb-2">State *</label>
+                        <label className="block text-[#252525] text-xs font-bold mb-2">State *</label>
                         <input
                           type="text"
                           name="state"
@@ -350,10 +350,10 @@ const CheckoutPage = () => {
                           onChange={handleInputChange}
                           className="input-field w-full"
                         />
-                        {errors.state && <p className="text-red-500 text-[10px] font-bold mt-1">{errors.state}</p>}
+                        {errors.state && <p className="text-[#252525] text-[10px] font-semibold mt-1">{errors.state}</p>}
                       </div>
                       <div>
-                        <label className="block text-slate-700 text-xs font-bold mb-2">Pincode *</label>
+                        <label className="block text-[#252525] text-xs font-bold mb-2">Pincode *</label>
                         <input
                           type="text"
                           name="pincode"
@@ -362,7 +362,7 @@ const CheckoutPage = () => {
                           placeholder="e.g. 533101"
                           className="input-field w-full"
                         />
-                        {errors.pincode && <p className="text-red-500 text-[10px] font-bold mt-1">{errors.pincode}</p>}
+                        {errors.pincode && <p className="text-[#252525] text-[10px] font-semibold mt-1">{errors.pincode}</p>}
                       </div>
                     </div>
                   </div>
@@ -380,9 +380,9 @@ const CheckoutPage = () => {
               <form onSubmit={handleSubmit} className="space-y-6">
                 
                 {/* Step 2: Payment choice */}
-                <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-6 space-y-6">
-                  <h2 className="text-slate-900 font-extrabold text-base tracking-wide uppercase flex items-center gap-2">
-                    <CreditCard className="w-4.5 h-4.5 text-sky-600" /> Payment Gateway Choice
+                <div className="bg-white border border-[#E5E1DA] shadow-sm rounded-2xl p-6 space-y-6">
+                  <h2 className="text-[#252525] font-extrabold text-base tracking-wide uppercase flex items-center gap-2">
+                    <CreditCard className="w-4.5 h-4.5 text-[#252525]" /> Payment Gateway Choice
                   </h2>
                   
                   <div className="space-y-4">
@@ -391,7 +391,7 @@ const CheckoutPage = () => {
                     <div 
                       onClick={() => setFormData(prev => ({ ...prev, paymentMethod: 'razorpay' }))}
                       className={`p-4 rounded-xl border cursor-pointer transition-all flex items-start gap-3 ${
-                        formData.paymentMethod === 'razorpay' ? 'border-sky-600 bg-sky-50/50' : 'border-slate-200 hover:bg-slate-50'
+                        formData.paymentMethod === 'razorpay' ? 'border-[#E5E1DA] bg-[#252525]/50' : 'border-[#E5E1DA] hover:bg-[#FCFBF8]'
                       }`}
                     >
                       <input
@@ -403,8 +403,8 @@ const CheckoutPage = () => {
                         className="mt-1"
                       />
                       <div>
-                        <span className="text-slate-900 font-bold text-sm block">Razorpay Secure Checkout</span>
-                        <span className="text-slate-600 text-xs mt-1 block">Pay immediately using UPI (GPay/PhonePe), Credit/Debit Cards, Netbanking, or Wallets.</span>
+                        <span className="text-[#252525] font-bold text-sm block">Razorpay Secure Checkout</span>
+                        <span className="text-[#55514D] text-xs mt-1 block">Pay immediately using UPI (GPay/PhonePe), Credit/Debit Cards, Netbanking, or Wallets.</span>
                       </div>
                     </div>
 
@@ -412,7 +412,7 @@ const CheckoutPage = () => {
                     <div 
                       onClick={() => setFormData(prev => ({ ...prev, paymentMethod: 'cod' }))}
                       className={`p-4 rounded-xl border cursor-pointer transition-all flex items-start gap-3 ${
-                        formData.paymentMethod === 'cod' ? 'border-sky-600 bg-sky-50/50' : 'border-slate-200 hover:bg-slate-50'
+                        formData.paymentMethod === 'cod' ? 'border-[#E5E1DA] bg-[#252525]/50' : 'border-[#E5E1DA] hover:bg-[#FCFBF8]'
                       }`}
                     >
                       <input
@@ -424,8 +424,8 @@ const CheckoutPage = () => {
                         className="mt-1"
                       />
                       <div>
-                        <span className="text-slate-900 font-bold text-sm block">Cash on Delivery (COD)</span>
-                        <span className="text-slate-600 text-xs mt-1 block">Pay with cash or digital scan-to-pay at your hospital or lab upon freight delivery.</span>
+                        <span className="text-[#252525] font-bold text-sm block">Cash on Delivery (COD)</span>
+                        <span className="text-[#55514D] text-xs mt-1 block">Pay with cash or digital scan-to-pay at your hospital or lab upon freight delivery.</span>
                       </div>
                     </div>
 
@@ -433,7 +433,7 @@ const CheckoutPage = () => {
                 </div>
 
                 {submitError && (
-                  <div className="bg-red-50 border border-red-200 p-4 rounded-xl text-red-700 text-xs font-semibold">
+                  <div className="bg-[#F7F5F0] border border-[#E5E1DA] p-4 rounded-xl text-[#55514D] text-xs font-semibold">
                     {submitError}
                   </div>
                 )}
@@ -462,50 +462,50 @@ const CheckoutPage = () => {
 
           {/* Column Right: Sticky Summary */}
           <div className="lg:col-span-1">
-            <div className="bg-white border border-slate-200 shadow-sm p-6 rounded-2xl sticky top-24 space-y-6">
-              <h2 className="text-slate-900 font-extrabold text-lg tracking-wide uppercase border-b border-slate-100 pb-3">Purchase Summary</h2>
+            <div className="bg-white border border-[#E5E1DA] shadow-sm p-6 rounded-2xl sticky top-24 space-y-6">
+              <h2 className="text-[#252525] font-extrabold text-lg tracking-wide uppercase border-b border-[#E5E1DA] pb-3">Purchase Summary</h2>
 
-              <div className="space-y-3.5 text-xs text-slate-600">
+              <div className="space-y-3.5 text-xs text-[#55514D]">
                 <div className="flex justify-between">
                   <span>Subtotal</span>
-                  <span className="text-slate-900 font-semibold">{formatPrice(subtotal)}</span>
+                  <span className="text-[#252525] font-semibold">{formatPrice(subtotal)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Transport Delivery</span>
-                  <span className="text-emerald-600 font-semibold">{shipping === 0 ? 'FREE' : formatPrice(shipping)}</span>
+                  <span className="text-[#252525] font-semibold">{shipping === 0 ? 'FREE' : formatPrice(shipping)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>CGST (9%)</span>
-                  <span className="text-slate-900 font-semibold">{formatPrice(cgst)}</span>
+                  <span className="text-[#252525] font-semibold">{formatPrice(cgst)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>SGST (9%)</span>
-                  <span className="text-slate-900 font-semibold">{formatPrice(sgst)}</span>
+                  <span className="text-[#252525] font-semibold">{formatPrice(sgst)}</span>
                 </div>
-                <div className="border-t border-slate-200 pt-4 flex justify-between text-base font-black text-slate-900">
+                <div className="border-t border-[#E5E1DA] pt-4 flex justify-between text-base font-black text-[#252525]">
                   <span>Total Amount</span>
-                  <span className="text-sky-700">{formatPrice(total)}</span>
+                  <span className="text-[#252525]">{formatPrice(total)}</span>
                 </div>
               </div>
 
               {/* Items List detail */}
-              <div className="border-t border-slate-100 pt-4 space-y-3">
-                <h3 className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
-                  <Landmark className="w-4 h-4 text-sky-600" /> Items in Order
+              <div className="border-t border-[#E5E1DA] pt-4 space-y-3">
+                <h3 className="text-xs font-bold text-[#252525] uppercase tracking-wider flex items-center gap-1.5">
+                  <Landmark className="w-4 h-4 text-[#252525]" /> Items in Order
                 </h3>
-                <div className="space-y-2 max-h-40 overflow-y-auto divide-y divide-slate-100">
+                <div className="space-y-2 max-h-40 overflow-y-auto divide-y divide-[#E5E1DA]">
                   {cartItems.map((item) => (
                     <div key={item.id} className="flex justify-between text-[11px] pt-2 first:pt-0">
-                      <span className="text-slate-700 max-w-[70%] truncate">{item.name} x {item.quantity}</span>
-                      <span className="text-slate-900 font-bold">{formatPrice(item.price * item.quantity)}</span>
+                      <span className="text-[#252525] max-w-[70%] truncate">{item.name} x {item.quantity}</span>
+                      <span className="text-[#252525] font-bold">{formatPrice(item.price * item.quantity)}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
               {/* Encrypted indicator */}
-              <div className="border-t border-slate-100 pt-4 flex items-center justify-center gap-2 text-slate-500 text-[10px] font-bold uppercase tracking-wider">
-                <ShieldCheck className="w-4 h-4 text-emerald-600" />
+              <div className="border-t border-[#E5E1DA] pt-4 flex items-center justify-center gap-2 text-[#77736E] text-[10px] font-bold uppercase tracking-wider">
+                <ShieldCheck className="w-4 h-4 text-[#252525]" />
                 <span>Encrypted SSL Secure</span>
               </div>
 

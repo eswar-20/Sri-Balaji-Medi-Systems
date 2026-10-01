@@ -145,7 +145,7 @@ const HomePage = () => {
                 'Biomedical spare part replacements and module servicing',
                 'Equipment performance and safety verification logs'
               ].map((item, idx) => (
-                <div key={idx} className="flex items-center gap-2.5 text-sm text-[#3A3836]">
+                <div key={idx} className="flex items-center gap-2.5 text-sm text-[#252525]">
                   <CheckCircle2 className="w-4 h-4 text-[#252525] shrink-0" />
                   <span>{item}</span>
                 </div>
@@ -189,7 +189,7 @@ const HomePage = () => {
             
             <div className="p-4 rounded-2xl bg-[#F7F5F0] border border-[#E5E1DA] flex items-center gap-3">
               <Shield className="w-5 h-5 text-[#252525] shrink-0" />
-              <p className="text-[#3A3836] text-xs font-semibold">
+              <p className="text-[#252525] text-xs font-semibold">
                 Emergency standby medical machinery available under active Comprehensive maintenance agreements.
               </p>
             </div>

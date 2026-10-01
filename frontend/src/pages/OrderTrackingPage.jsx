@@ -66,17 +66,17 @@ const OrderTrackingPage = () => {
   const getStatusDetails = (status) => {
     switch (status) {
       case 'pending': 
-        return { color: 'text-amber-400 bg-amber-500/10 border-amber-500/20', label: 'Order Placed', step: 1 };
+        return { color: 'text-[#252525] bg-[#F7F5F0] border-[#E5E1DA]', label: 'Order Placed', step: 1 };
       case 'processing': 
-        return { color: 'text-[#1D9BF0] bg-[#1D9BF0]/10 border-[#1D9BF0]/20', label: 'Safety Check', step: 2 };
+        return { color: 'text-[#252525] bg-[#F7F5F0] border-[#E5E1DA]', label: 'Safety Check', step: 2 };
       case 'shipped': 
-        return { color: 'text-purple-400 bg-purple-500/10 border-purple-500/20', label: 'In Transit', step: 3 };
+        return { color: 'text-[#252525] bg-[#F7F5F0] border-[#E5E1DA]', label: 'In Transit', step: 3 };
       case 'delivered': 
-        return { color: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20', label: 'Delivered', step: 4 };
+        return { color: 'text-[#252525] bg-[#252525]/10 border-[#E5E1DA]/20', label: 'Delivered', step: 4 };
       case 'cancelled': 
-        return { color: 'text-red-400 bg-red-500/10 border-red-500/20', label: 'Cancelled', step: 0 };
+        return { color: 'text-[#77736E] bg-[#F7F5F0] border-[#E5E1DA]', label: 'Cancelled', step: 0 };
       default: 
-        return { color: 'text-slate-400 bg-slate-500/10 border-slate-500/20', label: 'Acknowledged', step: 1 };
+        return { color: 'text-[#77736E] bg-[#F7F5F0] border-[#E5E1DA]', label: 'Acknowledged', step: 1 };
     }
   };
 
@@ -110,13 +110,13 @@ const OrderTrackingPage = () => {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center px-4 py-12">
-        <div className="max-w-md w-full bg-white border border-slate-200 rounded-2xl p-8 text-center shadow-sm">
-          <div className="mx-auto w-12 h-12 bg-sky-50 border border-sky-200 rounded-xl flex items-center justify-center text-sky-700 mb-4">
+      <div className="min-h-screen bg-[#FCFBF8] flex items-center justify-center px-4 py-12">
+        <div className="max-w-md w-full bg-white border border-[#E5E1DA] rounded-2xl p-8 text-center shadow-sm">
+          <div className="mx-auto w-12 h-12 bg-[#252525] border border-[#E5E1DA] rounded-xl flex items-center justify-center text-[#252525] mb-4">
             <Package className="w-6 h-6" />
           </div>
-          <h1 className="text-xl font-extrabold text-slate-900 mb-2">Order History</h1>
-          <p className="text-slate-600 text-xs mb-6">Please login to track your medical machinery dispatches.</p>
+          <h1 className="text-xl font-extrabold text-[#252525] mb-2">Order History</h1>
+          <p className="text-[#55514D] text-xs mb-6">Please login to track your medical machinery dispatches.</p>
           <button onClick={() => navigate('/login')} className="btn-primary py-2.5 px-6 text-xs w-full">
             Login Account
           </button>
@@ -126,22 +126,22 @@ const OrderTrackingPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 py-12">
+    <div className="min-h-screen bg-[#FCFBF8] text-[#252525] py-12">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Title */}
         <div className="mb-10 text-center space-y-2">
-          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">Order Tracking</h1>
-          <p className="text-slate-600 text-sm">Monitor freight details, calibration schedules, and handover signatures.</p>
+          <h1 className="text-3xl font-extrabold text-[#252525] tracking-tight">Order Tracking</h1>
+          <p className="text-[#55514D] text-sm">Monitor freight details, calibration schedules, and handover signatures.</p>
         </div>
 
         {/* Filter controls */}
-        <div className="bg-white border border-slate-200 rounded-2xl p-6 mb-8 shadow-sm">
+        <div className="bg-white border border-[#E5E1DA] rounded-2xl p-6 mb-8 shadow-sm">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
             
             {/* Search */}
             <div className="relative">
-              <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+              <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center text-[#77736E]">
                 <Search className="w-4 h-4" />
               </span>
               <input
@@ -169,8 +169,8 @@ const OrderTrackingPage = () => {
               </select>
             </div>
 
-            <div className="text-xs text-slate-500 font-bold uppercase tracking-wider text-right md:pr-4">
-              Results: <span className="text-slate-900 font-extrabold">{filteredOrders.length}</span> of {orders.length} orders
+            <div className="text-xs text-[#77736E] font-bold uppercase tracking-wider text-right md:pr-4">
+              Results: <span className="text-[#252525] font-extrabold">{filteredOrders.length}</span> of {orders.length} orders
             </div>
 
           </div>
@@ -178,7 +178,7 @@ const OrderTrackingPage = () => {
 
         {/* List of dispatches */}
         {filteredOrders.length === 0 ? (
-          <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-8">
+          <div className="bg-white rounded-2xl border border-[#E5E1DA] shadow-sm p-8">
             <EmptyState
               title="No dispatches found"
               description="We couldn't locate any active delivery tracking records. Click below to browse our inventory catalog."
@@ -194,15 +194,15 @@ const OrderTrackingPage = () => {
             {filteredOrders.map((order) => {
               const status = getStatusDetails(order.status);
               return (
-                <div key={order.orderNumber} className="bg-white border border-slate-200 rounded-2xl p-6 flex flex-col justify-between hover:shadow-md transition-all">
+                <div key={order.orderNumber} className="bg-white border border-[#E5E1DA] rounded-2xl p-6 flex flex-col justify-between hover:shadow-md transition-all">
                   
                   <div className="space-y-4">
                     
                     {/* Header line */}
                     <div className="flex justify-between items-start gap-2">
                       <div>
-                        <span className="text-sky-700 text-xs font-black tracking-wider uppercase">{order.orderNumber}</span>
-                        <p className="text-[10px] text-slate-500 font-semibold mt-1">Booked on {formatDate(order.createdAt)}</p>
+                        <span className="text-[#252525] text-xs font-black tracking-wider uppercase">{order.orderNumber}</span>
+                        <p className="text-[10px] text-[#77736E] font-semibold mt-1">Booked on {formatDate(order.createdAt)}</p>
                       </div>
                       <span className={`px-2.5 py-1 rounded-lg text-[9px] font-black uppercase tracking-wider border ${status.color}`}>
                         {status.label}
@@ -210,20 +210,20 @@ const OrderTrackingPage = () => {
                     </div>
 
                     {/* Details grid */}
-                    <div className="space-y-2 text-xs text-slate-600 pt-2 border-t border-slate-100">
+                    <div className="space-y-2 text-xs text-[#55514D] pt-2 border-t border-[#E5E1DA]">
                       <div className="flex justify-between">
                         <span>Grand Total</span>
-                        <span className="text-slate-900 font-bold">{formatPrice(order.total)}</span>
+                        <span className="text-[#252525] font-bold">{formatPrice(order.total)}</span>
                       </div>
                       <div className="flex justify-between">
                         <span>Items Count</span>
-                        <span className="text-slate-900 font-bold">{order.items.length} units</span>
+                        <span className="text-[#252525] font-bold">{order.items.length} units</span>
                       </div>
                     </div>
 
                   </div>
 
-                  <div className="flex gap-3 mt-6 pt-4 border-t border-slate-100">
+                  <div className="flex gap-3 mt-6 pt-4 border-t border-[#E5E1DA]">
                     <button
                       onClick={() => setSelectedOrder(order)}
                       className="btn-primary py-2 flex-grow text-xs font-bold flex items-center justify-center gap-1"
@@ -248,53 +248,53 @@ const OrderTrackingPage = () => {
         {selectedOrder && (() => {
           const details = getStatusDetails(selectedOrder.status);
           return (
-            <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-              <div className="bg-white border border-slate-200 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
+            <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+              <div className="bg-white border border-[#E5E1DA] rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
                 <div className="p-6 sm:p-8 space-y-6">
                   
                   {/* Header */}
-                  <div className="flex justify-between items-start border-b border-slate-100 pb-4">
+                  <div className="flex justify-between items-start border-b border-[#E5E1DA] pb-4">
                     <div>
-                      <h2 className="text-xl font-extrabold text-slate-900">Fulfillment Details</h2>
-                      <p className="text-xs text-slate-500 font-bold uppercase tracking-wider mt-1">Reference: {selectedOrder.orderNumber}</p>
+                      <h2 className="text-xl font-extrabold text-[#252525]">Fulfillment Details</h2>
+                      <p className="text-xs text-[#77736E] font-bold uppercase tracking-wider mt-1">Reference: {selectedOrder.orderNumber}</p>
                     </div>
-                    <button onClick={() => setSelectedOrder(null)} className="p-2 hover:bg-slate-100 rounded-lg transition-colors text-slate-500 hover:text-slate-900">
+                    <button onClick={() => setSelectedOrder(null)} className="p-2 hover:bg-[#F7F5F0] rounded-lg transition-colors text-[#77736E] hover:text-[#252525]">
                       <X className="w-5 h-5" />
                     </button>
                   </div>
 
                   {/* Visual timeline pipeline */}
                   {details.step > 0 && (
-                    <div className="space-y-4 bg-slate-50 border border-slate-200 p-6 rounded-2xl">
-                      <h3 className="text-xs font-bold text-slate-700 uppercase tracking-wider text-center">Stage Progress</h3>
+                    <div className="space-y-4 bg-[#FCFBF8] border border-[#E5E1DA] p-6 rounded-2xl">
+                      <h3 className="text-xs font-bold text-[#252525] uppercase tracking-wider text-center">Stage Progress</h3>
                       
                       <div className="flex items-center justify-between gap-2 max-w-md mx-auto">
                         
                         {/* Step 1: Placed */}
                         <div className="flex flex-col items-center">
-                          <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-black ${details.step >= 1 ? 'bg-sky-600 text-white' : 'bg-slate-200 text-slate-500'}`}>1</div>
-                          <span className="text-[9px] font-bold text-slate-600 mt-1.5 uppercase">Placed</span>
+                          <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-black ${details.step >= 1 ? 'bg-[#252525] text-white' : 'bg-[#E5E1DA] text-[#77736E]'}`}>1</div>
+                          <span className="text-[9px] font-bold text-[#55514D] mt-1.5 uppercase">Placed</span>
                         </div>
-                        <div className={`flex-grow h-0.5 ${details.step >= 2 ? 'bg-sky-600' : 'bg-slate-200'}`}></div>
+                        <div className={`flex-grow h-0.5 ${details.step >= 2 ? 'bg-[#252525]' : 'bg-[#E5E1DA]'}`}></div>
 
                         {/* Step 2: Calibrated */}
                         <div className="flex flex-col items-center">
-                          <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-black ${details.step >= 2 ? 'bg-sky-600 text-white' : 'bg-slate-200 text-slate-500'}`}>2</div>
-                          <span className="text-[9px] font-bold text-slate-600 mt-1.5 uppercase">Calibrated</span>
+                          <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-black ${details.step >= 2 ? 'bg-[#252525] text-white' : 'bg-[#E5E1DA] text-[#77736E]'}`}>2</div>
+                          <span className="text-[9px] font-bold text-[#55514D] mt-1.5 uppercase">Calibrated</span>
                         </div>
-                        <div className={`flex-grow h-0.5 ${details.step >= 3 ? 'bg-sky-600' : 'bg-slate-200'}`}></div>
+                        <div className={`flex-grow h-0.5 ${details.step >= 3 ? 'bg-[#252525]' : 'bg-[#E5E1DA]'}`}></div>
 
                         {/* Step 3: Shipped */}
                         <div className="flex flex-col items-center">
-                          <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-black ${details.step >= 3 ? 'bg-sky-600 text-white' : 'bg-slate-200 text-slate-500'}`}>3</div>
-                          <span className="text-[9px] font-bold text-slate-600 mt-1.5 uppercase">Transit</span>
+                          <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-black ${details.step >= 3 ? 'bg-[#252525] text-white' : 'bg-[#E5E1DA] text-[#77736E]'}`}>3</div>
+                          <span className="text-[9px] font-bold text-[#55514D] mt-1.5 uppercase">Transit</span>
                         </div>
-                        <div className={`flex-grow h-0.5 ${details.step >= 4 ? 'bg-sky-600' : 'bg-slate-200'}`}></div>
+                        <div className={`flex-grow h-0.5 ${details.step >= 4 ? 'bg-[#252525]' : 'bg-[#E5E1DA]'}`}></div>
 
                         {/* Step 4: Handover */}
                         <div className="flex flex-col items-center">
-                          <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-black ${details.step >= 4 ? 'bg-emerald-600 text-white' : 'bg-slate-200 text-slate-500'}`}>4</div>
-                          <span className="text-[9px] font-bold text-slate-600 mt-1.5 uppercase">Delivered</span>
+                          <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-black ${details.step >= 4 ? 'bg-[#252525] text-white' : 'bg-[#E5E1DA] text-[#77736E]'}`}>4</div>
+                          <span className="text-[9px] font-bold text-[#55514D] mt-1.5 uppercase">Delivered</span>
                         </div>
 
                       </div>
@@ -302,15 +302,15 @@ const OrderTrackingPage = () => {
                   )}
 
                   {/* Customer, Shipping and Items grid */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs text-slate-600">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs text-[#55514D]">
                     <div className="space-y-4">
                       
                       <div>
-                        <h4 className="text-slate-900 font-extrabold text-xs uppercase tracking-wider mb-2">Hospital Contact</h4>
+                        <h4 className="text-[#252525] font-extrabold text-xs uppercase tracking-wider mb-2">Hospital Contact</h4>
                         <div className="space-y-1">
-                          <p className="font-semibold text-slate-900">{selectedOrder.customerName}</p>
-                          <p className="flex items-center gap-1 text-sky-700 font-medium"><Phone className="w-3.5 h-3.5" /> {selectedOrder.phone}</p>
-                          <p className="flex items-center gap-1 text-slate-500"><Mail className="w-3.5 h-3.5" /> {selectedOrder.email}</p>
+                          <p className="font-semibold text-[#252525]">{selectedOrder.customerName}</p>
+                          <p className="flex items-center gap-1 text-[#252525] font-medium"><Phone className="w-3.5 h-3.5" /> {selectedOrder.phone}</p>
+                          <p className="flex items-center gap-1 text-[#77736E]"><Mail className="w-3.5 h-3.5" /> {selectedOrder.email}</p>
                         </div>
                       </div>
 
@@ -319,9 +319,9 @@ const OrderTrackingPage = () => {
                     <div className="space-y-4">
                       
                       <div>
-                        <h4 className="text-slate-900 font-extrabold text-xs uppercase tracking-wider mb-2">Delivery Address</h4>
+                        <h4 className="text-[#252525] font-extrabold text-xs uppercase tracking-wider mb-2">Delivery Address</h4>
                         <div className="space-y-1">
-                          <p className="text-slate-900 font-semibold">{selectedOrder.address}</p>
+                          <p className="text-[#252525] font-semibold">{selectedOrder.address}</p>
                           <p>{selectedOrder.city}, {selectedOrder.state} - {selectedOrder.pincode}</p>
                         </div>
                       </div>
@@ -331,29 +331,29 @@ const OrderTrackingPage = () => {
 
                   {/* Purchased items list */}
                   <div className="space-y-3">
-                    <h4 className="text-slate-900 font-extrabold text-xs uppercase tracking-wider">Order Items</h4>
-                    <div className="space-y-2.5 max-h-40 overflow-y-auto divide-y divide-slate-100">
+                    <h4 className="text-[#252525] font-extrabold text-xs uppercase tracking-wider">Order Items</h4>
+                    <div className="space-y-2.5 max-h-40 overflow-y-auto divide-y divide-[#E5E1DA]">
                       {selectedOrder.items.map((item, idx) => (
                         <div key={idx} className="flex justify-between items-center pt-2.5 first:pt-0 text-xs">
                           <div className="flex items-center gap-2">
-                            <div className="w-10 h-10 bg-slate-50 border border-slate-200 rounded-lg flex items-center justify-center p-1.5 shrink-0">
+                            <div className="w-10 h-10 bg-[#FCFBF8] border border-[#E5E1DA] rounded-lg flex items-center justify-center p-1.5 shrink-0">
                               <img src={item.image} alt={item.name} className="max-w-full max-h-full object-contain" />
                             </div>
                             <div>
-                              <p className="text-slate-900 font-bold">{item.name}</p>
-                              <p className="text-slate-500 text-[10px]">Qty: {item.quantity}</p>
+                              <p className="text-[#252525] font-bold">{item.name}</p>
+                              <p className="text-[#77736E] text-[10px]">Qty: {item.quantity}</p>
                             </div>
                           </div>
-                          <span className="text-slate-900 font-bold">{formatPrice(item.price * item.quantity)}</span>
+                          <span className="text-[#252525] font-bold">{formatPrice(item.price * item.quantity)}</span>
                         </div>
                       ))}
                     </div>
                   </div>
 
                   {/* Total price billing */}
-                  <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl flex justify-between items-center text-sm font-extrabold">
-                    <span className="text-slate-600">Grand Total Billing</span>
-                    <span className="text-sky-700 text-base">{formatPrice(selectedOrder.total)}</span>
+                  <div className="p-4 bg-[#FCFBF8] border border-[#E5E1DA] rounded-xl flex justify-between items-center text-sm font-extrabold">
+                    <span className="text-[#55514D]">Grand Total Billing</span>
+                    <span className="text-[#252525] text-base">{formatPrice(selectedOrder.total)}</span>
                   </div>
 
                   <div className="flex gap-4 pt-2">

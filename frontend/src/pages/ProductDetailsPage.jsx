@@ -93,19 +93,19 @@ const ProductDetailsPage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-50 flex flex-col justify-center items-center gap-4">
-        <div className="w-10 h-10 border-t-2 border-b-2 border-sky-600 rounded-full animate-spin"></div>
-        <p className="text-slate-500 text-xs font-bold uppercase tracking-widest">Loading Specifications...</p>
+      <div className="min-h-screen bg-[#FCFBF8] flex flex-col justify-center items-center gap-4">
+        <div className="w-10 h-10 border-t-2 border-b-2 border-[#E5E1DA] rounded-full animate-spin"></div>
+        <p className="text-[#77736E] text-xs font-bold uppercase tracking-widest">Loading Specifications...</p>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
-        <div className="text-center bg-white border border-slate-200 p-8 max-w-md rounded-2xl shadow-lg">
-          <h2 className="text-xl font-extrabold text-slate-900 mb-2">Sync Error</h2>
-          <p className="text-slate-600 text-sm mb-6">{error}</p>
+      <div className="min-h-screen bg-[#FCFBF8] flex items-center justify-center p-4">
+        <div className="text-center bg-white border border-[#E5E1DA] p-8 max-w-md rounded-2xl shadow-lg">
+          <h2 className="text-xl font-extrabold text-[#252525] mb-2">Sync Error</h2>
+          <p className="text-[#55514D] text-sm mb-6">{error}</p>
           <div className="flex gap-4 justify-center">
             <button
               onClick={() => {
@@ -131,9 +131,9 @@ const ProductDetailsPage = () => {
 
   if (!product) {
     return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
-        <div className="text-center bg-white border border-slate-200 p-8 max-w-md rounded-2xl shadow-lg">
-          <h2 className="text-xl font-extrabold text-slate-900 mb-4 font-sans">Product Not Found</h2>
+      <div className="min-h-screen bg-[#FCFBF8] flex items-center justify-center p-4">
+        <div className="text-center bg-white border border-[#E5E1DA] p-8 max-w-md rounded-2xl shadow-lg">
+          <h2 className="text-xl font-extrabold text-[#252525] mb-4 font-sans">Product Not Found</h2>
           <button
             onClick={() => navigate('/products')}
             className="btn-primary py-2 px-6 text-xs shadow-sm"
@@ -146,23 +146,23 @@ const ProductDetailsPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900">
+    <div className="min-h-screen bg-[#FCFBF8] text-[#252525]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         
         {/* Breadcrumb pathing */}
-        <nav className="mb-8 flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-slate-500">
-          <button onClick={() => navigate('/')} className="hover:text-slate-900 transition-colors">Home</button>
-          <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-          <button onClick={() => navigate('/products')} className="hover:text-slate-900 transition-colors">Catalog</button>
-          <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-          <span className="text-sky-600 font-bold">{product.name}</span>
+        <nav className="mb-8 flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#77736E]">
+          <button onClick={() => navigate('/')} className="hover:text-[#252525] transition-colors">Home</button>
+          <ChevronRight className="w-3.5 h-3.5 text-[#77736E]" />
+          <button onClick={() => navigate('/products')} className="hover:text-[#252525] transition-colors">Catalog</button>
+          <ChevronRight className="w-3.5 h-3.5 text-[#77736E]" />
+          <span className="text-[#252525] font-bold">{product.name}</span>
         </nav>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-start">
           
           {/* Column Left: Visual Frames */}
           <div className="space-y-4">
-            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-white border border-slate-200 flex items-center justify-center p-8 shadow-sm">
+            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-white border border-[#E5E1DA] flex items-center justify-center p-8 shadow-sm">
               <img
                 src={product.images[selectedImage]}
                 alt={product.name}
@@ -173,10 +173,10 @@ const ProductDetailsPage = () => {
               />
               
               {/* Star badge */}
-              <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur border border-slate-200 px-3 py-1.5 rounded-xl flex items-center gap-1.5 text-xs font-bold text-slate-800 shadow-sm">
-                <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
+              <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur border border-[#E5E1DA] px-3 py-1.5 rounded-xl flex items-center gap-1.5 text-xs font-bold text-[#252525] shadow-sm">
+                <Star className="w-4 h-4 text-neutral-400 fill-neutral-400" />
                 <span>{product.rating}</span>
-                <span className="text-slate-500 font-medium">({product.reviews} reviews)</span>
+                <span className="text-[#77736E] font-medium">({product.reviews} reviews)</span>
               </div>
             </div>
 
@@ -187,7 +187,7 @@ const ProductDetailsPage = () => {
                   key={idx}
                   onClick={() => setSelectedImage(idx)}
                   className={`w-20 h-20 rounded-xl overflow-hidden border-2 bg-white flex items-center justify-center p-2 transition-all shadow-sm ${
-                    selectedImage === idx ? 'border-sky-600 ring-2 ring-sky-100' : 'border-slate-200 hover:border-slate-400'
+                    selectedImage === idx ? 'border-[#E5E1DA] ring-2 ring-[#E5E1DA]' : 'border-[#E5E1DA] hover:border-[#77736E]'
                   }`}
                 >
                   <img src={img} alt={`Thumb ${idx+1}`} className="w-full h-full object-contain" />
@@ -199,39 +199,39 @@ const ProductDetailsPage = () => {
           {/* Column Right: Info details block */}
           <div className="space-y-6">
             <div className="space-y-2">
-              <span className="text-xs text-sky-700 font-bold uppercase tracking-wider bg-sky-50 px-3 py-1 rounded-full border border-sky-200">
+              <span className="text-xs text-[#252525] font-bold uppercase tracking-wider bg-[#252525] px-3 py-1 rounded-full border border-[#E5E1DA]">
                 {product.category}
               </span>
-              <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 leading-tight pt-1">{product.name}</h1>
+              <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#252525] leading-tight pt-1">{product.name}</h1>
             </div>
 
             {/* Pricing Panel */}
-            <div className="bg-white border border-slate-200 p-6 rounded-2xl shadow-sm space-y-3">
+            <div className="bg-white border border-[#E5E1DA] p-6 rounded-2xl shadow-sm space-y-3">
               <div className="flex items-baseline gap-2">
-                <span className="text-4xl font-extrabold text-slate-900">{formatPrice(product.price)}</span>
-                <span className="text-xs text-slate-500 font-medium uppercase tracking-wider">excl. GST & shipping</span>
+                <span className="text-4xl font-extrabold text-[#252525]">{formatPrice(product.price)}</span>
+                <span className="text-xs text-[#77736E] font-medium uppercase tracking-wider">excl. GST & shipping</span>
               </div>
 
               {/* Stock count indicator */}
               <div className="flex items-center gap-2 text-xs font-bold pt-1">
-                <div className={`w-2.5 h-2.5 rounded-full ${product.stock > 0 ? 'bg-emerald-500' : 'bg-rose-500'}`}></div>
-                <span className={product.stock > 0 ? 'text-emerald-700' : 'text-rose-600'}>
+                <div className={`w-2.5 h-2.5 rounded-full ${product.stock > 0 ? 'bg-[#252525]' : 'bg-[#252525]'}`}></div>
+                <span className={product.stock > 0 ? 'text-[#252525]' : 'text-[#252525]'}>
                   {product.stock > 0 ? `${product.stock} units ready for immediate shipping` : 'Temporarily Out of Stock'}
                 </span>
               </div>
             </div>
 
-            <p className="text-slate-600 text-base leading-relaxed">{product.description}</p>
+            <p className="text-[#55514D] text-base leading-relaxed">{product.description}</p>
 
             {/* Add to Cart Actions */}
             {product.stock > 0 ? (
               <div className="space-y-4 pt-1">
                 <div className="flex items-center gap-3">
-                  <span className="text-sm font-bold text-slate-700">Quantity:</span>
-                  <div className="flex items-center border border-slate-300 rounded-xl overflow-hidden bg-white shadow-sm">
+                  <span className="text-sm font-bold text-[#252525]">Quantity:</span>
+                  <div className="flex items-center border border-[#E5E1DA] rounded-xl overflow-hidden bg-white shadow-sm">
                     <button
                       onClick={() => handleQuantityChange(quantity - 1)}
-                      className="px-3.5 py-2 font-bold text-slate-600 hover:bg-slate-50 transition-colors"
+                      className="px-3.5 py-2 font-bold text-[#55514D] hover:bg-[#FCFBF8] transition-colors"
                       disabled={quantity <= 1}
                     >
                       -
@@ -240,13 +240,13 @@ const ProductDetailsPage = () => {
                       type="number"
                       value={quantity}
                       onChange={(e) => handleQuantityChange(e.target.value)}
-                      className="w-12 text-center bg-transparent text-slate-900 font-bold text-sm border-0 focus:ring-0 focus:outline-none"
+                      className="w-12 text-center bg-transparent text-[#252525] font-bold text-sm border-0 focus:ring-0 focus:outline-none"
                       min="1"
                       max={product.stock}
                     />
                     <button
                       onClick={() => handleQuantityChange(quantity + 1)}
-                      className="px-3.5 py-2 font-bold text-slate-600 hover:bg-slate-50 transition-colors"
+                      className="px-3.5 py-2 font-bold text-[#55514D] hover:bg-[#FCFBF8] transition-colors"
                       disabled={quantity >= product.stock}
                     >
                       +
@@ -272,23 +272,23 @@ const ProductDetailsPage = () => {
                     className="btn-secondary py-3.5 px-5 flex items-center justify-center"
                     title="Add to Wishlist"
                   >
-                    <Heart className={`w-5 h-5 ${isInWishlist(product.id) ? 'fill-rose-500 text-rose-500 scale-110' : 'text-slate-400 fill-none'}`} />
+                    <Heart className={`w-5 h-5 ${isInWishlist(product.id) ? 'fill-[#252525] text-[#252525] scale-110' : 'text-[#77736E] fill-none'}`} />
                   </button>
                 </div>
               </div>
             ) : (
-              <div className="p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-semibold">
+              <div className="p-4 rounded-xl bg-[#F7F5F0] border border-[#E5E1DA] text-[#252525] text-xs font-semibold">
                 Back-orders closed. Please contact direct support to check incoming stock ETA.
               </div>
             )}
 
             {/* Features block */}
             <div className="space-y-3 pt-2">
-              <h3 className="text-slate-900 font-bold text-sm uppercase tracking-wider">Security & Quality Guarantees</h3>
+              <h3 className="text-[#252525] font-bold text-sm uppercase tracking-wider">Security & Quality Guarantees</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {product.features.map((feature, idx) => (
-                  <div key={idx} className="flex items-start gap-2 text-xs text-slate-600">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                  <div key={idx} className="flex items-start gap-2 text-xs text-[#55514D]">
+                    <CheckCircle2 className="w-4 h-4 text-[#252525] shrink-0 mt-0.5" />
                     <span>{feature}</span>
                   </div>
                 ))}
@@ -301,33 +301,33 @@ const ProductDetailsPage = () => {
         {/* Dynamic Spare Parts Compatibility specifications banner */}
         {product.specifications && (
           <div className="mt-12 space-y-6">
-            <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 border-b border-slate-200 pb-3">Technical Specifications</h2>
+            <h2 className="text-xl sm:text-2xl font-extrabold text-[#252525] border-b border-[#E5E1DA] pb-3">Technical Specifications</h2>
             
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               
               {/* Specs Table */}
-              <div className="lg:col-span-2 bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+              <div className="lg:col-span-2 bg-white border border-[#E5E1DA] rounded-2xl p-6 shadow-sm">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
                   {Object.entries(product.specifications).map(([key, value]) => (
-                    <div key={key} className="flex justify-between py-2.5 border-b border-slate-100 text-xs">
-                      <span className="text-slate-500 font-bold uppercase tracking-wider">{key}</span>
-                      <span className="text-slate-900 font-semibold">{value}</span>
+                    <div key={key} className="flex justify-between py-2.5 border-b border-[#E5E1DA] text-xs">
+                      <span className="text-[#77736E] font-bold uppercase tracking-wider">{key}</span>
+                      <span className="text-[#252525] font-semibold">{value}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
               {/* Compatibility panel if part */}
-              <div className="bg-white border border-slate-200 p-6 rounded-2xl shadow-sm space-y-4">
-                <h3 className="text-slate-900 font-bold text-sm uppercase tracking-wider flex items-center gap-2">
-                  <Wrench className="w-4.5 h-4.5 text-sky-600" /> Compatibility Mapping
+              <div className="bg-white border border-[#E5E1DA] p-6 rounded-2xl shadow-sm space-y-4">
+                <h3 className="text-[#252525] font-bold text-sm uppercase tracking-wider flex items-center gap-2">
+                  <Wrench className="w-4.5 h-4.5 text-[#252525]" /> Compatibility Mapping
                 </h3>
-                <p className="text-xs text-slate-600 leading-relaxed">
+                <p className="text-xs text-[#55514D] leading-relaxed">
                   This catalog unit is guaranteed compatible with the diagnostic machinery models defined in the specification matrix. For AMC system compatibility, contact technical support.
                 </p>
-                <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-200 flex items-center gap-2.5">
-                  <ShieldCheck className="w-5 h-5 text-emerald-600 shrink-0" />
-                  <span className="text-xs text-slate-700 font-bold">Guaranteed Fit or 100% Refund</span>
+                <div className="p-3.5 bg-[#FCFBF8] rounded-xl border border-[#E5E1DA] flex items-center gap-2.5">
+                  <ShieldCheck className="w-5 h-5 text-[#252525] shrink-0" />
+                  <span className="text-xs text-[#252525] font-bold">Guaranteed Fit or 100% Refund</span>
                 </div>
               </div>
 

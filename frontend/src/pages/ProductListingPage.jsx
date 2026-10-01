@@ -7,19 +7,19 @@ import { validateProduct } from '../utils/productUtils';
 import { SlidersHorizontal, ArrowUpDown, Tag, DollarSign } from 'lucide-react';
 
 const SkeletonCard = () => (
-  <div className="bg-white border border-slate-200 p-4 rounded-2xl h-[380px] flex flex-col justify-between overflow-hidden relative shadow-sm">
-    <div className="aspect-square w-full rounded-xl bg-slate-100 shimmer"></div>
+  <div className="bg-white border border-[#E5E1DA] p-4 rounded-2xl h-[380px] flex flex-col justify-between overflow-hidden relative shadow-sm">
+    <div className="aspect-square w-full rounded-xl bg-[#F7F5F0] shimmer"></div>
     <div className="space-y-3 mt-4 flex-grow">
-      <div className="h-3 w-1/4 bg-slate-100 rounded shimmer"></div>
-      <div className="h-5 w-3/4 bg-slate-100 rounded shimmer"></div>
-      <div className="h-10 w-full bg-slate-100 rounded shimmer"></div>
+      <div className="h-3 w-1/4 bg-[#F7F5F0] rounded shimmer"></div>
+      <div className="h-5 w-3/4 bg-[#F7F5F0] rounded shimmer"></div>
+      <div className="h-10 w-full bg-[#F7F5F0] rounded shimmer"></div>
     </div>
-    <div className="flex justify-between items-center mt-4 pt-3 border-t border-slate-100">
+    <div className="flex justify-between items-center mt-4 pt-3 border-t border-[#E5E1DA]">
       <div className="space-y-2 w-1/2">
-        <div className="h-3 w-1/2 bg-slate-100 rounded shimmer"></div>
-        <div className="h-4 w-3/4 bg-slate-100 rounded shimmer"></div>
+        <div className="h-3 w-1/2 bg-[#F7F5F0] rounded shimmer"></div>
+        <div className="h-4 w-3/4 bg-[#F7F5F0] rounded shimmer"></div>
       </div>
-      <div className="h-10 w-10 bg-slate-100 rounded-xl shimmer"></div>
+      <div className="h-10 w-10 bg-[#F7F5F0] rounded-xl shimmer"></div>
     </div>
   </div>
 );
@@ -160,15 +160,15 @@ const ProductListingPage = () => {
     });
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900">
+    <div className="min-h-screen bg-[#FCFBF8] text-[#252525]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12">
         
         {/* Header Block */}
-        <div className="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200 pb-6">
+        <div className="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[#E5E1DA] pb-6">
           <div>
-            <span className="text-xs uppercase font-bold text-sky-600 tracking-wider">Catalog Directory</span>
-            <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mt-1">Medical Equipment</h1>
-            <p className="text-slate-500 text-sm mt-1">
+            <span className="text-xs uppercase font-bold text-[#252525] tracking-wider">Catalog Directory</span>
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-[#252525] tracking-tight mt-1">Medical Equipment</h1>
+            <p className="text-[#77736E] text-sm mt-1">
               {loading ? 'Fetching catalogs...' : `${filteredAndSortedProducts.length} high-grade systems available`}
             </p>
           </div>
@@ -178,17 +178,17 @@ const ProductListingPage = () => {
           
           {/* Filters Sidebar */}
           <div className="lg:w-1/4 shrink-0">
-            <div className="bg-white border border-slate-200 rounded-2xl p-6 sticky top-24 space-y-6 shadow-sm">
+            <div className="bg-white border border-[#E5E1DA] rounded-2xl p-6 sticky top-24 space-y-6 shadow-sm">
               
-              <div className="flex items-center gap-2 pb-4 border-b border-slate-100">
-                <SlidersHorizontal className="w-4 h-4 text-sky-600" />
-                <h2 className="text-slate-900 font-bold text-sm tracking-wide uppercase">Filter Machinery</h2>
+              <div className="flex items-center gap-2 pb-4 border-b border-[#E5E1DA]">
+                <SlidersHorizontal className="w-4 h-4 text-[#252525]" />
+                <h2 className="text-[#252525] font-bold text-sm tracking-wide uppercase">Filter Machinery</h2>
               </div>
 
               {/* Category Filter */}
               <div className="space-y-2">
-                <label className="text-xs uppercase font-bold text-slate-600 tracking-wider flex items-center gap-1.5">
-                  <Tag className="w-3.5 h-3.5 text-sky-600" /> Clinical Category
+                <label className="text-xs uppercase font-bold text-[#55514D] tracking-wider flex items-center gap-1.5">
+                  <Tag className="w-3.5 h-3.5 text-[#252525]" /> Clinical Category
                 </label>
                 <select
                   value={filters.category}
@@ -205,8 +205,8 @@ const ProductListingPage = () => {
 
               {/* Price Range Filter */}
               <div className="space-y-2">
-                <label className="text-xs uppercase font-bold text-slate-600 tracking-wider flex items-center gap-1.5">
-                  <DollarSign className="w-3.5 h-3.5 text-emerald-600" /> Price Budget
+                <label className="text-xs uppercase font-bold text-[#55514D] tracking-wider flex items-center gap-1.5">
+                  <DollarSign className="w-3.5 h-3.5 text-[#252525]" /> Price Budget
                 </label>
                 <select
                   value={filters.priceRange}
@@ -224,8 +224,8 @@ const ProductListingPage = () => {
 
               {/* Sort By */}
               <div className="space-y-2">
-                <label className="text-xs uppercase font-bold text-slate-600 tracking-wider flex items-center gap-1.5">
-                  <ArrowUpDown className="w-3.5 h-3.5 text-sky-600" /> Sort Catalog
+                <label className="text-xs uppercase font-bold text-[#55514D] tracking-wider flex items-center gap-1.5">
+                  <ArrowUpDown className="w-3.5 h-3.5 text-[#252525]" /> Sort Catalog
                 </label>
                 <select
                   value={filters.sortBy}
